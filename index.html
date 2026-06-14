@@ -1117,6 +1117,9 @@
       }
 
       nextBtn.textContent = 'הבא';
+      nextBtn.style.fontSize = '';
+      nextBtn.style.padding = '';
+      nextBtn.style.whiteSpace = '';
       prevBtn.disabled = currentQuestionIndex === 0;
     }
 
@@ -1147,7 +1150,17 @@
       });
 
       questionInputContainer.appendChild(buttonGrid);
-      nextBtn.textContent = personalityIndex === personalityQuestions.length - 1 ? 'חשב את המספרים שלי' : 'הבא';
+      if (personalityIndex === personalityQuestions.length - 1) {
+        nextBtn.textContent = 'לתפריט התזונה שלי';
+        nextBtn.style.fontSize = 'clamp(0.72rem, 3.2vw, 1.05rem)';
+        nextBtn.style.padding = '16px 8px';
+        nextBtn.style.whiteSpace = 'nowrap';
+      } else {
+        nextBtn.textContent = 'הבא';
+        nextBtn.style.fontSize = '';
+        nextBtn.style.padding = '';
+        nextBtn.style.whiteSpace = '';
+      }
       prevBtn.disabled = false;
     }
 
@@ -1221,6 +1234,9 @@
       wrapper.appendChild(foodList);
       questionInputContainer.appendChild(wrapper);
       nextBtn.textContent = 'הבא';
+      nextBtn.style.fontSize = '';
+      nextBtn.style.padding = '';
+      nextBtn.style.whiteSpace = '';
       prevBtn.disabled = false;
     }
 
