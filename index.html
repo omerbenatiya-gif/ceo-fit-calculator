@@ -606,6 +606,37 @@
       width: 0%;
     }
 
+    .food-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .food-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #EAF6FF;
+      font-size: 0.9rem;
+      font-family: 'Heebo', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .food-chip:hover {
+      border-color: rgba(61, 240, 255, 0.5);
+      background: rgba(61, 240, 255, 0.08);
+    }
+
+    .food-chip.selected {
+      background: rgba(61, 240, 255, 0.22);
+      border-color: #3DF0FF;
+    }
+
     @media (max-width: 840px) {
       .grid,
       .stat-grid,
@@ -866,24 +897,24 @@
   <script>
     const mealTemplates = {
       breakfast: [
-        target => `חביתת 3 עד 4 ביצים + ${target < 1800 ? '1 פרוסת' : '2 פרוסות'} לחם מלא + ${target > 2200 ? '1 אבוקדו מלא' : '1/2 אבוקדו'}`,
-        target => `יוגורט יווני ${target < 1800 ? '1/2 כוס' : '3/4 כוס'} + ${target > 1800 ? '1/2 כוס' : '1/3 כוס'} גרנולה + ${target > 2400 ? '1/2 כוס' : '1/3 כוס'} פירות יער + 1 כפית דבש`,
-        target => `שייק חלבון ${target < 2000 ? '1 סקופ' : '2 סקופים'} + ${target < 1800 ? '1/3 כוס' : '1/2 כוס'} שיבולת שועל + בננה + ${target > 2200 ? '1.5 כפות' : '1 כף'} חמאת בוטנים`
+        { foods: ['ביצים', 'לחם מלא', 'אבוקדו'], fn: target => `חביתת 3 עד 4 ביצים + ${target < 1800 ? '1 פרוסת' : '2 פרוסות'} לחם מלא + ${target > 2200 ? '1 אבוקדו מלא' : '1/2 אבוקדו'}` },
+        { foods: ['יוגורט יווני', 'פירות'], fn: target => `יוגורט יווני ${target < 1800 ? '1/2 כוס' : '3/4 כוס'} + ${target > 1800 ? '1/2 כוס' : '1/3 כוס'} גרנולה + ${target > 2400 ? '1/2 כוס' : '1/3 כוס'} פירות יער + 1 כפית דבש` },
+        { foods: ['אבקת חלבון', 'שיבולת שועל', 'חמאת בוטנים', 'פירות'], fn: target => `שייק חלבון ${target < 2000 ? '1 סקופ' : '2 סקופים'} + ${target < 1800 ? '1/3 כוס' : '1/2 כוס'} שיבולת שועל + בננה + ${target > 2200 ? '1.5 כפות' : '1 כף'} חמאת בוטנים` }
       ],
       lunch: [
-        target => `חזה עוף ${target < 1800 ? '1 חתיכה' : target > 2200 ? '2 חתיכות' : '1.5 חתיכות'} + ${target < 1800 ? '1/2 כוס' : '1 כוס'} אורז + ${target > 2200 ? '2 כוסות' : '1.5 כוסות'} ירקות מוקפצים`,
-        target => `נתח בקר רזה ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} + 1 תפוח אדמה אפוי + סלט גדול`,
-        target => `סלמון אפוי ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} + ${target < 2000 ? '1/2 כוס' : '1 כוס'} קינואה + ${target > 2200 ? '2 כוסות' : '1 כוס'} ברוקולי`
+        { foods: ['עוף', 'אורז', 'ירקות'], fn: target => `חזה עוף ${target < 1800 ? '1 חתיכה' : target > 2200 ? '2 חתיכות' : '1.5 חתיכות'} + ${target < 1800 ? '1/2 כוס' : '1 כוס'} אורז + ${target > 2200 ? '2 כוסות' : '1.5 כוסות'} ירקות מוקפצים` },
+        { foods: ['בקר', 'תפוח אדמה', 'ירקות'], fn: target => `נתח בקר רזה ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} + 1 תפוח אדמה אפוי + סלט גדול` },
+        { foods: ['סלמון', 'קינואה', 'ירקות'], fn: target => `סלמון אפוי ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} + ${target < 2000 ? '1/2 כוס' : '1 כוס'} קינואה + ${target > 2200 ? '2 כוסות' : '1 כוס'} ברוקולי` }
       ],
       dinner: [
-        target => `טונה ${target < 1800 ? '1 פחית' : '1.5 פחיות'} + סלט גדול + ${target > 2200 ? '3 פרוסות' : '2 פרוסות'} לחם מלא`,
-        target => `חזה הודו/עוף ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} בתנור או במחבת + ${target < 1800 ? '1/2 בטטה' : '1 בטטה'} + ${target > 2200 ? '2 כוסות' : '1 כוס'} ירקות`,
-        target => `קציצות בקר רזה ${target < 1800 ? '2 יחידות' : '3 יחידות'} + ${target < 1800 ? '1/2 כוס' : '1 כוס'} פסטה מלאה + רוטב עגבניות`
+        { foods: ['טונה', 'ירקות', 'לחם מלא'], fn: target => `טונה ${target < 1800 ? '1 פחית' : '1.5 פחיות'} + סלט גדול + ${target > 2200 ? '3 פרוסות' : '2 פרוסות'} לחם מלא` },
+        { foods: ['הודו', 'עוף', 'בטטה', 'ירקות'], fn: target => `חזה הודו/עוף ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} בתנור או במחבת + ${target < 1800 ? '1/2 בטטה' : '1 בטטה'} + ${target > 2200 ? '2 כוסות' : '1 כוס'} ירקות` },
+        { foods: ['בקר', 'פסטה'], fn: target => `קציצות בקר רזה ${target < 1800 ? '2 יחידות' : '3 יחידות'} + ${target < 1800 ? '1/2 כוס' : '1 כוס'} פסטה מלאה + רוטב עגבניות` }
       ],
       snack: [
-        target => `שייק חלבון ${target < 2000 ? '1 סקופ' : '2 סקופים'} + חופן שקדים`,
-        target => `קוטג' + פרי`,
-        target => `חטיף חלבון + תפוח`
+        { foods: ['אבקת חלבון', 'שקדים'], fn: target => `שייק חלבון ${target < 2000 ? '1 סקופ' : '2 סקופים'} + חופן שקדים` },
+        { foods: ["קוטג'", 'פירות'], fn: target => `קוטג' + פרי` },
+        { foods: ['פירות'], fn: target => `חטיף חלבון + תפוח` }
       ]
     };
 
@@ -938,15 +969,16 @@
 
     const personalityQuestions = [
       { key: 'p1', label: 'מה אתה מעריך יותר?', options: ['עבודה קשה', 'עבודה חכמה'] },
-      { key: 'p2', label: 'איך אתה פועל?', options: ['יצירתי', 'אנליטי'] },
       { key: 'p3', label: 'מה מאפיין אותך?', options: ['יסודי', 'מהיר'] },
-      { key: 'p4', label: 'איך אתה מנהל?', options: ['מתכנן קדימה', 'מאלתר בזמן אמת'] },
       { key: 'p5', label: 'איך אתה מקבל החלטות?', options: ['מהבטן', 'מהנתונים'] },
     ];
     const personalityAnswers = {};
     let phase = 'calc';
     let personalityIndex = 0;
-    const TOTAL_STEPS = questions.length + personalityQuestions.length;
+    let foodIndex = 0;
+    const likedFoods = new Set();
+    const dislikedFoods = new Set();
+    const TOTAL_STEPS = questions.length + personalityQuestions.length + 2;
 
     const answers = {};
     questions.forEach(question => answers[question.key] = question.default);
@@ -1050,7 +1082,50 @@
       });
 
       questionInputContainer.appendChild(buttonGrid);
-      nextBtn.textContent = personalityIndex === personalityQuestions.length - 1 ? 'חשב את המספרים שלי' : 'הבא';
+      nextBtn.textContent = 'הבא';
+      prevBtn.disabled = false;
+    }
+
+    const foodGroups = [
+      { label: 'חלבונים', items: ['עוף', 'בקר', 'הודו', 'סלמון', 'טונה', 'ביצים', "קוטג'", 'יוגורט יווני', 'אבקת חלבון'] },
+      { label: 'פחמימות', items: ['אורז', 'פסטה', 'תפוח אדמה', 'בטטה', 'קינואה', 'לחם מלא', 'שיבולת שועל'] },
+      { label: 'נוספים', items: ['אבוקדו', 'שקדים', 'חמאת בוטנים', 'ירקות', 'פירות'] }
+    ];
+
+    function renderFoodQuestion() {
+      const step = questions.length + personalityQuestions.length + foodIndex + 1;
+      questionProgress.style.width = `${(step / TOTAL_STEPS) * 100}%`;
+      const labels = ['אילו מאכלים אתה הכי אוהב?', 'אילו מאכלים אתה לא אוכל בכלל?'];
+      questionLabel.textContent = labels[foodIndex];
+      questionInputContainer.innerHTML = '';
+      const selectedSet = foodIndex === 0 ? likedFoods : dislikedFoods;
+      const container = document.createElement('div');
+      container.style.cssText = 'display:grid; gap:16px; margin-top:8px;';
+      foodGroups.forEach(group => {
+        const groupEl = document.createElement('div');
+        groupEl.style.cssText = 'display:grid; gap:8px;';
+        const groupLabel = document.createElement('div');
+        groupLabel.style.cssText = 'font-family:"JetBrains Mono",monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#8AFFD6;';
+        groupLabel.textContent = group.label;
+        groupEl.appendChild(groupLabel);
+        const chipsEl = document.createElement('div');
+        chipsEl.className = 'food-chips';
+        group.items.forEach(item => {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'food-chip' + (selectedSet.has(item) ? ' selected' : '');
+          chip.textContent = item;
+          chip.addEventListener('click', () => {
+            if (selectedSet.has(item)) { selectedSet.delete(item); chip.classList.remove('selected'); }
+            else { selectedSet.add(item); chip.classList.add('selected'); }
+          });
+          chipsEl.appendChild(chip);
+        });
+        groupEl.appendChild(chipsEl);
+        container.appendChild(groupEl);
+      });
+      questionInputContainer.appendChild(container);
+      nextBtn.textContent = foodIndex === 1 ? 'חשב את המספרים שלי' : 'הבא';
       prevBtn.disabled = false;
     }
 
@@ -1064,13 +1139,25 @@
     }
 
     nextBtn.addEventListener('click', () => {
+      if (phase === 'food') {
+        if (foodIndex < 1) {
+          foodIndex++;
+          renderFoodQuestion();
+        } else {
+          showResults();
+        }
+        return;
+      }
+
       if (phase === 'personality') {
         if (!personalityAnswers[personalityQuestions[personalityIndex].key]) return;
         if (personalityIndex < personalityQuestions.length - 1) {
           personalityIndex++;
           renderPersonalityQuestion();
         } else {
-          showResults();
+          phase = 'food';
+          foodIndex = 0;
+          renderFoodQuestion();
         }
         return;
       }
@@ -1092,6 +1179,17 @@
     });
 
     prevBtn.addEventListener('click', () => {
+      if (phase === 'food') {
+        if (foodIndex > 0) {
+          foodIndex--;
+          renderFoodQuestion();
+        } else {
+          phase = 'personality';
+          personalityIndex = personalityQuestions.length - 1;
+          renderPersonalityQuestion();
+        }
+        return;
+      }
       if (phase === 'personality') {
         if (personalityIndex > 0) {
           personalityIndex--;
@@ -1193,11 +1291,15 @@
     }
 
     function createMealBlock(title, options, target) {
+      let filtered = options.filter(opt => !opt.foods.some(f => dislikedFoods.has(f)));
+      if (filtered.length === 0) filtered = options;
+      filtered.sort((a, b) => b.foods.filter(f => likedFoods.has(f)).length - a.foods.filter(f => likedFoods.has(f)).length);
+      const shown = filtered.slice(0, 3);
       return `
         <div class="meal-block">
           <h3>${title}</h3>
           <div class="meal-options">
-            ${options.map((option, i) => `<div class="meal-option"><strong style="display:block; font-size:0.78rem; color:#8AFFD6; margin-bottom:5px; font-family:'JetBrains Mono',monospace; letter-spacing:0.06em;">אופציה ${i + 1}</strong>${option(target)}</div>`).join('')}
+            ${shown.map((opt, i) => `<div class="meal-option"><strong style="display:block; font-size:0.78rem; color:#8AFFD6; margin-bottom:5px; font-family:'JetBrains Mono',monospace; letter-spacing:0.06em;">אופציה ${i + 1}</strong>${opt.fn(target)}</div>`).join('')}
           </div>
         </div>
       `;
