@@ -727,9 +727,9 @@
           </svg>
           <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
         </div>
-        <h2 style="margin:0; font-size:clamp(1.4rem, 5vw, 2.2rem); font-weight:700; text-align:center;">תוך דקה תדע בדיוק כמה לאכול</h2>
+        <p style="font-size:clamp(1.0rem, 4vw, 1.25rem); font-weight:700; color:#8AFFD6; margin:0; text-align:center;">בלי להשאיר פרטים, בלי התחייבות.</p>
+        <h2 style="margin:0; font-size:clamp(1.4rem, 5vw, 2.2rem); font-weight:700; text-align:center;">תוך דקה תדע בדיוק מה לאכול.</h2>
         <p style="font-size:clamp(0.9rem, 3.5vw, 1.05rem); line-height:1.85; color:#EAF6FF; margin:0; text-align:center;">CEO fit לא לוקחים כסף על מה שאפשר לתת בחינם. תוך דקה תקבל תפריט מדויק לפי הערכים האישיים שלך, עם אופציות וכמויות פשוטות בלי לשקול אוכל על משקל, וגם סרטון הסבר איך להתמיד ולהפוך את זה להרגל קבוע.</p>
-        <p style="font-size:clamp(0.82rem, 3.4vw, 0.95rem); color:#8AFFD6; font-weight:600; margin:0; text-align:center; line-height:1.6;">בלי להשאיר פרטים, בלי התחייבות.<br>ממלאים ומקבלים הכל מיד.</p>
         <button class="button" id="startBtn">בוא נתחיל</button>
       </div>
     </section>
@@ -977,8 +977,7 @@
     let personalityIndex = 0;
     let foodIndex = 0;
     const likedFoods = new Set();
-    const dislikedFoods = new Set();
-    const TOTAL_STEPS = questions.length + personalityQuestions.length + 2;
+    const TOTAL_STEPS = questions.length + personalityQuestions.length + 1;
 
     const answers = {};
     questions.forEach(question => answers[question.key] = question.default);
@@ -1082,7 +1081,7 @@
       });
 
       questionInputContainer.appendChild(buttonGrid);
-      nextBtn.textContent = 'הבא';
+      nextBtn.textContent = personalityIndex === personalityQuestions.length - 1 ? 'חשב את המספרים שלי' : 'הבא';
       prevBtn.disabled = false;
     }
 
@@ -1093,12 +1092,10 @@
     ];
 
     function renderFoodQuestion() {
-      const step = questions.length + personalityQuestions.length + foodIndex + 1;
+      const step = questions.length + 1;
       questionProgress.style.width = `${(step / TOTAL_STEPS) * 100}%`;
-      const labels = ['אילו מאכלים אתה הכי אוהב?', 'אילו מאכלים אתה לא אוכל בכלל?'];
-      questionLabel.textContent = labels[foodIndex];
+      questionLabel.textContent = 'אילו מאכלים אתה הכי אוהב?';
       questionInputContainer.innerHTML = '';
-      const selectedSet = foodIndex === 0 ? likedFoods : dislikedFoods;
       const container = document.createElement('div');
       container.style.cssText = 'display:grid; gap:16px; margin-top:8px;';
       foodGroups.forEach(group => {
@@ -1113,11 +1110,11 @@
         group.items.forEach(item => {
           const chip = document.createElement('button');
           chip.type = 'button';
-          chip.className = 'food-chip' + (selectedSet.has(item) ? ' selected' : '');
+          chip.className = 'food-chip' + (likedFoods.has(item) ? ' selected' : '');
           chip.textContent = item;
           chip.addEventListener('click', () => {
-            if (selectedSet.has(item)) { selectedSet.delete(item); chip.classList.remove('selected'); }
-            else { selectedSet.add(item); chip.classList.add('selected'); }
+            if (likedFoods.has(item)) { likedFoods.delete(item); chip.classList.remove('selected'); }
+            else { likedFoods.add(item); chip.classList.add('selected'); }
           });
           chipsEl.appendChild(chip);
         });
@@ -1125,7 +1122,7 @@
         container.appendChild(groupEl);
       });
       questionInputContainer.appendChild(container);
-      nextBtn.textContent = foodIndex === 1 ? 'חשב את המספרים שלי' : 'הבא';
+      nextBtn.textContent = 'הבא';
       prevBtn.disabled = false;
     }
 
@@ -1140,12 +1137,9 @@
 
     nextBtn.addEventListener('click', () => {
       if (phase === 'food') {
-        if (foodIndex < 1) {
-          foodIndex++;
-          renderFoodQuestion();
-        } else {
-          showResults();
-        }
+        phase = 'personality';
+        personalityIndex = 0;
+        renderPersonalityQuestion();
         return;
       }
 
@@ -1155,9 +1149,7 @@
           personalityIndex++;
           renderPersonalityQuestion();
         } else {
-          phase = 'food';
-          foodIndex = 0;
-          renderFoodQuestion();
+          showResults();
         }
         return;
       }
@@ -1173,21 +1165,15 @@
         return;
       }
 
-      phase = 'personality';
-      personalityIndex = 0;
-      renderPersonalityQuestion();
+      phase = 'food';
+      foodIndex = 0;
+      renderFoodQuestion();
     });
 
     prevBtn.addEventListener('click', () => {
       if (phase === 'food') {
-        if (foodIndex > 0) {
-          foodIndex--;
-          renderFoodQuestion();
-        } else {
-          phase = 'personality';
-          personalityIndex = personalityQuestions.length - 1;
-          renderPersonalityQuestion();
-        }
+        phase = 'calc';
+        renderQuestion();
         return;
       }
       if (phase === 'personality') {
@@ -1195,8 +1181,9 @@
           personalityIndex--;
           renderPersonalityQuestion();
         } else {
-          phase = 'calc';
-          renderQuestion();
+          phase = 'food';
+          foodIndex = 0;
+          renderFoodQuestion();
         }
         return;
       }
@@ -1291,10 +1278,7 @@
     }
 
     function createMealBlock(title, options, target) {
-      let filtered = options.filter(opt => !opt.foods.some(f => dislikedFoods.has(f)));
-      if (filtered.length === 0) filtered = options;
-      filtered.sort((a, b) => b.foods.filter(f => likedFoods.has(f)).length - a.foods.filter(f => likedFoods.has(f)).length);
-      const shown = filtered.slice(0, 3);
+      const shown = [...options].sort((a, b) => b.foods.filter(f => likedFoods.has(f)).length - a.foods.filter(f => likedFoods.has(f)).length).slice(0, 3);
       return `
         <div class="meal-block">
           <h3>${title}</h3>
