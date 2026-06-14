@@ -637,6 +637,71 @@
       border-color: #3DF0FF;
     }
 
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+    }
+
+    .toggle-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #EAF6FF;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      top: 3px;
+      background: #EAF6FF;
+      border-radius: 50%;
+      transition: transform 0.25s ease;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
+    }
+
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(22px);
+      background: #102036;
+    }
+
+    .food-list-disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
     @media (max-width: 840px) {
       .grid,
       .stat-grid,
@@ -976,6 +1041,7 @@
     let phase = 'calc';
     let personalityIndex = 0;
     let foodIndex = 0;
+    let eatAll = false;
     const likedFoods = new Set();
     const TOTAL_STEPS = questions.length + personalityQuestions.length + 1;
 
@@ -1096,8 +1162,32 @@
       questionProgress.style.width = `${(step / TOTAL_STEPS) * 100}%`;
       questionLabel.textContent = 'אילו מאכלים אתה הכי אוהב?';
       questionInputContainer.innerHTML = '';
-      const container = document.createElement('div');
-      container.style.cssText = 'display:grid; gap:16px; margin-top:8px;';
+
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'display:grid; gap:16px; margin-top:8px;';
+
+      const toggleRow = document.createElement('div');
+      toggleRow.className = 'toggle-row';
+      const toggleLbl = document.createElement('span');
+      toggleLbl.className = 'toggle-label';
+      toggleLbl.textContent = 'אוכל הכל';
+      const toggleSwitch = document.createElement('label');
+      toggleSwitch.className = 'toggle-switch';
+      const toggleInput = document.createElement('input');
+      toggleInput.type = 'checkbox';
+      toggleInput.checked = eatAll;
+      const toggleSlider = document.createElement('span');
+      toggleSlider.className = 'toggle-slider';
+      toggleSwitch.appendChild(toggleInput);
+      toggleSwitch.appendChild(toggleSlider);
+      toggleRow.appendChild(toggleLbl);
+      toggleRow.appendChild(toggleSwitch);
+      wrapper.appendChild(toggleRow);
+
+      const foodList = document.createElement('div');
+      foodList.style.cssText = 'display:grid; gap:16px;';
+      if (eatAll) foodList.classList.add('food-list-disabled');
+
       foodGroups.forEach(group => {
         const groupEl = document.createElement('div');
         groupEl.style.cssText = 'display:grid; gap:8px;';
@@ -1119,9 +1209,17 @@
           chipsEl.appendChild(chip);
         });
         groupEl.appendChild(chipsEl);
-        container.appendChild(groupEl);
+        foodList.appendChild(groupEl);
       });
-      questionInputContainer.appendChild(container);
+
+      toggleInput.addEventListener('change', () => {
+        eatAll = toggleInput.checked;
+        if (eatAll) foodList.classList.add('food-list-disabled');
+        else foodList.classList.remove('food-list-disabled');
+      });
+
+      wrapper.appendChild(foodList);
+      questionInputContainer.appendChild(wrapper);
       nextBtn.textContent = 'הבא';
       prevBtn.disabled = false;
     }
@@ -1278,7 +1376,9 @@
     }
 
     function createMealBlock(title, options, target) {
-      const shown = [...options].sort((a, b) => b.foods.filter(f => likedFoods.has(f)).length - a.foods.filter(f => likedFoods.has(f)).length).slice(0, 3);
+      const shown = eatAll
+        ? options.slice(0, 3)
+        : [...options].sort((a, b) => b.foods.filter(f => likedFoods.has(f)).length - a.foods.filter(f => likedFoods.has(f)).length).slice(0, 3);
       return `
         <div class="meal-block">
           <h3>${title}</h3>
