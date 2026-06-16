@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>מחשבון קלוריות CEO fit</title>
+  <title>שאלון אפיון | C.E.O fit</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,9 +16,7 @@
       font-family: 'Heebo', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -44,401 +42,18 @@
     .page {
       position: relative;
       z-index: 1;
-      width: min(100%, 1120px);
+      width: min(100%, 640px);
       margin: 0 auto;
-      padding: 32px 20px 48px;
-    }
-
-    .title-section {
-      text-align: center;
-      margin-bottom: 26px;
-    }
-
-    .title-section h1 {
-      margin: 0 auto;
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: 0.03em;
-      max-width: 760px;
-      line-height: 1.05;
+      padding: 32px 20px 64px;
     }
 
     .panel {
       background: #16294A;
       border: 1px solid rgba(61, 240, 255, 0.18);
       border-radius: 30px;
-      padding: 28px;
+      padding: 36px 28px;
       box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(10px);
-      margin-bottom: 24px;
-    }
-
-    .panel + .panel {
-      margin-top: 16px;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.95rem;
-      color: #8AFFD6;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .live-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #3DF0FF;
-      box-shadow: 0 0 0 rgba(61, 240, 255, 0.8);
-      animation: pulse 1.6s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(61, 240, 255, 0.8); }
-      70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(61, 240, 255, 0); }
-      100% { transform: scale(0.85); }
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 18px;
-    }
-
-    .field {
-      display: grid;
-      gap: 10px;
-    }
-
-    label {
-      font-size: 0.98rem;
-      color: #EAF6FF;
-      font-weight: 600;
-    }
-
-    input[type='number'], select, input[type='range'] {
-      width: 100%;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 14px 16px;
-      color: #EAF6FF;
-      font-size: 1rem;
-      font-family: 'Heebo', sans-serif;
-    }
-
-    select {
-      appearance: none;
-    }
-
-    input[type='range'] {
-      -webkit-appearance: none;
-      appearance: none;
-      padding: 0;
-      height: 36px;
-      background: transparent;
-    }
-
-    input[type='range']::-webkit-slider-runnable-track {
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(61, 240, 255, 0.25);
-    }
-
-    input[type='range']::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: #3DF0FF;
-      box-shadow: 0 0 0 8px rgba(61, 240, 255, 0.18);
-      cursor: pointer;
-      margin-top: -7px;
-    }
-
-    input[type='range']::-moz-range-track {
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(61, 240, 255, 0.25);
-    }
-
-    input[type='range']::-moz-range-thumb {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: #3DF0FF;
-      box-shadow: 0 0 0 8px rgba(61, 240, 255, 0.18);
-      cursor: pointer;
-    }
-
-    .hint {
-      color: #6B8299;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    .option-buttons {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .option-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #EAF6FF;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-      min-height: 56px;
-    }
-
-    .option-button:hover {
-      transform: translateY(-1px);
-      border-color: #3DF0FF;
-      background: rgba(61, 240, 255, 0.14);
-    }
-
-    .option-button.selected {
-      background: rgba(61, 240, 255, 0.22);
-      border-color: #3DF0FF;
-      color: #EAF6FF;
-    }
-
-    .range-control {
-      display: grid;
-      gap: 12px;
-    }
-
-    .slider-value {
-      display: inline-flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1rem;
-      color: #EAF6FF;
-    }
-
-    .button {
-      width: 100%;
-      padding: 16px 20px;
-      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
-      color: #102036;
-      border: none;
-      border-radius: 20px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      cursor: pointer;
-      box-shadow: 0 0 30px rgba(61, 240, 255, 0.35);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 38px rgba(61, 240, 255, 0.55);
-    }
-
-    .result-card {
-      display: grid;
-      gap: 20px;
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .stat-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(61, 240, 255, 0.14);
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 120px;
-    }
-
-    .stat-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: #8AFFD6;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-
-    .stat-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 2rem;
-      line-height: 1;
-      margin: 0;
-      color: #EAF6FF;
-    }
-
-    .macro-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .macro-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 16px;
-      min-height: 110px;
-    }
-
-    .macro-card span {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      color: #EAF6FF;
-      font-size: 0.95rem;
-    }
-
-    .macro-card strong {
-      display: block;
-      margin-top: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.6rem;
-      color: #3DF0FF;
-    }
-
-    .meal-plan {
-      display: grid;
-      gap: 18px;
-    }
-
-    .meal-block {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 18px;
-    }
-
-    .meal-block h3 {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .meal-options {
-      display: grid;
-      gap: 10px;
-    }
-
-    .meal-option {
-      background: rgba(61, 240, 255, 0.08);
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 0.96rem;
-      line-height: 1.45;
-    }
-
-    .principles {
-      display: grid;
-      gap: 14px;
-      padding: 18px;
-      background: rgba(61, 240, 255, 0.05);
-      border: 1px dashed rgba(61, 240, 255, 0.24);
-      border-radius: 20px;
-    }
-
-    .principles p,
-    .principles li {
-      margin: 0;
-      line-height: 1.65;
-      color: #EAF6FF;
-      font-size: 0.98rem;
-    }
-
-    .principles ul {
-      padding-inline-start: 18px;
-      margin: 0;
-      list-style: disc;
-    }
-
-    .video-block {
-      border: 1px solid rgba(61, 240, 255, 0.16);
-      border-radius: 24px;
-      padding: 22px;
-      background: rgba(255,255,255,0.03);
-      display: grid;
-      gap: 16px;
-      text-align: center;
-    }
-
-    .video-placeholder {
-      height: 250px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(61,240,255,0.15) 0%, rgba(138,255,214,0.08) 100%);
-      display: grid;
-      place-items: center;
-      color: #6B8299;
-      font-size: 1rem;
-      border: 1px dashed rgba(61, 240, 255, 0.28);
-    }
-
-    .lead-form {
-      display: none;
-      gap: 18px;
-      padding: 24px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(61, 240, 255, 0.18);
-    }
-
-    .lead-form.active {
-      display: grid;
-    }
-
-    .lead-form p {
-      margin: 0;
-      font-size: 1rem;
-      line-height: 1.75;
-      color: #EAF6FF;
-    }
-
-    .lead-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 14px;
-    }
-
-    .lead-grid input {
-      width: 100%;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 14px 16px;
-      color: #EAF6FF;
-      font-size: 1rem;
-    }
-
-    .note-muted {
-      color: #6B8299;
-      font-size: 0.95rem;
     }
 
     .logo-block {
@@ -446,7 +61,6 @@
       align-items: center;
       justify-content: center;
       gap: 14px;
-      margin-bottom: 18px;
     }
 
     .logo-text {
@@ -457,9 +71,7 @@
       letter-spacing: 0.02em;
     }
 
-    .logo-ceo {
-      color: #EAF6FF;
-    }
+    .logo-ceo { color: #EAF6FF; }
 
     .logo-fit {
       background: linear-gradient(90deg, #3DF0FF, #8AFFD6);
@@ -468,132 +80,24 @@
       background-clip: text;
     }
 
-    .ring-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      place-items: center;
-    }
+    /* ── STEP SYSTEM ─────────────────────────────────────────────────────── */
 
-    .ring-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
+    .step { display: none; }
 
-    .ring-wrapper {
-      position: relative;
-      width: 110px;
-      height: 110px;
-    }
-
-    .ring-svg {
-      width: 100%;
-      height: 100%;
-      transform: rotate(-90deg);
-    }
-
-    .ring-bg {
-      fill: none;
-      stroke: rgba(255,255,255,0.08);
-      stroke-width: 10;
-    }
-
-    .ring-fill {
-      fill: none;
-      stroke-width: 10;
-      stroke-linecap: round;
-      stroke-dasharray: 314.16 314.16;
-      stroke-dashoffset: 314.16;
-    }
-
-    .ring-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      line-height: 1;
-    }
-
-    .ring-value {
+    .step.active {
       display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #EAF6FF;
+      animation: stepIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .ring-unit {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      color: #8AFFD6;
-      margin-top: 3px;
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .ring-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      color: #8AFFD6;
-      letter-spacing: 0.08em;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 20, 40, 0.88);
-      backdrop-filter: blur(6px);
-      z-index: 999;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      animation: fadeInModal 0.3s ease;
-    }
-
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .modal-box {
-      background: #16294A;
-      border: 1px solid rgba(61, 240, 255, 0.28);
-      border-radius: 28px;
-      padding: 40px 32px 32px;
-      max-width: 520px;
-      width: 100%;
-      position: relative;
-      box-shadow: 0 0 80px rgba(61, 240, 255, 0.18);
-      display: grid;
-      gap: 20px;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      cursor: pointer;
-      color: #EAF6FF;
-      font-size: 0.95rem;
-      display: grid;
-      place-items: center;
-      transition: background 0.2s;
-    }
-
-    .modal-close:hover {
-      background: rgba(255,255,255,0.18);
-    }
+    /* ── PROGRESS BAR ─────────────────────────────────────────────────────── */
 
     .progress-bar-track {
-      height: 8px;
+      height: 6px;
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       overflow: hidden;
@@ -603,869 +107,1111 @@
       height: 100%;
       border-radius: 999px;
       background: linear-gradient(90deg, #3DF0FF, #8AFFD6);
-      transition: width 0.4s ease;
-      width: 0%;
+      transition: width 0.5s ease;
     }
 
-    .food-chips {
+    /* ── STEP HEADER (small logo + progress) ─────────────────────────────── */
+
+    .step-header {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .logo-sm {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-sm .logo-text { font-size: 1.35rem; }
+
+    /* ── STEP TITLE ───────────────────────────────────────────────────────── */
+
+    .step-title {
+      font-size: clamp(1.45rem, 5vw, 1.9rem);
+      font-weight: 700;
+      margin: 0 0 24px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    /* ── BUTTON ───────────────────────────────────────────────────────────── */
+
+    .button {
+      width: 100%;
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
+      color: #102036;
+      border: none;
+      border-radius: 20px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(61, 240, 255, 0.35);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      font-family: 'Heebo', sans-serif;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 40px rgba(61, 240, 255, 0.55);
+    }
+
+    /* ── CHOICE CARDS (Q1) ────────────────────────────────────────────────── */
+
+    .choice-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .choice-card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 36px 16px;
+      text-align: center;
+      cursor: pointer;
+      color: #EAF6FF;
+      font-family: 'Heebo', sans-serif;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      min-height: 170px;
+      justify-content: center;
+    }
+
+    .choice-card:hover {
+      border-color: #3DF0FF;
+      background: rgba(61, 240, 255, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(61, 240, 255, 0.15);
+    }
+
+    .choice-card.selected {
+      border-color: #3DF0FF;
+      background: rgba(61, 240, 255, 0.2);
+      box-shadow: 0 0 36px rgba(61, 240, 255, 0.28);
+    }
+
+    .choice-icon { font-size: 3rem; line-height: 1; }
+
+    .choice-label { font-size: 1.2rem; font-weight: 700; }
+
+    /* ── OPTION BUTTONS (Q2) ──────────────────────────────────────────────── */
+
+    .option-buttons {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option-button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.12);
+      color: #EAF6FF;
+      font-size: 1.05rem;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+      text-align: right;
+    }
+
+    .option-button:hover {
+      border-color: #3DF0FF;
+      background: rgba(61, 240, 255, 0.1);
+      transform: translateX(-2px);
+    }
+
+    .option-button.selected {
+      border-color: #3DF0FF;
+      background: rgba(61, 240, 255, 0.2);
+    }
+
+    .opt-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+    /* ── SLIDERS (Q3) ─────────────────────────────────────────────────────── */
+
+    .range-control { display: grid; gap: 14px; }
+
+    .slider-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
       gap: 8px;
     }
 
-    .food-chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 14px;
-      border-radius: 99px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #EAF6FF;
-      font-size: 0.9rem;
-      font-family: 'Heebo', sans-serif;
-      cursor: pointer;
-      transition: background 0.15s ease, border-color 0.15s ease;
-    }
+    .slider-label { font-size: 1rem; font-weight: 600; color: #EAF6FF; }
 
-    .food-chip:hover {
-      border-color: rgba(61, 240, 255, 0.5);
-      background: rgba(61, 240, 255, 0.08);
-    }
-
-    .food-chip.selected {
-      background: rgba(61, 240, 255, 0.22);
-      border-color: #3DF0FF;
-    }
-
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-    }
-
-    .toggle-label {
-      font-size: 1rem;
+    .slider-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
       font-weight: 600;
-      color: #EAF6FF;
+      color: #3DF0FF;
     }
 
-    .toggle-switch {
-      position: relative;
-      width: 48px;
-      height: 26px;
-      flex-shrink: 0;
+    input[type='range'] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 36px;
+      background: transparent;
+      padding: 0;
     }
 
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-      position: absolute;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      inset: 0;
-      background: rgba(255,255,255,0.15);
+    input[type='range']::-webkit-slider-runnable-track {
+      height: 8px;
       border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.25s ease;
+      background: rgba(61, 240, 255, 0.22);
     }
 
-    .toggle-slider::before {
-      content: '';
-      position: absolute;
+    input[type='range']::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #3DF0FF;
+      box-shadow: 0 0 0 8px rgba(61, 240, 255, 0.18);
+      cursor: pointer;
+      margin-top: -9px;
+    }
+
+    input[type='range']::-moz-range-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(61, 240, 255, 0.22);
+    }
+
+    input[type='range']::-moz-range-thumb {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #3DF0FF;
+      box-shadow: 0 0 0 8px rgba(61, 240, 255, 0.18);
+      cursor: pointer;
+      border: none;
+    }
+
+    /* ── BMI CARD ─────────────────────────────────────────────────────────── */
+
+    .bmi-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(61, 240, 255, 0.2);
+      border-radius: 24px;
+      padding: 36px 24px;
+      text-align: center;
+      display: grid;
+      gap: 10px;
+    }
+
+    .bmi-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #8AFFD6;
+    }
+
+    .bmi-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bmi-category {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #8AFFD6;
+    }
+
+    .bmi-desc {
+      font-size: 0.97rem;
+      line-height: 1.65;
+      color: #EAF6FF;
+      margin: 0;
+    }
+
+    /* ── LEAD INPUTS ──────────────────────────────────────────────────────── */
+
+    .lead-input {
+      width: 100%;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      padding: 15px 18px;
+      color: #EAF6FF;
+      font-size: 1rem;
+      font-family: 'Heebo', sans-serif;
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+
+    .lead-input::placeholder { color: #6B8299; }
+
+    .lead-input:focus { border-color: rgba(61, 240, 255, 0.5); }
+
+    .lead-input.error { border-color: #ff6b6b; }
+
+    /* ── THANK YOU ────────────────────────────────────────────────────────── */
+
+    .success-icon {
+      font-size: 4rem;
+      line-height: 1;
+      text-align: center;
+    }
+
+    /* ── DIVIDER ──────────────────────────────────────────────────────────── */
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 0;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+
+    @media (max-width: 480px) {
+      .page { padding: 20px 14px 48px; }
+      .panel { padding: 28px 20px; }
+
+      .choice-grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-card {
+        min-height: 80px;
+        flex-direction: row;
+        padding: 20px;
+        justify-content: flex-start;
+        text-align: right;
+      }
+
+      .choice-icon { font-size: 2.2rem; }
+      .choice-label { font-size: 1.1rem; }
+
+      .bmi-number { font-size: 4rem; }
+
+      .macro-row { grid-template-columns: repeat(3,1fr); gap: 8px; }
+      .macro-val { font-size: 1.45rem; }
+    }
+
+    /* ── PLAN DOCUMENT ───────────────────────────────────────────────── */
+
+    .plan-doc { display: grid; gap: 24px; }
+
+    .plan-section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(61,240,255,0.16);
+      border-radius: 24px;
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .plan-section-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #8AFFD6;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(61,240,255,0.14);
+    }
+
+    .calorie-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: rgba(61,240,255,0.06);
+      border-radius: 14px;
+    }
+
+    .calorie-label { font-size: 0.95rem; color: #8AFFD6; font-weight: 600; }
+
+    .calorie-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #3DF0FF;
+    }
+
+    .macro-row {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+    }
+
+    .macro-item {
+      background: rgba(61,240,255,0.07);
+      border: 1px solid rgba(61,240,255,0.18);
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+
+    .macro-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg,#3DF0FF,#8AFFD6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .macro-unit {
+      font-size: 0.72rem;
+      color: #8AFFD6;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .meal-block {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .meal-block-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #8AFFD6;
+      margin: 0 0 4px;
+    }
+
+    .meal-opt {
+      font-size: 0.91rem;
+      line-height: 1.55;
+      color: #EAF6FF;
+      padding: 8px 10px;
+      background: rgba(61,240,255,0.06);
+      border-radius: 10px;
+    }
+
+    .meal-opt-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: #8AFFD6;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+    }
+
+    .tip-icon { font-size: 1.15rem; line-height: 1.4; flex-shrink: 0; }
+    .tip-text { font-size: 0.93rem; line-height: 1.65; color: #EAF6FF; }
+
+    /* ── UPSELL ──────────────────────────────────────────────────────── */
+
+    .upsell-warning {
+      background: linear-gradient(135deg,rgba(255,183,0,0.1),rgba(255,100,50,0.07));
+      border: 2px solid rgba(255,183,0,0.4);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      display: grid;
+      gap: 12px;
+    }
+
+    .vsl-placeholder {
+      background: linear-gradient(180deg,rgba(61,240,255,0.1) 0%,rgba(138,255,214,0.05) 100%);
+      border: 1.5px dashed rgba(61,240,255,0.3);
+      border-radius: 20px;
+      height: 220px;
+      display: grid;
+      place-items: center;
+      color: #6B8299;
+      font-size: 0.95rem;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .upsell-select {
+      width: 100%;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      padding: 15px 18px;
+      color: #EAF6FF;
+      font-size: 1rem;
+      font-family: 'Heebo', sans-serif;
+      outline: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .upsell-select:focus { border-color: rgba(61,240,255,0.5); }
+
+    .upsell-textarea {
+      width: 100%;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      padding: 15px 18px;
+      color: #EAF6FF;
+      font-size: 1rem;
+      font-family: 'Heebo', sans-serif;
+      outline: none;
+      resize: vertical;
+      min-height: 88px;
+    }
+
+    .upsell-textarea:focus { border-color: rgba(61,240,255,0.5); }
+    .upsell-textarea::placeholder { color: #6B8299; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .checkbox-row input[type='checkbox'] {
       width: 20px;
       height: 20px;
-      left: 3px;
-      top: 3px;
-      background: #EAF6FF;
-      border-radius: 50%;
-      transition: transform 0.25s ease;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: #3DF0FF;
+      cursor: pointer;
     }
 
-    .toggle-switch input:checked + .toggle-slider {
-      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
-    }
-
-    .toggle-switch input:checked + .toggle-slider::before {
-      transform: translateX(22px);
-      background: #102036;
-    }
-
-    .food-list-disabled {
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    @media (max-width: 840px) {
-      .grid,
-      .stat-grid,
-      .macro-grid,
-      .lead-grid,
-      .option-buttons {
-        grid-template-columns: 1fr;
-      }
-
-      .section-heading {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .page {
-        padding: 20px 16px 32px;
-      }
-
-      .panel {
-        padding: 22px;
-      }
-
-      .button {
-        padding: 16px 18px;
-        font-size: 1rem;
-      }
-
-      .meal-option {
-        padding: 14px 16px;
-        font-size: 1rem;
-      }
-
-      .lead-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .title-section h1 {
-        font-size: 2.4rem;
-      }
-
-      .section-heading h2 {
-        font-size: 1.1rem;
-      }
-
-      .section-heading {
-        gap: 8px;
-      }
-
-      .button {
-        padding: 18px 16px;
-      }
-
-      .meal-block {
-        padding: 16px;
-      }
-
-      .stat-card,
-      .macro-card,
-      .lead-form,
-      .video-block {
-        padding: 18px;
-      }
-    }
+    .checkbox-row span { font-size: 0.88rem; line-height: 1.6; color: #EAF6FF; }
   </style>
 </head>
 <body>
+
+  <!-- Shared SVG defs — logo gradient & glow reused across all steps -->
+  <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true">
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="72" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#3DF0FF"/>
+        <stop offset="1" stop-color="#8AFFD6"/>
+      </linearGradient>
+      <filter id="lf" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+  </svg>
+
   <main class="page">
-    <section class="panel" id="welcomeScreen" style="text-align:center; padding:36px 12px; box-sizing:border-box;">
-      <div style="display:grid; gap:28px; max-width:560px; width:100%; margin:0 auto;">
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 0 — WELCOME
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step panel active" id="step-0">
+      <div style="display:grid;gap:26px;text-align:center;max-width:480px;margin:0 auto;">
+
         <div class="logo-block">
           <svg width="72" height="52" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="gaw" x1="0" y1="0" x2="72" y2="0">
-                <stop offset="0" stop-color="#3DF0FF"/><stop offset="1" stop-color="#8AFFD6"/>
-              </linearGradient>
-              <filter id="gloww" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="2.5" result="b"/>
-                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-            <rect x="4" y="16" width="6" height="20" rx="3" fill="url(#gaw)"/>
-            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#gaw)"/>
-            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#gaw)"/>
-            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#gaw)"/>
-            <path d="M18 26 H30 L34 16 L40 36 L44 26 H54" stroke="url(#gaw)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#gloww)"/>
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
           </svg>
           <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
         </div>
-        <p style="font-size:clamp(1.0rem, 4vw, 1.25rem); font-weight:700; color:#8AFFD6; margin:0; text-align:center;">בלי להשאיר פרטים, בלי התחייבות.</p>
-        <h2 style="margin:0; font-size:clamp(1.4rem, 5vw, 2.2rem); font-weight:700; text-align:center;">תוך דקה תדע בדיוק מה לאכול.</h2>
-        <p style="font-size:clamp(0.9rem, 3.5vw, 1.05rem); line-height:1.85; color:#EAF6FF; margin:0; text-align:center;">CEO fit לא לוקחים כסף על מה שאפשר לתת בחינם. תוך דקה תקבל תפריט מדויק לפי הערכים האישיים שלך, עם אופציות וכמויות פשוטות בלי לשקול אוכל על משקל, וגם סרטון הסבר איך להתמיד ולהפוך את זה להרגל קבוע.</p>
-        <button class="button" id="startBtn">בוא נתחיל</button>
+
+        <p style="margin:0;font-size:0.9rem;font-weight:700;color:#8AFFD6;letter-spacing:0.05em;text-transform:uppercase;">
+          לבעלי עסקים בלבד &nbsp;|&nbsp; בחסות C.E.O fit
+        </p>
+
+        <h1 style="margin:0;font-size:clamp(1.45rem,5vw,2.1rem);font-weight:700;line-height:1.3;">
+          שאלון אפיון בחינם שיבנה לך תוכנית אימון ותפריט תזונה מותאמים לעומס ולעסק שלך!
+        </h1>
+
+        <div class="divider"></div>
+
+        <p style="margin:0;font-size:clamp(0.93rem,3.5vw,1.02rem);line-height:1.8;color:#EAF6FF;">
+          בסוף השאלון תקבל גישה להדרכה שתגלה לך למה בעלי עסקים לא מצליחים להתבנזר&nbsp;—
+          ואיך אפשר להיות בעל עסק עמוס עם גוף שבאמת משקף את מי שאתה.
+        </p>
+
+        <button class="button" style="font-size:1.1rem;padding:20px;" onclick="goTo(1)">
+          עם מי אני? תלחץ כאן
+        </button>
+
       </div>
     </section>
 
-    <section class="title-section" id="titleSection" style="display:none;">
-      <div class="logo-block">
-        <svg width="72" height="52" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="ga" x1="0" y1="0" x2="72" y2="0">
-              <stop offset="0" stop-color="#3DF0FF"/><stop offset="1" stop-color="#8AFFD6"/>
-            </linearGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <rect x="4" y="16" width="6" height="20" rx="3" fill="url(#ga)"/>
-          <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#ga)"/>
-          <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#ga)"/>
-          <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#ga)"/>
-          <path d="M18 26 H30 L34 16 L40 36 L44 26 H54" stroke="url(#ga)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
-        </svg>
-        <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-      </div>
-    </section>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 1 — GOAL
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step panel" id="step-1">
 
-    <section class="panel" id="calculatorPanel" style="display:none;">
-      <div class="section-heading">
-        <h2>המחשבון</h2>
-      </div>
-      <div class="question-state" style="display:grid; gap:16px;">
+      <div class="step-header">
+        <div class="logo-sm">
+          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+          </svg>
+          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
+        </div>
         <div class="progress-bar-track">
-          <div class="progress-bar-fill" id="questionProgress"></div>
-        </div>
-        <div class="field">
-          <label id="questionLabel" for="questionInput">גיל</label>
-          <div id="questionInputContainer"></div>
+          <div class="progress-bar-fill" style="width:33%"></div>
         </div>
       </div>
-      <div style="margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <button class="button" id="prevBtn" disabled>אחורה</button>
-        <button class="button" id="nextBtn">הבא</button>
+
+      <h2 class="step-title">מה המטרה שלך?</h2>
+
+      <div class="choice-grid-2">
+        <button class="choice-card" id="goal-cut" onclick="pickGoal('cut')">
+          <span class="choice-icon">🔥</span>
+          <span class="choice-label">להתחטב</span>
+        </button>
+        <button class="choice-card" id="goal-bulk" onclick="pickGoal('bulk')">
+          <span class="choice-icon">💪</span>
+          <span class="choice-label">לעלות במסה</span>
+        </button>
       </div>
+
     </section>
 
-    <section class="panel result-card" id="resultSection" style="display:none;">
-      <div class="section-heading">
-        <h2>תוצאה</h2>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">קלוריות לתחזוקה</div>
-          <p class="stat-value" id="tdeeValue">0</p>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 2 — ACTIVITY
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step panel" id="step-2">
+
+      <div class="step-header">
+        <div class="logo-sm">
+          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+          </svg>
+          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">יעד קלורי יומי</div>
-          <p class="stat-value" id="targetValue">0</p>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" style="width:67%"></div>
         </div>
       </div>
-      <div class="ring-grid">
-        <div class="ring-card">
-          <div class="ring-wrapper">
-            <svg class="ring-svg" viewBox="0 0 120 120">
-              <defs>
-                <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#3DF0FF"/>
-                  <stop offset="100%" stop-color="#8AFFD6"/>
-                </linearGradient>
-              </defs>
-              <circle class="ring-bg" cx="60" cy="60" r="50"/>
-              <circle class="ring-fill" id="proteinRing" cx="60" cy="60" r="50" stroke="url(#rg1)"/>
-            </svg>
-            <div class="ring-center">
-              <span class="ring-value" id="proteinValue">0</span>
-              <span class="ring-unit">ג&quot;ר</span>
-            </div>
+
+      <h2 class="step-title">מה רמת הפעילות שלך?</h2>
+
+      <div class="option-buttons">
+        <button class="option-button" data-activity="1.2"    onclick="pickActivity('1.2',   this)">
+          <span class="opt-icon">🪑</span> יושב רוב היום
+        </button>
+        <button class="option-button" data-activity="1.375"  onclick="pickActivity('1.375', this)">
+          <span class="opt-icon">🚶</span> פעילות קלה
+        </button>
+        <button class="option-button" data-activity="1.55"   onclick="pickActivity('1.55',  this)">
+          <span class="opt-icon">🏃</span> פעילות בינונית
+        </button>
+        <button class="option-button" data-activity="1.725"  onclick="pickActivity('1.725', this)">
+          <span class="opt-icon">⚡</span> פעילות גבוהה
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 3 — HEIGHT & WEIGHT
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step panel" id="step-3">
+
+      <div class="step-header">
+        <div class="logo-sm">
+          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+          </svg>
+          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" style="width:100%"></div>
+        </div>
+      </div>
+
+      <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
+
+      <div style="display:grid;gap:32px;margin-bottom:32px;">
+
+        <!-- Height -->
+        <div class="range-control">
+          <div class="slider-row">
+            <span class="slider-label">גובה</span>
+            <span class="slider-val" id="heightDisplay">175 ס"מ</span>
           </div>
-          <div class="ring-label">חלבון</div>
-        </div>
-        <div class="ring-card">
-          <div class="ring-wrapper">
-            <svg class="ring-svg" viewBox="0 0 120 120">
-              <defs>
-                <linearGradient id="rg2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#3DF0FF"/>
-                  <stop offset="100%" stop-color="#8AFFD6"/>
-                </linearGradient>
-              </defs>
-              <circle class="ring-bg" cx="60" cy="60" r="50"/>
-              <circle class="ring-fill" id="carbsRing" cx="60" cy="60" r="50" stroke="url(#rg2)"/>
-            </svg>
-            <div class="ring-center">
-              <span class="ring-value" id="carbsValue">0</span>
-              <span class="ring-unit">ג&quot;ר</span>
-            </div>
+          <input type="range" id="heightSlider" min="150" max="210" step="1" value="175"
+                 oninput="onSlider('height', this.value, 'heightDisplay', ' ס&quot;מ')" />
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
+            <span>150</span><span>210</span>
           </div>
-          <div class="ring-label">פחמימות</div>
         </div>
-        <div class="ring-card">
-          <div class="ring-wrapper">
-            <svg class="ring-svg" viewBox="0 0 120 120">
-              <defs>
-                <linearGradient id="rg3" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#3DF0FF"/>
-                  <stop offset="100%" stop-color="#8AFFD6"/>
-                </linearGradient>
-              </defs>
-              <circle class="ring-bg" cx="60" cy="60" r="50"/>
-              <circle class="ring-fill" id="fatRing" cx="60" cy="60" r="50" stroke="url(#rg3)"/>
-            </svg>
-            <div class="ring-center">
-              <span class="ring-value" id="fatValue">0</span>
-              <span class="ring-unit">ג&quot;ר</span>
-            </div>
+
+        <!-- Weight -->
+        <div class="range-control">
+          <div class="slider-row">
+            <span class="slider-label">משקל</span>
+            <span class="slider-val" id="weightDisplay">78 ק"ג</span>
           </div>
-          <div class="ring-label">שומן</div>
+          <input type="range" id="weightSlider" min="45" max="150" step="1" value="78"
+                 oninput="onSlider('weight', this.value, 'weightDisplay', ' ק&quot;ג')" />
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
+            <span>45</span><span>150</span>
+          </div>
         </div>
+
       </div>
+
+      <button class="button" onclick="goToBmi()">המשך</button>
+
     </section>
 
-    <section class="panel meal-plan" id="mealPlanSection" style="display:none;">
-      <div class="section-heading">
-        <h2>תפריט יום</h2>
-      </div>
-      <div id="mealBlocks"></div>
-    </section>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 4 — BMI RESULT
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step panel" id="step-4">
 
-    <section class="panel principles" id="principlesSection" style="display:none;">
-      <div class="section-heading">
-        <h2>עקרונות תזונה</h2>
-      </div>
-      <p>עקרונות יסוד: שמן זית בלבד, להימנע משמן קנולה, להימנע כמה שאפשר מגלוטן.</p>
-      <div id="goalPrinciples"></div>
-    </section>
+      <div style="display:grid;gap:24px;">
 
-    <section class="panel video-block" id="videoSection" style="display:none;">
-      <p>קיבלת את המספרים. עכשיו בוא אראה לך בדיוק איך ליישם אותם בלי לטעות 👇</p>
-      <div class="video-placeholder">כאן יופיע הסרטון</div>
-    </section>
-
-    <section class="panel lead-form" id="leadFormSection">
-      <p>את העסק שלך אתה מנהל בשליטה מלאה. את הגוף? על אוטומט. הגוף שלך חשוב כמעט כמו העסק, אבל בניגוד לעסק, אין לך זמן וראש לתפעל אותו לבד. אנחנו בונים לך תפריט לפי בדיקת דם, דואגים לאוכל עד הבית, ונותנים לך תוכנית אימונים דינמית שמתאימה את עצמה ליום יום העמוס של בעל עסק, עם מאמן שזמין לך תמיד. השאר פרטים ונקח את זה על עצמנו. 👇</p>
-      <div class="lead-grid">
-        <input id="fullName" type="text" placeholder="שם מלא" required />
-        <input id="email" type="email" placeholder="מייל" required />
-        <input id="phone" type="tel" placeholder="טלפון" required />
-      </div>
-      <button class="button" id="leadSubmitBtn">אני רוצה שיחזרו אליי</button>
-      <p class="note-muted">הטופס זמני. חיבור לשרת יתווסף בהמשך.</p>
-    </section>
-    <div id="leadModal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true">
-      <div class="modal-box">
-        <button class="modal-close" id="modalCloseBtn" aria-label="סגור">✕</button>
-        <p style="margin:0; font-size:1rem; line-height:1.8; color:#EAF6FF;">בדיוק כמו בעסק, אתה לא עושה הכל לבד. את הדברים החשובים אתה נותן למי שיודע לתפעל אותם נכון. הגוף שלך הוא אחד מהם. תפריט לפי בדיקת דם, אוכל עד הבית, ותוכנית אימונים שמתאימה את עצמה לשגרה של בעל עסק, עם מאמן שזמין לך תמיד. השאר פרטים ונחזור אליך.</p>
-        <div style="display:grid; gap:12px;">
-          <input id="modalName" type="text" placeholder="שם מלא" style="border-radius:16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); padding:14px 16px; color:#EAF6FF; font-size:1rem; font-family:'Heebo',sans-serif;" />
-          <input id="modalEmail" type="email" placeholder="מייל" style="border-radius:16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); padding:14px 16px; color:#EAF6FF; font-size:1rem; font-family:'Heebo',sans-serif;" />
-          <input id="modalPhone" type="tel" placeholder="טלפון" style="border-radius:16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); padding:14px 16px; color:#EAF6FF; font-size:1rem; font-family:'Heebo',sans-serif;" />
+        <div class="logo-sm" style="justify-content:center;">
+          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+          </svg>
+          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
         </div>
-        <button class="button" id="modalSubmitBtn">אני רוצה שיחזרו אליי</button>
+
+        <div class="bmi-card">
+          <div class="bmi-eyebrow">מדד BMI שלך</div>
+          <div class="bmi-number" id="bmiValue">—</div>
+          <div class="bmi-category" id="bmiCategory"></div>
+          <p class="bmi-desc" id="bmiDesc"></p>
+        </div>
+
+        <button class="button" onclick="goTo(5)">
+          קבל את התוכנית שלי ←
+        </button>
+
       </div>
-    </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 5 — LEAD CAPTURE
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step panel" id="step-5">
+
+      <div style="display:grid;gap:22px;">
+
+        <div class="logo-sm" style="justify-content:center;">
+          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+          </svg>
+          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
+        </div>
+
+        <h2 class="step-title" style="margin-bottom:4px;">הפרופיל שלך מוכן!</h2>
+
+        <p style="margin:0;font-size:1rem;line-height:1.8;color:#EAF6FF;text-align:center;">
+          בדיוק כמו בעסק — את הדברים החשובים נותנים למי שיודע. השאר פרטים ותקבל גישה להדרכה + ייעוץ אישי.
+        </p>
+
+        <div class="divider"></div>
+
+        <div style="display:grid;gap:12px;">
+          <input class="lead-input" id="leadName"  type="text" placeholder="שם מלא *" />
+          <input class="lead-input" id="leadPhone" type="tel"  placeholder="טלפון *" />
+          <input class="lead-input" id="leadEmail" type="email" placeholder="מייל" />
+        </div>
+
+        <button class="button" onclick="submitLead()">
+          אני רוצה לקבל את התוכנית שלי ←
+        </button>
+
+        <p style="text-align:center;color:#6B8299;font-size:0.88rem;margin:0;">
+          ✓ ללא התחייבות &nbsp;•&nbsp; ✓ הפרטים שלך מוגנים
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 6 — THANK YOU
+    ═══════════════════════════════════════════════════════════════════ -->
+    <!-- ── Step 6: Personal plan document ────────────────────────────── -->
+    <section class="step panel" id="step-6">
+
+      <div class="plan-doc" id="planDoc">
+        <!-- Populated by renderPlan() on lead submit -->
+      </div>
+
+      <div style="margin-top:28px;display:grid;gap:12px;">
+        <button class="button" onclick="goToUpsell()">
+          יש לי עוד משהו חשוב עבורך ←
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ── Step 7: Upsell ─────────────────────────────────────────────── -->
+    <section class="step panel" id="step-7">
+
+      <div style="display:grid;gap:24px;">
+
+        <div class="upsell-warning">
+          <div style="font-size:1.6rem;letter-spacing:0.03em;">⚠️ רגע! לא לסגור את הדף! ⚠️</div>
+          <p style="margin:0;font-size:1.05rem;font-weight:700;color:#EAF6FF;">
+            התפריט ותוכנית האימונים כבר בדרך אליך למייל
+          </p>
+          <p style="margin:0;font-size:1rem;line-height:1.75;color:#EAF6FF;">
+            יש לך הזדמנות חד פעמית להצטרף לליווי של C.E.O fit ולקבל חודש נוסף בחינם!
+          </p>
+          <p style="margin:0;font-size:0.94rem;line-height:1.7;color:#d0ecf5;">
+            זה מתאים גם אם אתה בעל עסק מאוד עמוס וגם אם אין לך כוח להכין ולשקול אוכל
+          </p>
+        </div>
+
+        <div class="vsl-placeholder">
+          <div style="font-size:3rem;opacity:0.6;">▶</div>
+          <div>נגן הוידאו יופיע כאן</div>
+        </div>
+
+        <div style="text-align:center;display:grid;gap:10px;">
+          <h3 style="margin:0;font-size:1.25rem;font-weight:700;line-height:1.4;">
+            לשיחת התאמה לליווי ולמימוש ההטבה! 👇🏻
+          </h3>
+          <p style="margin:0;font-size:0.93rem;line-height:1.75;color:#d0ecf5;">
+            הטופס הזה לבעלי עסקים עמוסים שרוצים ליווי צמוד ולחיות בגוף שמייצג את מי שהם באמת
+          </p>
+        </div>
+
+        <div style="display:grid;gap:12px;">
+          <input class="lead-input" id="upsellName"  type="text" placeholder="איך קוראים לך?" />
+          <input class="lead-input" id="upsellPhone" type="tel"  placeholder="מה המספר שלך?" />
+
+          <select class="upsell-select" id="upsellTime">
+            <option value="" disabled selected>כמה זמן ניסית לשנות את הגוף שלך?</option>
+            <option>מתחת ל-3 חודשים</option>
+            <option>חצי שנה</option>
+            <option>שנה ומעלה</option>
+            <option>כל החיים...</option>
+          </select>
+
+          <textarea class="upsell-textarea" id="upsellReason" placeholder="למה חשוב לך לעשות שינוי עכשיו? פרט..."></textarea>
+
+          <label class="checkbox-row" id="upsellConsentRow">
+            <input type="checkbox" id="upsellConsent" />
+            <span>אני מבין/ה שהליווי בתשלום והחודש הנוסף הוא הטבה בהתאם למסלול שאבחר</span>
+          </label>
+
+          <button class="button" onclick="submitUpsell()">אני רוצה שיחזרו אלי</button>
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
   <script>
-    const mealTemplates = {
-      breakfast: [
-        { foods: ['ביצים', 'לחם מלא', 'אבוקדו'], fn: target => `חביתת 3 עד 4 ביצים + ${target < 1800 ? '1 פרוסת' : '2 פרוסות'} לחם מלא + ${target > 2200 ? '1 אבוקדו מלא' : '1/2 אבוקדו'}` },
-        { foods: ['יוגורט יווני', 'פירות'], fn: target => `יוגורט יווני ${target < 1800 ? '1/2 כוס' : '3/4 כוס'} + ${target > 1800 ? '1/2 כוס' : '1/3 כוס'} גרנולה + ${target > 2400 ? '1/2 כוס' : '1/3 כוס'} פירות יער + 1 כפית דבש` },
-        { foods: ['אבקת חלבון', 'שיבולת שועל', 'חמאת בוטנים', 'פירות'], fn: target => `שייק חלבון ${target < 2000 ? '1 סקופ' : '2 סקופים'} + ${target < 1800 ? '1/3 כוס' : '1/2 כוס'} שיבולת שועל + בננה + ${target > 2200 ? '1.5 כפות' : '1 כף'} חמאת בוטנים` }
-      ],
-      lunch: [
-        { foods: ['עוף', 'אורז', 'ירקות'], fn: target => `חזה עוף ${target < 1800 ? '1 חתיכה' : target > 2200 ? '2 חתיכות' : '1.5 חתיכות'} + ${target < 1800 ? '1/2 כוס' : '1 כוס'} אורז + ${target > 2200 ? '2 כוסות' : '1.5 כוסות'} ירקות מוקפצים` },
-        { foods: ['בקר', 'תפוח אדמה', 'ירקות'], fn: target => `נתח בקר רזה ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} + 1 תפוח אדמה אפוי + סלט גדול` },
-        { foods: ['סלמון', 'קינואה', 'ירקות'], fn: target => `סלמון אפוי ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} + ${target < 2000 ? '1/2 כוס' : '1 כוס'} קינואה + ${target > 2200 ? '2 כוסות' : '1 כוס'} ברוקולי` }
-      ],
-      dinner: [
-        { foods: ['טונה', 'ירקות', 'לחם מלא'], fn: target => `טונה ${target < 1800 ? '1 פחית' : '1.5 פחיות'} + סלט גדול + ${target > 2200 ? '3 פרוסות' : '2 פרוסות'} לחם מלא` },
-        { foods: ['הודו', 'עוף', 'בטטה', 'ירקות'], fn: target => `חזה הודו/עוף ${target < 1800 ? '1 חתיכה' : '1.5 חתיכות'} בתנור או במחבת + ${target < 1800 ? '1/2 בטטה' : '1 בטטה'} + ${target > 2200 ? '2 כוסות' : '1 כוס'} ירקות` },
-        { foods: ['בקר', 'פסטה'], fn: target => `קציצות בקר רזה ${target < 1800 ? '2 יחידות' : '3 יחידות'} + ${target < 1800 ? '1/2 כוס' : '1 כוס'} פסטה מלאה + רוטב עגבניות` }
-      ],
-      snack: [
-        { foods: ['אבקת חלבון', 'שקדים'], fn: target => `שייק חלבון ${target < 2000 ? '1 סקופ' : '2 סקופים'} + חופן שקדים` },
-        { foods: ["קוטג'", 'פירות'], fn: target => `קוטג' + פרי` },
-        { foods: ['פירות'], fn: target => `חטיף חלבון + תפוח` }
-      ]
-    };
+    const answers = { goal: null, activity: null, height: 175, weight: 78 };
 
-    const goalPrinciples = {
-      cut: [
-        'חלבון בכל ארוחה, לאכול עד תחושת שובע של 70 עד 80 אחוז',
-        'ירקות ירוקים חופשי ועד 3 פירות ביום',
-        'רוב הפחמימה מסביב לאימון',
-        '3 עד 4 ליטר מים ביום',
-        'תוצאות לוקחות זמן, שבוע או שבועיים לא פקטור, להישאר עקבי, גירעון אגרסיבי מדי שובר את הגוף.'
-      ],
-      bulk: [
-        'חלבון בכל ארוחה פרוס על היום',
-        'עודף קלורי מבוקר לא לזלול',
-        'פחמימה מסביב לאימון',
-        'ארוחה לפני שינה עם חלבון איטי',
-        'אל תדלג ארוחות.'
-      ],
-      maintain: [
-        'חלבון יציב בכל ארוחה',
-        '80/20: 80 אחוז מהאוכל נקי ובריא, 20 אחוז גמישות למה שבא לך',
-        'עקביות על פני שלמות',
-        '10,000 צעדים ביום',
-        'שקילה שבועית לא יומית.'
-      ]
-    };
+    // ── Navigation ───────────────────────────────────────────────────────────
+    function goTo(n) {
+      const cur = document.querySelector('.step.active');
+      if (cur) cur.classList.remove('active');
+      const next = document.getElementById('step-' + n);
+      if (next) {
+        next.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
 
-    const questions = [
-      { key: 'age', label: 'גיל', type: 'number', min: 16, max: 80, step: 1, default: '30' },
-      { key: 'height', label: 'גובה בס"מ', type: 'number', min: 120, max: 230, step: 1, default: '175' },
-      { key: 'weight', label: 'משקל בק"ג', type: 'number', min: 45, max: 150, step: 1, default: '78' },
-      { key: 'activity', label: 'רמת פעילות', type: 'select', options: [
-        { value: '1.375', text: 'כל היום במשרד/מול המחשב' },
-        { value: '1.465', text: 'עובד אבל מתאמן 2 עד 3 פעמים בשבוע' },
-        { value: '1.55', text: 'מתאמן כמעט כל יום למרות העסק' }
-      ], default: '1.375' },
-      { key: 'goal', label: 'מטרה', type: 'select', options: [
-        { value: 'cut', text: 'חיטוב' },
-        { value: 'bulk', text: 'עליה במסה' },
-        { value: 'maintain', text: 'שמירה' }
-      ], default: 'cut' },
-      { key: 'meals', label: 'מספר ארוחות', type: 'select', options: [
-        { value: '3', text: '3' },
-        { value: '4', text: '4' },
-        { value: '5', text: '5' }
-      ], default: '3' },
-      { key: 'snacks', label: 'האם אתה מעוניין בנשנושים באמצע היום?', type: 'select', options: [
-        { value: 'yes', text: 'כן' },
-        { value: 'no', text: 'לא' }
-      ], default: 'no' }
-    ];
+    // ── Q1: Goal ─────────────────────────────────────────────────────────────
+    function pickGoal(value) {
+      answers.goal = value;
+      document.getElementById('goal-cut').classList.toggle('selected', value === 'cut');
+      document.getElementById('goal-bulk').classList.toggle('selected', value === 'bulk');
+      setTimeout(() => goTo(2), 380);
+    }
 
-    const personalityQuestions = [
-      { key: 'p1', label: 'מה אתה מעריך יותר?', options: ['עבודה קשה', 'עבודה חכמה'] },
-      { key: 'p3', label: 'מה מאפיין אותך?', options: ['יסודי', 'מהיר'] },
-      { key: 'p5', label: 'איך אתה מקבל החלטות?', options: ['מהבטן', 'מהנתונים'] },
-    ];
-    const personalityAnswers = {};
-    let phase = 'calc';
-    let personalityIndex = 0;
-    let foodIndex = 0;
-    let eatAll = false;
-    const likedFoods = new Set();
-    const TOTAL_STEPS = questions.length + personalityQuestions.length + 1;
+    // ── Q2: Activity ─────────────────────────────────────────────────────────
+    function pickActivity(value, btn) {
+      answers.activity = value;
+      document.querySelectorAll('#step-2 .option-button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      setTimeout(() => goTo(3), 380);
+    }
 
-    const answers = {};
-    questions.forEach(question => answers[question.key] = question.default);
+    // ── Q3: Sliders ──────────────────────────────────────────────────────────
+    function onSlider(key, val, displayId, unit) {
+      answers[key] = +val;
+      document.getElementById(displayId).innerHTML = val + unit;
+    }
 
-    const questionProgress = document.getElementById('questionProgress');
-    const questionLabel = document.getElementById('questionLabel');
-    const questionInputContainer = document.getElementById('questionInputContainer');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const resultSection = document.getElementById('resultSection');
-    const mealPlanSection = document.getElementById('mealPlanSection');
-    const principlesSection = document.getElementById('principlesSection');
-    const videoSection = document.getElementById('videoSection');
-    const leadFormSection = document.getElementById('leadFormSection');
-    const mealBlocks = document.getElementById('mealBlocks');
-    const goalPrinciplesBlock = document.getElementById('goalPrinciples');
+    // ── Step 4: BMI ──────────────────────────────────────────────────────────
+    function goToBmi() {
+      goTo(4);
+      const h = answers.height / 100;
+      const bmi = answers.weight / (h * h);
+      const rounded = Math.round(bmi * 10) / 10;
 
-    let currentQuestionIndex = 0;
-
-    function renderQuestion() {
-      const question = questions[currentQuestionIndex];
-      questionProgress.style.width = `${((currentQuestionIndex + 1) / TOTAL_STEPS) * 100}%`;
-      questionLabel.textContent = question.label;
-
-      questionInputContainer.innerHTML = '';
-
-      if (question.type === 'select') {
-        const buttonGrid = document.createElement('div');
-        buttonGrid.className = 'option-buttons';
-        question.options.forEach(option => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'option-button';
-          btn.textContent = option.text;
-          btn.dataset.value = option.value;
-          btn.addEventListener('click', () => {
-            answers[question.key] = option.value;
-            Array.from(buttonGrid.children).forEach(child => child.classList.remove('selected'));
-            btn.classList.add('selected');
-          });
-          if (answers[question.key] === option.value) {
-            btn.classList.add('selected');
-          }
-          buttonGrid.appendChild(btn);
-        });
-        questionInputContainer.appendChild(buttonGrid);
+      let category, desc;
+      if (bmi < 18.5) {
+        category = 'תת-משקל';
+        desc = 'גופך זקוק לבניית מסת שריר ועלייה בריאה במשקל. התוכנית שלך תכלול תזונה תומכת ואימוני כוח.';
+      } else if (bmi < 25) {
+        category = 'משקל תקין ✓';
+        desc = 'אתה בטווח הבריא. התוכנית שלך תשמר ותשפר את הכושר הנוכחי שלך לפי העומס של העסק.';
+      } else if (bmi < 30) {
+        category = 'עודף משקל קל';
+        desc = 'עם התוכנית הנכונה לבעל עסק עמוס, תראה שינויים מהירים בלי לשבור את השגרה.';
       } else {
-        const rangeWrapper = document.createElement('div');
-        rangeWrapper.className = 'range-control';
-
-        const input = document.createElement('input');
-        input.type = 'range';
-        input.min = question.min;
-        input.max = question.max;
-        input.step = question.step;
-        input.value = answers[question.key];
-        input.id = 'questionInput';
-
-        const valueDisplay = document.createElement('div');
-        valueDisplay.className = 'slider-value';
-        valueDisplay.innerHTML = `<span>${question.label}</span><strong id="sliderValue">${input.value}</strong>`;
-
-        input.addEventListener('input', () => {
-          document.getElementById('sliderValue').textContent = input.value;
-          answers[question.key] = input.value;
-        });
-
-        rangeWrapper.appendChild(input);
-        rangeWrapper.appendChild(valueDisplay);
-        questionInputContainer.appendChild(rangeWrapper);
+        category = 'עודף משקל';
+        desc = 'גופך מוכן לשינוי. התוכנית שלנו מותאמת לבעלי עסקים כמוך — תוצאות אמיתיות בלי זמן מיותר.';
       }
 
-      nextBtn.textContent = 'הבא';
-      nextBtn.style.fontSize = '';
-      nextBtn.style.padding = '';
-      nextBtn.style.whiteSpace = '';
-      prevBtn.disabled = currentQuestionIndex === 0;
-    }
-
-    function renderPersonalityQuestion() {
-      const step = questions.length + personalityIndex + 1;
-      questionProgress.style.width = `${(step / TOTAL_STEPS) * 100}%`;
-
-      const q = personalityQuestions[personalityIndex];
-      questionLabel.textContent = q.label;
-      questionInputContainer.innerHTML = '';
-
-      const buttonGrid = document.createElement('div');
-      buttonGrid.className = 'option-buttons';
-      buttonGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-
-      q.options.forEach(option => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'option-button';
-        btn.textContent = option;
-        btn.addEventListener('click', () => {
-          personalityAnswers[q.key] = option;
-          Array.from(buttonGrid.children).forEach(c => c.classList.remove('selected'));
-          btn.classList.add('selected');
-        });
-        if (personalityAnswers[q.key] === option) btn.classList.add('selected');
-        buttonGrid.appendChild(btn);
-      });
-
-      questionInputContainer.appendChild(buttonGrid);
-      if (personalityIndex === personalityQuestions.length - 1) {
-        nextBtn.textContent = 'לתפריט התזונה שלי';
-        nextBtn.style.fontSize = 'clamp(0.72rem, 3.2vw, 1.05rem)';
-        nextBtn.style.padding = '16px 8px';
-        nextBtn.style.whiteSpace = 'nowrap';
-      } else {
-        nextBtn.textContent = 'הבא';
-        nextBtn.style.fontSize = '';
-        nextBtn.style.padding = '';
-        nextBtn.style.whiteSpace = '';
-      }
-      prevBtn.disabled = false;
-    }
-
-    const foodGroups = [
-      { label: 'חלבונים', items: ['עוף', 'בקר', 'הודו', 'סלמון', 'טונה', 'ביצים', "קוטג'", 'יוגורט יווני', 'אבקת חלבון'] },
-      { label: 'פחמימות', items: ['אורז', 'פסטה', 'תפוח אדמה', 'בטטה', 'קינואה', 'לחם מלא', 'שיבולת שועל'] },
-      { label: 'נוספים', items: ['אבוקדו', 'שקדים', 'חמאת בוטנים', 'ירקות', 'פירות'] }
-    ];
-
-    function renderFoodQuestion() {
-      const step = questions.length + 1;
-      questionProgress.style.width = `${(step / TOTAL_STEPS) * 100}%`;
-      questionLabel.textContent = 'אילו מאכלים אתה הכי אוהב?';
-      questionInputContainer.innerHTML = '';
-
-      const wrapper = document.createElement('div');
-      wrapper.style.cssText = 'display:grid; gap:16px; margin-top:8px;';
-
-      const toggleRow = document.createElement('div');
-      toggleRow.className = 'toggle-row';
-      const toggleLbl = document.createElement('span');
-      toggleLbl.className = 'toggle-label';
-      toggleLbl.textContent = 'אוכל הכל';
-      const toggleSwitch = document.createElement('label');
-      toggleSwitch.className = 'toggle-switch';
-      const toggleInput = document.createElement('input');
-      toggleInput.type = 'checkbox';
-      toggleInput.checked = eatAll;
-      const toggleSlider = document.createElement('span');
-      toggleSlider.className = 'toggle-slider';
-      toggleSwitch.appendChild(toggleInput);
-      toggleSwitch.appendChild(toggleSlider);
-      toggleRow.appendChild(toggleLbl);
-      toggleRow.appendChild(toggleSwitch);
-      wrapper.appendChild(toggleRow);
-
-      const foodList = document.createElement('div');
-      foodList.style.cssText = 'display:grid; gap:16px;';
-      if (eatAll) foodList.classList.add('food-list-disabled');
-
-      foodGroups.forEach(group => {
-        const groupEl = document.createElement('div');
-        groupEl.style.cssText = 'display:grid; gap:8px;';
-        const groupLabel = document.createElement('div');
-        groupLabel.style.cssText = 'font-family:"JetBrains Mono",monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#8AFFD6;';
-        groupLabel.textContent = group.label;
-        groupEl.appendChild(groupLabel);
-        const chipsEl = document.createElement('div');
-        chipsEl.className = 'food-chips';
-        group.items.forEach(item => {
-          const chip = document.createElement('button');
-          chip.type = 'button';
-          chip.className = 'food-chip' + (likedFoods.has(item) ? ' selected' : '');
-          chip.textContent = item;
-          chip.addEventListener('click', () => {
-            if (likedFoods.has(item)) { likedFoods.delete(item); chip.classList.remove('selected'); }
-            else { likedFoods.add(item); chip.classList.add('selected'); }
-          });
-          chipsEl.appendChild(chip);
-        });
-        groupEl.appendChild(chipsEl);
-        foodList.appendChild(groupEl);
-      });
-
-      toggleInput.addEventListener('change', () => {
-        eatAll = toggleInput.checked;
-        if (eatAll) foodList.classList.add('food-list-disabled');
-        else foodList.classList.remove('food-list-disabled');
-      });
-
-      wrapper.appendChild(foodList);
-      questionInputContainer.appendChild(wrapper);
-      nextBtn.textContent = 'הבא';
-      nextBtn.style.fontSize = '';
-      nextBtn.style.padding = '';
-      nextBtn.style.whiteSpace = '';
-      prevBtn.disabled = false;
-    }
-
-    function getInputValue() {
-      const question = questions[currentQuestionIndex];
-      if (question.type === 'select') {
-        return answers[question.key];
-      }
-      const input = document.getElementById('questionInput');
-      return input ? input.value : null;
-    }
-
-    nextBtn.addEventListener('click', () => {
-      if (phase === 'food') {
-        phase = 'personality';
-        personalityIndex = 0;
-        renderPersonalityQuestion();
-        return;
-      }
-
-      if (phase === 'personality') {
-        if (!personalityAnswers[personalityQuestions[personalityIndex].key]) return;
-        if (personalityIndex < personalityQuestions.length - 1) {
-          personalityIndex++;
-          renderPersonalityQuestion();
-        } else {
-          showResults();
-        }
-        return;
-      }
-
-      const value = getInputValue();
-      if (!value) return;
-
-      answers[questions[currentQuestionIndex].key] = value;
-
-      if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        renderQuestion();
-        return;
-      }
-
-      phase = 'food';
-      foodIndex = 0;
-      renderFoodQuestion();
-    });
-
-    prevBtn.addEventListener('click', () => {
-      if (phase === 'food') {
-        phase = 'calc';
-        renderQuestion();
-        return;
-      }
-      if (phase === 'personality') {
-        if (personalityIndex > 0) {
-          personalityIndex--;
-          renderPersonalityQuestion();
-        } else {
-          phase = 'food';
-          foodIndex = 0;
-          renderFoodQuestion();
-        }
-        return;
-      }
-      if (currentQuestionIndex === 0) return;
-      currentQuestionIndex--;
-      renderQuestion();
-    });
-
-    function countUp(el, target, duration) {
+      // Animated count-up
+      const el = document.getElementById('bmiValue');
+      const duration = 900;
       const startTime = performance.now();
-      function update(now) {
+      (function update(now) {
         const p = Math.min((now - startTime) / duration, 1);
         const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(eased * target).toLocaleString('he-IL');
+        el.textContent = (eased * rounded).toFixed(1);
         if (p < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
+      })(performance.now());
+
+      document.getElementById('bmiCategory').textContent = category;
+      document.getElementById('bmiDesc').textContent = desc;
     }
 
-    function animateRing(el, pct) {
-      const C = 314.16;
-      const targetOffset = C * (1 - Math.min(pct, 100) / 100);
-      const startTime = performance.now();
-      function update(now) {
-        const p = Math.min((now - startTime) / 1500, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.style.strokeDashoffset = C - eased * (C - targetOffset);
-        if (p < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
+    // ── Step 5: Lead submission ───────────────────────────────────────────────
+    function submitLead() {
+      const nameEl  = document.getElementById('leadName');
+      const phoneEl = document.getElementById('leadPhone');
+      let valid = true;
+
+      [nameEl, phoneEl].forEach(el => el.classList.remove('error'));
+
+      if (!nameEl.value.trim())  { nameEl.classList.add('error');  valid = false; }
+      if (!phoneEl.value.trim()) { phoneEl.classList.add('error'); valid = false; }
+      if (!valid) return;
+
+      console.log('Lead:', {
+        name:     nameEl.value.trim(),
+        phone:    phoneEl.value.trim(),
+        email:    document.getElementById('leadEmail').value.trim(),
+        goal:     answers.goal,
+        activity: answers.activity,
+        height:   answers.height,
+        weight:   answers.weight,
+        bmi:      +(answers.weight / Math.pow(answers.height / 100, 2)).toFixed(1),
+      });
+
+      renderPlan();
+      goTo(6);
     }
 
-    function showResults() {
-      const calcPanel = document.getElementById('calculatorPanel');
-      calcPanel.style.transition = 'opacity 0.4s ease';
-      calcPanel.style.opacity = '0';
-      setTimeout(() => { calcPanel.style.display = 'none'; }, 400);
+    // ── Step 6: Plan rendering ────────────────────────────────────────────────
+    const mealData = {
+      breakfast: [
+        { lbl: 'אופציה 1', fn: t => `חביתת 3-4 ביצים + ${t < 1900 ? '1 פרוסת' : '2 פרוסות'} לחם מלא + ${t > 2200 ? 'אבוקדו שלם' : '½ אבוקדו'}` },
+        { lbl: 'אופציה 2', fn: t => `יוגורט יווני (${t < 1900 ? '½ כוס' : '¾ כוס'}) + ½ כוס גרנולה + פירות יער + כפית דבש` },
+        { lbl: 'אופציה 3', fn: t => `שייק חלבון (${t < 2000 ? '1 סקופ' : '2 סקופים'}) + ${t < 1900 ? '⅓ כוס' : '½ כוס'} שיבולת שועל + בננה + כף חמאת בוטנים` },
+      ],
+      lunch: [
+        { lbl: 'אופציה 1', fn: t => `חזה עוף ${t < 1900 ? '1 חתיכה' : t > 2200 ? '2 חתיכות' : '1.5 חתיכות'} + ${t < 1900 ? '½ כוס' : '1 כוס'} אורז + ירקות מוקפצים` },
+        { lbl: 'אופציה 2', fn: t => `סלמון אפוי ${t < 1900 ? '1 חתיכה' : '1.5 חתיכות'} + ${t < 2000 ? '½ כוס' : '1 כוס'} קינואה + ברוקולי` },
+        { lbl: 'אופציה 3', fn: t => `נתח בקר רזה ${t < 1900 ? '1 חתיכה' : '1.5 חתיכות'} + תפוח אדמה אפוי + סלט גדול` },
+      ],
+      dinner: [
+        { lbl: 'אופציה 1', fn: t => `טונה (${t < 1900 ? '1 פחית' : '1.5 פחיות'}) + סלט גדול + ${t > 2200 ? '3 פרוסות' : '2 פרוסות'} לחם מלא` },
+        { lbl: 'אופציה 2', fn: t => `חזה הודו/עוף ${t < 1900 ? '1 חתיכה' : '1.5 חתיכות'} + ${t < 1900 ? '½ בטטה' : '1 בטטה'} + ירקות` },
+        { lbl: 'אופציה 3', fn: t => `קציצות בקר רזה ${t < 1900 ? '2 יחידות' : '3 יחידות'} + ${t < 1900 ? '½ כוס' : '1 כוס'} פסטה מלאה` },
+      ],
+      snack: [
+        { lbl: 'אופציה 1', fn: t => `שייק חלבון (${t < 2000 ? '1 סקופ' : '2 סקופים'}) + חופן שקדים` },
+        { lbl: 'אופציה 2', fn: () => `קוטג' + פרי` },
+      ],
+    };
 
-      const age = Number(answers.age);
-      const height = Number(answers.height);
-      const weight = Number(answers.weight);
-      const activity = Number(answers.activity);
-      const goal = answers.goal;
-      const meals = Number(answers.meals);
+    const nutritionPrinciples = {
+      cut: [
+        { icon: '🥩', text: 'חלבון בכל ארוחה — לאכול עד תחושת שובע של 70-80%' },
+        { icon: '🥦', text: 'ירקות ירוקים חופשי + עד 3 פירות ביום' },
+        { icon: '⚡', text: 'רוב הפחמימה מסביב לאימון' },
+        { icon: '💧', text: '3-4 ליטר מים ביום' },
+        { icon: '🚶', text: 'בצע הליכה של 30 דקות, 4 פעמים בשבוע' },
+        { icon: '📅', text: 'תוצאות לוקחות זמן — שבוע-שבועיים לא פקטור. להישאר עקבי.' },
+      ],
+      bulk: [
+        { icon: '🥩', text: 'חלבון בכל ארוחה — פרוס על כל היום' },
+        { icon: '⚡', text: 'עודף קלורי מבוקר — לא לזלול' },
+        { icon: '🕐', text: 'פחמימה מסביב לאימון' },
+        { icon: '🌙', text: "ארוחה לפני שינה עם חלבון איטי (קוטג'/קזאין)" },
+        { icon: '⏰', text: 'לא לדלג על ארוחות — עקביות היא המפתח' },
+      ],
+    };
 
-      const bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-      const tdee = Math.round(bmr * activity);
-      const factor = goal === 'cut' ? 0.8 : goal === 'bulk' ? 1.1 : 1.0;
-      const target = Math.round(tdee * factor);
+    function renderPlan() {
+      const { goal, activity, height, weight } = answers;
+      const bmr    = 10 * weight + 6.25 * height - 5 * 35 + 5;
+      const tdee   = Math.round(bmr * (+activity || 1.375));
+      const target = Math.round(tdee * (goal === 'bulk' ? 1.1 : 0.8));
       const protein = Math.round(weight * 2);
-      const fat = Math.round(weight * 0.9);
-      const carbs = Math.round(Math.max(0, (target - protein * 4 - fat * 9) / 4));
+      const fat     = Math.round(weight * 0.9);
+      const carbs   = Math.max(0, Math.round((target - protein * 4 - fat * 9) / 4));
+      const goalLabel = goal === 'bulk' ? 'עלייה במסה' : 'חיטוב';
+      const principles = nutritionPrinciples[goal] || nutritionPrinciples.cut;
 
-      countUp(document.getElementById('tdeeValue'), tdee, 1500);
-      countUp(document.getElementById('targetValue'), target, 1500);
-      countUp(document.getElementById('proteinValue'), protein, 1500);
-      countUp(document.getElementById('carbsValue'), carbs, 1500);
-      countUp(document.getElementById('fatValue'), fat, 1500);
+      const meals = [
+        { title: '🌅 ארוחת בוקר', key: 'breakfast' },
+        { title: '☀️ ארוחת צהריים', key: 'lunch' },
+        { title: '🌙 ארוחת ערב', key: 'dinner' },
+        { title: '🍎 נשנוש', key: 'snack' },
+      ];
 
-      animateRing(document.getElementById('proteinRing'), (protein * 4 / target) * 100);
-      animateRing(document.getElementById('carbsRing'), (carbs * 4 / target) * 100);
-      animateRing(document.getElementById('fatRing'), (fat * 9 / target) * 100);
+      const mealsHTML = meals.map(m =>
+        `<div class="meal-block">
+          <h4 class="meal-block-title">${m.title}</h4>
+          ${mealData[m.key].map(o =>
+            `<div class="meal-opt"><span class="meal-opt-label">${o.lbl}</span>${o.fn(target)}</div>`
+          ).join('')}
+        </div>`
+      ).join('');
 
-      resultSection.style.display = 'block';
-      mealPlanSection.style.display = 'block';
-      principlesSection.style.display = 'block';
-      videoSection.style.display = 'block';
-      leadFormSection.classList.add('active');
+      const tipsHTML = principles.map(p =>
+        `<div class="tip-item"><span class="tip-icon">${p.icon}</span><span class="tip-text">${p.text}</span></div>`
+      ).join('');
 
-      renderMealPlan(meals, target);
-      renderPrinciples(goal);
-      setupVideoObserver();
-    }
+      document.getElementById('planDoc').innerHTML = `
+        <div style="text-align:center;display:grid;gap:14px;">
+          <div class="logo-sm" style="justify-content:center;">
+            <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+              <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+              <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+              <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+              <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+            </svg>
+            <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
+          </div>
+          <h2 style="margin:0;font-size:clamp(1.3rem,4.5vw,1.8rem);font-weight:700;line-height:1.25;">
+            התוכנית האישית שלך
+          </h2>
+          <div style="display:inline-flex;align-items:center;gap:8px;justify-content:center;background:rgba(61,240,255,0.1);border:1px solid rgba(61,240,255,0.3);border-radius:99px;padding:6px 20px;font-size:0.88rem;font-weight:700;color:#8AFFD6;">
+            מטרה: ${goalLabel}
+          </div>
+        </div>
 
-    function renderMealPlan(meals, target) {
-      const withSnacks = answers.snacks === 'yes';
-      const blocks = [];
-      blocks.push(createMealBlock('בוקר', mealTemplates.breakfast, target));
-      blocks.push(createMealBlock('צהריים', mealTemplates.lunch, target));
-      if (meals >= 4) {
-        blocks.push(withSnacks
-          ? createMealBlock('נשנוש', mealTemplates.snack, target)
-          : createMealBlock('ארוחת ביניים', mealTemplates.lunch, target));
-      }
-      if (meals === 5) {
-        blocks.push(withSnacks
-          ? createMealBlock('נשנוש נוסף', mealTemplates.snack, target)
-          : createMealBlock('ארוחה נוספת', mealTemplates.dinner, target));
-      }
-      blocks.push(createMealBlock('ערב', mealTemplates.dinner, target));
-      mealBlocks.innerHTML = blocks.join('');
-    }
+        <div class="plan-section">
+          <div class="plan-section-header">יעדי תזונה יומיים</div>
+          <div class="calorie-row">
+            <span class="calorie-label">יעד קלורי יומי</span>
+            <span class="calorie-val">${target.toLocaleString('he-IL')} קק&quot;ל</span>
+          </div>
+          <div class="macro-row">
+            <div class="macro-item"><span class="macro-val">${protein}</span><span class="macro-unit">חלבון (ג')</span></div>
+            <div class="macro-item"><span class="macro-val">${carbs}</span><span class="macro-unit">פחמימות (ג')</span></div>
+            <div class="macro-item"><span class="macro-val">${fat}</span><span class="macro-unit">שומן (ג')</span></div>
+          </div>
+        </div>
 
-    function createMealBlock(title, options, target) {
-      const shown = eatAll
-        ? options.slice(0, 3)
-        : [...options].sort((a, b) => b.foods.filter(f => likedFoods.has(f)).length - a.foods.filter(f => likedFoods.has(f)).length).slice(0, 3);
-      return `
-        <div class="meal-block">
-          <h3>${title}</h3>
-          <div class="meal-options">
-            ${shown.map((opt, i) => `<div class="meal-option"><strong style="display:block; font-size:0.78rem; color:#8AFFD6; margin-bottom:5px; font-family:'JetBrains Mono',monospace; letter-spacing:0.06em;">אופציה ${i + 1}</strong>${opt.fn(target)}</div>`).join('')}
+        <div class="plan-section">
+          <div class="plan-section-header">תפריט יום לדוגמה</div>
+          ${mealsHTML}
+        </div>
+
+        <div class="plan-section">
+          <div class="plan-section-header">דגשי תזונה</div>
+          ${tipsHTML}
+        </div>
+
+        <div class="plan-section">
+          <div class="plan-section-header">תוכנית אימונים</div>
+          <div style="text-align:center;padding:28px 16px;color:#6B8299;font-size:0.95rem;line-height:1.75;">
+            <div style="font-size:2rem;margin-bottom:10px;">🏋️</div>
+            תוכנית האימונים המלאה תישלח אליך למייל
           </div>
         </div>
       `;
     }
 
-    function renderPrinciples(goal) {
-      const items = goalPrinciples[goal].map(point => `<li>${point}</li>`).join('');
-      goalPrinciplesBlock.innerHTML = `<ul>${items}</ul>`;
+    // ── Step 7: Upsell ────────────────────────────────────────────────────────
+    function goToUpsell() {
+      const name  = (document.getElementById('leadName')?.value  || '').trim();
+      const phone = (document.getElementById('leadPhone')?.value || '').trim();
+      document.getElementById('upsellName').value  = name;
+      document.getElementById('upsellPhone').value = phone;
+      goTo(7);
     }
 
-    document.getElementById('leadSubmitBtn').addEventListener('click', () => {
-      const name = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      if (!name || !email || !phone) {
-        alert('אנא מלא/י שם מלא, מייל וטלפון.');
+    function submitUpsell() {
+      const consentRow = document.getElementById('upsellConsentRow');
+      const consent    = document.getElementById('upsellConsent');
+      if (!consent.checked) {
+        consentRow.style.borderColor = '#ff6b6b';
+        consentRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
-      alert('הטופס זמני. חיבור לשרת יתווסף בהמשך.');
-    });
-
-    let modalShown = false;
-
-    function showModal() {
-      if (modalShown) return;
-      modalShown = true;
-      document.getElementById('leadModal').style.display = 'grid';
+      consentRow.style.borderColor = '';
+      console.log('Upsell:', {
+        name:   document.getElementById('upsellName').value,
+        phone:  document.getElementById('upsellPhone').value,
+        time:   document.getElementById('upsellTime').value,
+        reason: document.getElementById('upsellReason').value,
+      });
+      // TODO: POST to webhook
+      document.querySelector('#step-7 .button').textContent = '✅ קיבלנו! נחזור אליך בקרוב';
+      document.querySelector('#step-7 .button').disabled = true;
     }
-
-    function setupVideoObserver() {
-      let wasVisible = false;
-      const videoEl = document.getElementById('videoSection');
-      if (!videoEl) return;
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) wasVisible = true;
-          else if (wasVisible) { showModal(); obs.disconnect(); }
-        });
-      }, { threshold: 0.2 });
-      obs.observe(videoEl);
-    }
-
-    document.getElementById('modalCloseBtn').addEventListener('click', () => {
-      document.getElementById('leadModal').style.display = 'none';
-    });
-
-    document.getElementById('modalSubmitBtn').addEventListener('click', () => {
-      const name = document.getElementById('modalName').value.trim();
-      const email = document.getElementById('modalEmail').value.trim();
-      const phone = document.getElementById('modalPhone').value.trim();
-      if (!name || !email || !phone) {
-        alert('אנא מלא/י שם מלא, מייל וטלפון.');
-        return;
-      }
-      document.getElementById('leadModal').style.display = 'none';
-      alert('הטופס זמני. חיבור לשרת יתווסף בהמשך.');
-    });
-
-    document.getElementById('startBtn').addEventListener('click', () => {
-      document.getElementById('welcomeScreen').style.display = 'none';
-      document.getElementById('titleSection').style.display = 'block';
-      document.getElementById('calculatorPanel').style.display = 'block';
-    });
-
-    renderQuestion();
   </script>
 </body>
 </html>
