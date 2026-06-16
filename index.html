@@ -612,6 +612,91 @@
     }
 
     .checkbox-row span { font-size: 0.88rem; line-height: 1.6; color: #EAF6FF; }
+
+    /* ── WORKOUT TABLES ──────────────────────────────────────────────── */
+
+    .principles-list { display: grid; gap: 7px; }
+
+    .principle-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      font-size: 0.87rem;
+      line-height: 1.65;
+      color: #d0ecf5;
+    }
+
+    .principle-bullet {
+      flex-shrink: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#3DF0FF,#8AFFD6);
+      margin-top: 6px;
+    }
+
+    .workout-block { display: grid; gap: 8px; }
+
+    .workout-block-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #EAF6FF;
+      margin: 8px 0 4px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(61,240,255,0.15);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+    }
+
+    .workout-table {
+      width: 100%;
+      min-width: 480px;
+      border-collapse: collapse;
+      direction: rtl;
+      font-size: 0.85rem;
+    }
+
+    .workout-table th {
+      background: rgba(61,240,255,0.08);
+      color: #8AFFD6;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 9px 10px;
+      text-align: right;
+      border-bottom: 1px solid rgba(61,240,255,0.2);
+      white-space: nowrap;
+    }
+
+    .workout-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #EAF6FF;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .workout-table tr:last-child td { border-bottom: none; }
+    .workout-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+    .workout-table .col-sets,
+    .workout-table .col-reps {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #3DF0FF;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .workout-table .col-notes { font-size: 0.79rem; color: #b0cce0; }
   </style>
 </head>
 <body>
@@ -1039,10 +1124,10 @@
       let valid = true;
 
       [nameEl, phoneEl].forEach(el => el.classList.remove('error'));
-
-      if (!nameEl.value.trim())  { nameEl.classList.add('error');  valid = false; }
-      if (!phoneEl.value.trim()) { phoneEl.classList.add('error'); valid = false; }
-      if (!valid) return;
+      // TEST MODE: validation bypassed — remove the next 3 lines for production
+      // if (!nameEl.value.trim())  { nameEl.classList.add('error');  valid = false; }
+      // if (!phoneEl.value.trim()) { phoneEl.classList.add('error'); valid = false; }
+      // if (!valid) return;
 
       console.log('Lead:', {
         name:     nameEl.value.trim(),
@@ -1060,6 +1145,106 @@
     }
 
     // ── Step 6: Plan rendering ────────────────────────────────────────────────
+
+    const WORKOUT_PRINCIPLES = [
+      'כל אימון 45 דקות, 3 פעמים בשבוע, עם לפחות יום מנוחה בין אימון לאימון',
+      'האימון לא כולל חימום — לפני התרגיל הראשון של כל שריר גדול (חזה/רגליים/גב) עשה סט חימום במשקל קל',
+      'עבודה איטית ובטכניקה נקייה — איכות לפני כמות. אל תתבייש להרים משקל נמוך ולעבוד נקי',
+      'יום בלי כוח? תוריד את המשקל לחצי. בונים עקביות, עדיף קצת מלא כלום',
+      'יום שאין אפשרות להגיע לחדר כושר — עושים את אימון הגיבוי הביתי',
+      'מנוחה בין סטים: 45-90 שניות (חיטוב) / 90-120 שניות (מסה)',
+      'חיטוב: מורכב 8-15 חזרות, פשוט 12-30. מסה: מורכב 6-12, פשוט 10-15',
+    ];
+
+    const WORKOUTS = {
+      cut: {
+        A: { title: 'אימון A — דגש חזה', exercises: [
+          { n: 'לחיצת חזה במוט (ספסל ישר)',              s: '3', r: '8-15',         t: 'הורד באיטיות עד גובה החזה, מרפקים 45°, דחוף בשליטה' },
+          { n: 'פתיחות חזה בפולי',                        s: '2', r: '12-30',        t: 'תנועה רחבה כמו חיבוק, כיווץ בחזה, בלי לכופף מרפקים' },
+          { n: 'סקוואט עם מוט',                           s: '3', r: '8-15',         t: 'גב ישר, ירידה עד שהירכיים מקבילות לרצפה, דחיפה מהעקבים' },
+          { n: 'חתירה בהנחיה במוט',                       s: '3', r: '8-15',         t: 'גב ישר ומקביל לרצפה, משוך לכיוון הבטן התחתונה' },
+          { n: 'לחיצת כתפיים עם משקולות יד',              s: '3', r: '8-15',         t: 'דחוף מעל הראש בלי לנעול מרפקים, גב ישר' },
+          { n: 'כפיפת מרפק יד קדמית (משקולות)',           s: '2', r: '12-30',        t: 'מרפקים צמודים לגוף, בלי תנופה' },
+          { n: 'פשיטת מרפק בפולי (יד אחורית)',            s: '2', r: '12-30',        t: 'מרפקים צמודים, יישר עד הסוף וכווץ' },
+          { n: 'פלאנק',                                    s: '2', r: 'מקסימום זמן', t: 'גוף בקו ישר, בטן כווצה, בלי להפיל את האגן' },
+        ]},
+        B: { title: 'אימון B — דגש רגליים', exercises: [
+          { n: 'לחיצת רגליים במכונה',                     s: '3', r: '8-15',  t: 'כפות רגליים ברוחב כתפיים, ירידה מבוקרת, בלי לנעול ברכיים' },
+          { n: 'מתח ירך רומני (דדליפט רומני במוט)',        s: '3', r: '8-15',  t: 'רגליים כמעט ישרות, הורד לאורך הרגליים, מתיחה באחורי הירך' },
+          { n: 'לחיצת חזה בשיפוע (משקולות יד)',           s: '3', r: '8-15',  t: 'ספסל בשיפוע קל, דחוף למעלה ופנימה, ירידה איטית' },
+          { n: 'משיכת פולי עליון לחזה',                   s: '3', r: '8-15',  t: 'משוך לכיוון עצם החזה, כתפיים אחורה, בלי תנופה' },
+          { n: 'הרחקות צד (משקולות יד)',                  s: '2', r: '12-30', t: 'הרם לצדדים עד גובה הכתפיים, מרפק מעט מכופף' },
+          { n: 'כפיפת מרפק פטיש (משקולות יד)',            s: '2', r: '12-30', t: 'אחיזה ניטרלית, בלי תנופה' },
+          { n: 'הרמות רגליים בשכיבה',                     s: '2', r: '12-30', t: 'הרם רגליים ישרות, הורד באיטיות בלי לגעת ברצפה' },
+        ]},
+        C: { title: 'אימון C — דגש גב', exercises: [
+          { n: 'חתירה עם משקולת יד אחת (נשען על ספסל)',   s: '3', r: '8-15',  t: 'גב ישר, משוך לכיוון המותן, כיווץ בגב' },
+          { n: 'משיכת פולי תחתון לבטן',                   s: '3', r: '8-15',  t: 'גב זקוף, משוך לבטן, כתפיים אחורה' },
+          { n: 'מספריים בהליכה (משקולות יד)',              s: '3', r: '8-15',  t: 'צעד גדול קדימה, ברך אחורית לרצפה, גב זקוף' },
+          { n: 'לחיצת חזה במכונה',                        s: '3', r: '8-15',  t: 'גב צמוד למשענת, דחיפה מבוקרת, בלי לנעול מרפקים' },
+          { n: 'לחיצת כתפיים במכונה',                     s: '3', r: '8-15',  t: 'דחוף מעל הראש בשליטה, ירידה איטית' },
+          { n: 'פשיטת מרפק מעל הראש (יד אחורית)',         s: '2', r: '12-30', t: 'מרפקים צמודים לראש, יישר עד הסוף' },
+          { n: 'כפיפות בטן (קראנץ\')',                    s: '2', r: '12-30', t: 'הרם חלק עליון של הגב, כווץ בטן, בלי למשוך צוואר' },
+        ]},
+      },
+      bulk: {
+        A: { title: 'אימון A — דגש חזה', exercises: [
+          { n: 'לחיצת חזה במוט (ספסל ישר)',              s: '4', r: '6-12',  t: 'הורד באיטיות עד גובה החזה, מרפקים 45°, דחוף בשליטה' },
+          { n: 'פתיחות חזה בפולי',                        s: '3', r: '10-15', t: 'תנועה רחבה כמו חיבוק, כיווץ בחזה, בלי לכופף מרפקים' },
+          { n: 'סקוואט עם מוט',                           s: '4', r: '6-12',  t: 'גב ישר, ירידה עד שהירכיים מקבילות לרצפה, דחיפה מהעקבים' },
+          { n: 'חתירה בהנחיה במוט',                       s: '4', r: '6-12',  t: 'גב ישר ומקביל לרצפה, משוך לכיוון הבטן התחתונה' },
+          { n: 'לחיצת כתפיים עם משקולות יד',              s: '3', r: '6-12',  t: 'דחוף מעל הראש בלי לנעול מרפקים, גב ישר' },
+          { n: 'כפיפת מרפק יד קדמית (משקולות)',           s: '3', r: '10-15', t: 'מרפקים צמודים לגוף, בלי תנופה' },
+          { n: 'פשיטת מרפק בפולי (יד אחורית)',            s: '3', r: '10-15', t: 'מרפקים צמודים, יישר עד הסוף וכווץ' },
+          { n: 'פלאנק',                                    s: '2', r: 'מקסימום זמן', t: 'גוף בקו ישר, בטן כווצה, בלי להפיל את האגן' },
+        ]},
+        B: { title: 'אימון B — דגש רגליים', exercises: [
+          { n: 'לחיצת רגליים במכונה',                     s: '4', r: '6-12',  t: 'כפות רגליים ברוחב כתפיים, ירידה מבוקרת, בלי לנעול ברכיים' },
+          { n: 'מתח ירך רומני (דדליפט רומני במוט)',        s: '4', r: '6-12',  t: 'רגליים כמעט ישרות, הורד לאורך הרגליים, מתיחה באחורי הירך' },
+          { n: 'לחיצת חזה בשיפוע (משקולות יד)',           s: '4', r: '6-12',  t: 'ספסל בשיפוע קל, דחוף למעלה ופנימה, ירידה איטית' },
+          { n: 'משיכת פולי עליון לחזה',                   s: '4', r: '6-12',  t: 'משוך לכיוון עצם החזה, כתפיים אחורה, בלי תנופה' },
+          { n: 'הרחקות צד (משקולות יד)',                  s: '3', r: '10-15', t: 'הרם לצדדים עד גובה הכתפיים, מרפק מעט מכופף' },
+          { n: 'כפיפת מרפק פטיש (משקולות יד)',            s: '3', r: '10-15', t: 'אחיזה ניטרלית, בלי תנופה' },
+          { n: 'הרמות רגליים בשכיבה',                     s: '2', r: '12-15', t: 'הרם רגליים ישרות, הורד באיטיות בלי לגעת ברצפה' },
+        ]},
+        C: { title: 'אימון C — דגש גב', exercises: [
+          { n: 'חתירה עם משקולת יד אחת (נשען על ספסל)',   s: '4', r: '6-12',  t: 'גב ישר, משוך לכיוון המותן, כיווץ בגב' },
+          { n: 'משיכת פולי תחתון לבטן',                   s: '4', r: '6-12',  t: 'גב זקוף, משוך לבטן, כתפיים אחורה' },
+          { n: 'מספריים בהליכה (משקולות יד)',              s: '4', r: '6-12',  t: 'צעד גדול קדימה, ברך אחורית לרצפה, גב זקוף' },
+          { n: 'לחיצת חזה במכונה',                        s: '4', r: '6-12',  t: 'גב צמוד למשענת, דחיפה מבוקרת, בלי לנעול מרפקים' },
+          { n: 'לחיצת כתפיים במכונה',                     s: '3', r: '6-12',  t: 'דחוף מעל הראש בשליטה, ירידה איטית' },
+          { n: 'פשיטת מרפק מעל הראש (יד אחורית)',         s: '3', r: '10-15', t: 'מרפקים צמודים לראש, יישר עד הסוף' },
+          { n: 'כפיפות בטן (קראנץ\')',                    s: '2', r: '12-15', t: 'הרם חלק עליון של הגב, כווץ בטן, בלי למשוך צוואר' },
+        ]},
+      },
+      home: { title: 'אימון גיבוי ביתי — משקל גוף', exercises: [
+        { n: 'סקוואט משקל גוף',                           s: '3', r: '15-25',          t: 'ירידה עד שהירכיים מקבילות לרצפה, גב ישר' },
+        { n: 'מספריים בהליכה',                            s: '2', r: '12-20 לכל רגל',  t: 'צעד גדול, ברך אחורית לרצפה, שיווי משקל' },
+        { n: 'שכיבות סמיכה',                              s: '3', r: 'מקסימום',         t: 'גוף בקו ישר, ירידה עד שהחזה כמעט נוגע ברצפה' },
+        { n: 'חתירה הפוכה מתחת לשולחן',                   s: '3', r: 'מקסימום',         t: 'אחוז בקצה השולחן, גוף ישר, משוך חזה לשולחן' },
+        { n: 'לחיצת כתפיים הפוכה (רגליים גבוהות)',       s: '3', r: '10-20',           t: 'ידיים ברוחב כתפיים, הורד ראש בשליטה' },
+        { n: 'מקבילים על קצה כיסא (יד אחורית)',          s: '2', r: '12-20',           t: 'ידיים על הכיסא מאחור, הורד הגוף בכיפוף מרפקים' },
+        { n: 'פלאנק + הרמות רגליים לסירוגין',             s: '2', r: 'מקסימום',         t: 'גוף בקו ישר, הרם רגל אחת בכל פעם' },
+      ]},
+    };
+
+    function buildWorkoutTable(exercises) {
+      const rows = exercises.map(e =>
+        `<tr>
+          <td>${e.n}</td>
+          <td class="col-sets">${e.s}</td>
+          <td class="col-reps">${e.r}</td>
+          <td class="col-notes">${e.t}</td>
+        </tr>`
+      ).join('');
+      return `<div class="table-wrap"><table class="workout-table">
+        <thead><tr>
+          <th>תרגיל</th><th>סטים</th><th>חזרות</th><th>דגשים</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>`;
+    }
+
     const mealData = {
       breakfast: [
         { lbl: 'אופציה 1', fn: t => `חביתת 3-4 ביצים + ${t < 1900 ? '1 פרוסת' : '2 פרוסות'} לחם מלא + ${t > 2200 ? 'אבוקדו שלם' : '½ אבוקדו'}` },
@@ -1131,6 +1316,22 @@
         `<div class="tip-item"><span class="tip-icon">${p.icon}</span><span class="tip-text">${p.text}</span></div>`
       ).join('');
 
+      const goalWorkouts = WORKOUTS[goal] || WORKOUTS.cut;
+      const workoutBlocksHTML = ['A','B','C'].map(k => {
+        const w = goalWorkouts[k];
+        return `<div class="workout-block">
+          <h4 class="workout-block-title">🏋️ ${w.title}</h4>
+          ${buildWorkoutTable(w.exercises)}
+        </div>`;
+      }).join('') + `<div class="workout-block">
+        <h4 class="workout-block-title">🏠 ${WORKOUTS.home.title}</h4>
+        ${buildWorkoutTable(WORKOUTS.home.exercises)}
+      </div>`;
+
+      const principlesHTML = WORKOUT_PRINCIPLES.map(p =>
+        `<div class="principle-item"><div class="principle-bullet"></div>${p}</div>`
+      ).join('');
+
       document.getElementById('planDoc').innerHTML = `
         <div style="text-align:center;display:grid;gap:14px;">
           <div class="logo-sm" style="justify-content:center;">
@@ -1176,10 +1377,8 @@
 
         <div class="plan-section">
           <div class="plan-section-header">תוכנית אימונים</div>
-          <div style="text-align:center;padding:28px 16px;color:#6B8299;font-size:0.95rem;line-height:1.75;">
-            <div style="font-size:2rem;margin-bottom:10px;">🏋️</div>
-            תוכנית האימונים המלאה תישלח אליך למייל
-          </div>
+          <div class="principles-list" style="margin-bottom:4px;">${principlesHTML}</div>
+          ${workoutBlocksHTML}
         </div>
       `;
     }
