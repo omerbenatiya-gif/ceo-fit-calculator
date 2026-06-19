@@ -891,6 +891,15 @@
     }
 
     .workout-table .col-notes { font-size: 0.79rem; color: #b0cce0; }
+
+    /* ── QUIZ SHELL ──────────────────────────────────────────────────── */
+
+    .quiz-content { display: none; }
+
+    .quiz-content.qc-active {
+      display: block;
+      animation: stepIn 0.32s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
   </style>
 </head>
 <body>
@@ -984,144 +993,99 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 1 — GOAL
+         QUIZ SHELL — single persistent card for steps 2-5
     ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step panel" id="step-1">
+    <div id="quizShell" style="display:none;">
+      <div class="panel">
 
-      <h2 class="step-title">מה המטרה שלך?</h2>
-
-      <div class="choice-grid-2">
-        <button class="choice-card" id="goal-cut" onclick="pickGoal('cut')">
-          <span class="choice-icon">🔥</span>
-          <span class="choice-label">להתחטב</span>
-        </button>
-        <button class="choice-card" id="goal-bulk" onclick="pickGoal('bulk')">
-          <span class="choice-icon">💪</span>
-          <span class="choice-label">לעלות במסה</span>
-        </button>
-      </div>
-
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 2 — ACTIVITY
-    ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step panel" id="step-2">
-
-      <h2 class="step-title">מה רמת הפעילות שלך?</h2>
-
-      <div class="option-buttons">
-        <button class="option-button" data-activity="1.2"    onclick="pickActivity('1.2',   this)">
-          <span class="opt-icon">🪑</span> יושב רוב היום
-        </button>
-        <button class="option-button" data-activity="1.375"  onclick="pickActivity('1.375', this)">
-          <span class="opt-icon">🚶</span> פעילות קלה
-        </button>
-        <button class="option-button" data-activity="1.55"   onclick="pickActivity('1.55',  this)">
-          <span class="opt-icon">🏃</span> פעילות בינונית
-        </button>
-        <button class="option-button" data-activity="1.725"  onclick="pickActivity('1.725', this)">
-          <span class="opt-icon">⚡</span> פעילות גבוהה
-        </button>
-      </div>
-
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 3 — HEIGHT & WEIGHT
-    ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step panel" id="step-3">
-
-      <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
-
-      <div style="display:grid;gap:32px;margin-bottom:32px;">
-
-        <!-- Height -->
-        <div class="range-control">
-          <div class="slider-row">
-            <span class="slider-label">גובה</span>
-            <span class="slider-val" id="heightDisplay">175 ס"מ</span>
-          </div>
-          <input type="range" id="heightSlider" min="150" max="210" step="1" value="175"
-                 oninput="onSlider('height', this.value, 'heightDisplay', ' ס&quot;מ')" />
-          <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
-            <span>150</span><span>210</span>
+        <!-- ── Step 2: Activity ──────────────────────────────────────── -->
+        <div class="quiz-content" id="qc-2">
+          <h2 class="step-title">מה רמת הפעילות שלך?</h2>
+          <div class="option-buttons">
+            <button class="option-button" data-activity="1.2"    onclick="pickActivity('1.2',   this)">
+              <span class="opt-icon">🪑</span> יושב רוב היום
+            </button>
+            <button class="option-button" data-activity="1.375"  onclick="pickActivity('1.375', this)">
+              <span class="opt-icon">🚶</span> פעילות קלה
+            </button>
+            <button class="option-button" data-activity="1.55"   onclick="pickActivity('1.55',  this)">
+              <span class="opt-icon">🏃</span> פעילות בינונית
+            </button>
+            <button class="option-button" data-activity="1.725"  onclick="pickActivity('1.725', this)">
+              <span class="opt-icon">⚡</span> פעילות גבוהה
+            </button>
           </div>
         </div>
 
-        <!-- Weight -->
-        <div class="range-control">
-          <div class="slider-row">
-            <span class="slider-label">משקל</span>
-            <span class="slider-val" id="weightDisplay">78 ק"ג</span>
+        <!-- ── Step 3: Height & Weight ──────────────────────────────── -->
+        <div class="quiz-content" id="qc-3">
+          <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
+          <div style="display:grid;gap:32px;margin-bottom:32px;">
+            <div class="range-control">
+              <div class="slider-row">
+                <span class="slider-label">גובה</span>
+                <span class="slider-val" id="heightDisplay">175 ס"מ</span>
+              </div>
+              <input type="range" id="heightSlider" min="150" max="210" step="1" value="175"
+                     oninput="onSlider('height', this.value, 'heightDisplay', ' ס&quot;מ')" />
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
+                <span>150</span><span>210</span>
+              </div>
+            </div>
+            <div class="range-control">
+              <div class="slider-row">
+                <span class="slider-label">משקל</span>
+                <span class="slider-val" id="weightDisplay">78 ק"ג</span>
+              </div>
+              <input type="range" id="weightSlider" min="45" max="150" step="1" value="78"
+                     oninput="onSlider('weight', this.value, 'weightDisplay', ' ק&quot;ג')" />
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
+                <span>45</span><span>150</span>
+              </div>
+            </div>
           </div>
-          <input type="range" id="weightSlider" min="45" max="150" step="1" value="78"
-                 oninput="onSlider('weight', this.value, 'weightDisplay', ' ק&quot;ג')" />
-          <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
-            <span>45</span><span>150</span>
+          <button class="button" onclick="goToBmi()">המשך</button>
+        </div>
+
+        <!-- ── Step 4: BMI Result ────────────────────────────────────── -->
+        <div class="quiz-content" id="qc-4">
+          <div style="display:grid;gap:24px;">
+            <div class="bmi-card">
+              <div class="bmi-eyebrow">מדד BMI שלך</div>
+              <div class="bmi-number" id="bmiValue">—</div>
+              <div class="bmi-category" id="bmiCategory"></div>
+              <p class="bmi-desc" id="bmiDesc"></p>
+            </div>
+            <button class="button" onclick="goTo(5)">
+              קבל את התוכנית שלי ←
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Step 5: Lead Capture ──────────────────────────────────── -->
+        <div class="quiz-content" id="qc-5">
+          <div style="display:grid;gap:22px;">
+            <h2 class="step-title" style="margin-bottom:4px;">הפרופיל שלך מוכן!</h2>
+            <p style="margin:0;font-size:1rem;line-height:1.8;color:#EAF6FF;text-align:center;">
+              בדיוק כמו בעסק — את הדברים החשובים נותנים למי שיודע. השאר פרטים ותקבל גישה להדרכה + ייעוץ אישי.
+            </p>
+            <div class="divider"></div>
+            <div style="display:grid;gap:12px;">
+              <input class="lead-input" id="leadName"  type="text" placeholder="שם מלא *" />
+              <input class="lead-input" id="leadPhone" type="tel"  placeholder="טלפון *" />
+              <input class="lead-input" id="leadEmail" type="email" placeholder="מייל" />
+            </div>
+            <button class="button" onclick="submitLead()">
+              אני רוצה לקבל את התוכנית שלי ←
+            </button>
+            <p style="text-align:center;color:#6B8299;font-size:0.88rem;margin:0;">
+              ✓ ללא התחייבות &nbsp;•&nbsp; ✓ הפרטים שלך מוגנים
+            </p>
           </div>
         </div>
 
       </div>
-
-      <button class="button" onclick="goToBmi()">המשך</button>
-
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 4 — BMI RESULT
-    ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step panel" id="step-4">
-
-      <div style="display:grid;gap:24px;">
-
-        <div class="bmi-card">
-          <div class="bmi-eyebrow">מדד BMI שלך</div>
-          <div class="bmi-number" id="bmiValue">—</div>
-          <div class="bmi-category" id="bmiCategory"></div>
-          <p class="bmi-desc" id="bmiDesc"></p>
-        </div>
-
-        <button class="button" onclick="goTo(5)">
-          קבל את התוכנית שלי ←
-        </button>
-
-      </div>
-
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 5 — LEAD CAPTURE
-    ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step panel" id="step-5">
-
-      <div style="display:grid;gap:22px;">
-
-        <h2 class="step-title" style="margin-bottom:4px;">הפרופיל שלך מוכן!</h2>
-
-        <p style="margin:0;font-size:1rem;line-height:1.8;color:#EAF6FF;text-align:center;">
-          בדיוק כמו בעסק — את הדברים החשובים נותנים למי שיודע. השאר פרטים ותקבל גישה להדרכה + ייעוץ אישי.
-        </p>
-
-        <div class="divider"></div>
-
-        <div style="display:grid;gap:12px;">
-          <input class="lead-input" id="leadName"  type="text" placeholder="שם מלא *" />
-          <input class="lead-input" id="leadPhone" type="tel"  placeholder="טלפון *" />
-          <input class="lead-input" id="leadEmail" type="email" placeholder="מייל" />
-        </div>
-
-        <button class="button" onclick="submitLead()">
-          אני רוצה לקבל את התוכנית שלי ←
-        </button>
-
-        <p style="text-align:center;color:#6B8299;font-size:0.88rem;margin:0;">
-          ✓ ללא התחייבות &nbsp;•&nbsp; ✓ הפרטים שלך מוגנים
-        </p>
-
-      </div>
-
-    </section>
+    </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
          STEP 6 — THANK YOU
@@ -1205,14 +1169,30 @@
     const answers = { goal: null, activity: null, height: 175, weight: 78 };
 
     // ── Navigation ───────────────────────────────────────────────────────────
+    const QUIZ_PCT = { 2: 25, 3: 50, 4: 75, 5: 100 };
+
     function goTo(n) {
-      const cur = document.querySelector('.step.active');
-      if (cur) cur.classList.remove('active');
-      const next = document.getElementById('step-' + n);
-      if (next) {
-        next.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Step 0 (hero)
+      document.getElementById('step-0').classList.toggle('active', n === 0);
+
+      // Quiz shell (steps 2-5) — single card, swap content block
+      const shell = document.getElementById('quizShell');
+      const inQuiz = n >= 2 && n <= 5;
+      shell.style.display = inQuiz ? '' : 'none';
+      if (inQuiz) {
+        document.querySelectorAll('.quiz-content').forEach(el => {
+          const isTarget = el.id === 'qc-' + n;
+          el.classList.toggle('qc-active', isTarget);
+        });
       }
+
+      // Steps 6 & 7 (plan + upsell)
+      [6, 7].forEach(k => {
+        const el = document.getElementById('step-' + k);
+        if (el) el.classList.toggle('active', k === n);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       updateHeader(n);
     }
 
@@ -1220,12 +1200,11 @@
       const badge    = document.getElementById('hdrBadge');
       const progress = document.getElementById('hdrProgress');
       const fill     = document.getElementById('hdrProgressFill');
-      const pct      = { 2: 25, 3: 50, 4: 75, 5: 100 };
 
       badge.classList.toggle('hdr-hidden', n !== 0);
-      if (pct[n] !== undefined) {
+      if (QUIZ_PCT[n] !== undefined) {
         progress.classList.remove('hdr-hidden');
-        fill.style.width = pct[n] + '%';
+        fill.style.width = QUIZ_PCT[n] + '%';
       } else {
         progress.classList.add('hdr-hidden');
       }
