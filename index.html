@@ -1133,6 +1133,14 @@
       color: rgba(234,246,255,0.6);
       margin: 0;
     }
+
+    .button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      box-shadow: none;
+      filter: grayscale(0.4);
+      transform: none !important;
+    }
   </style>
 </head>
 <body>
@@ -1255,25 +1263,25 @@
           </p>
 
           <div style="display:grid;gap:14px;margin-top:4px;">
-            <input class="lead-input" id="upsellName"  type="text" placeholder="איך קוראים לך?" />
-            <input class="lead-input" id="upsellPhone" type="tel"  placeholder="מה המספר שלך?" />
+            <input class="lead-input" id="upsellName"  type="text" placeholder="איך קוראים לך?" oninput="checkUpsellValid()" />
+            <input class="lead-input" id="upsellPhone" type="tel"  placeholder="מה המספר שלך?" oninput="checkUpsellValid()" />
 
             <p class="time-section-label">כמה זמן ניסית לשנות את הגוף שלך?</p>
             <div class="time-options" id="upsellTimeGroup">
-              <label class="time-opt"><input type="radio" name="upsellTime" value="מתחת ל-3 חודשים"> <span>מתחת ל-3 חודשים</span></label>
-              <label class="time-opt"><input type="radio" name="upsellTime" value="חצי שנה"> <span>חצי שנה</span></label>
-              <label class="time-opt"><input type="radio" name="upsellTime" value="שנה ומעלה"> <span>שנה ומעלה</span></label>
-              <label class="time-opt"><input type="radio" name="upsellTime" value="כל החיים"> <span>כל החיים</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="מתחת ל-3 חודשים" onchange="checkUpsellValid()"> <span>מתחת ל-3 חודשים</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="חצי שנה" onchange="checkUpsellValid()"> <span>חצי שנה</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="שנה ומעלה" onchange="checkUpsellValid()"> <span>שנה ומעלה</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="כל החיים" onchange="checkUpsellValid()"> <span>כל החיים</span></label>
             </div>
 
-            <textarea class="upsell-textarea" id="upsellReason" placeholder="למה חשוב לך לעשות שינוי עכשיו? פרט..."></textarea>
+            <textarea class="upsell-textarea" id="upsellReason" placeholder="למה חשוב לך לעשות שינוי עכשיו? פרט..." oninput="checkUpsellValid()"></textarea>
 
             <label class="checkbox-row" id="upsellConsentRow">
-              <input type="checkbox" id="upsellConsent" />
+              <input type="checkbox" id="upsellConsent" onchange="checkUpsellValid()" />
               <span>אני מבין/ה שהליווי בתשלום וההטבה היא חודש נוסף בתוכנית בהתאם למסלול שאבחר, לא כולל שירותים שהם אינם ליווי בלבד</span>
             </label>
 
-            <button class="button" onclick="submitUpsell()">אני רוצה שיחזרו אלי</button>
+            <button class="button" id="upsellSubmit" onclick="submitUpsell()" disabled>אני רוצה שיחזרו אלי</button>
           </div>
         </div>
 
@@ -1725,6 +1733,16 @@
     }
 
     // ── Step 7: Upsell ────────────────────────────────────────────────────────
+    function checkUpsellValid() {
+      const name    = document.getElementById('upsellName')?.value.trim();
+      const phone   = document.getElementById('upsellPhone')?.value.trim();
+      const time    = document.querySelector('input[name="upsellTime"]:checked');
+      const reason  = document.getElementById('upsellReason')?.value.trim();
+      const consent = document.getElementById('upsellConsent')?.checked;
+      const btn     = document.getElementById('upsellSubmit');
+      if (btn) btn.disabled = !(name && phone && time && reason && consent);
+    }
+
     function goToUpsell() {
       const name  = (document.getElementById('leadName')?.value  || '').trim();
       const phone = (document.getElementById('leadPhone')?.value || '').trim();
