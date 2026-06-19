@@ -1467,28 +1467,38 @@
     }
 
     // ── Step 5: Lead submission ───────────────────────────────────────────────
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhzhK8RaJPU1YnSNotF8DiqZY-c6Hzh5mPHItxHYewRBkmKQLaQIFgTvbBSwVpp0oQBw/exec';
+
     function submitLead() {
       const nameEl  = document.getElementById('leadName');
       const phoneEl = document.getElementById('leadPhone');
-      let valid = true;
 
       [nameEl, phoneEl].forEach(el => el.classList.remove('error'));
-      // TEST MODE: validation bypassed — remove the next 3 lines for production
-      // if (!nameEl.value.trim())  { nameEl.classList.add('error');  valid = false; }
-      // if (!phoneEl.value.trim()) { phoneEl.classList.add('error'); valid = false; }
-      // if (!valid) return;
+      if (!nameEl.value.trim())  { nameEl.classList.add('error');  nameEl.focus(); return; }
+      if (!phoneEl.value.trim()) { phoneEl.classList.add('error'); phoneEl.focus(); return; }
 
-      console.log('Lead:', {
-        name:     nameEl.value.trim(),
-        phone:    phoneEl.value.trim(),
-        email:    document.getElementById('leadEmail').value.trim(),
-        goal:     answers.goal,
-        activity: answers.activity,
-        height:   answers.height,
-        weight:   answers.weight,
-        bmi:      +(answers.weight / Math.pow(answers.height / 100, 2)).toFixed(1),
-        why:      answers.why,
-      });
+      const bmi = +(answers.weight / Math.pow(answers.height / 100, 2)).toFixed(1);
+      const payload = {
+        name:        nameEl.value.trim(),
+        phone:       phoneEl.value.trim(),
+        email:       document.getElementById('leadEmail').value.trim(),
+        goal:        answers.goal,
+        activity:    answers.activity,
+        height:      answers.height,
+        weight:      answers.weight,
+        bmi:         bmi,
+        bmiCategory: document.getElementById('bmiCategory')?.textContent || '',
+        why:         answers.why,
+      };
+
+      // שמירת נתוני הליד לשימוש בטופס האפסל
+      window._leadData = payload;
+
+      fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body:    JSON.stringify(payload),
+      }).catch(() => {}); // שגיאות רשת שקטות — הדף ממשיך בכל מקרה
 
       goTo(7);
     }
@@ -1760,15 +1770,24 @@
         return;
       }
       consentRow.style.borderColor = '';
-      console.log('Upsell:', {
-        name:   document.getElementById('upsellName').value,
-        phone:  document.getElementById('upsellPhone').value,
+
+      const payload = {
+        type:   'upsell',
+        name:   document.getElementById('upsellName').value.trim(),
+        phone:  document.getElementById('upsellPhone').value.trim(),
         time:   (document.querySelector('input[name="upsellTime"]:checked')?.value || ''),
-        reason: document.getElementById('upsellReason').value,
-      });
-      // TODO: POST to webhook
-      document.querySelector('#step-7 .button').textContent = '✅ קיבלנו! נחזור אליך בקרוב';
-      document.querySelector('#step-7 .button').disabled = true;
+        reason: document.getElementById('upsellReason').value.trim(),
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body:    JSON.stringify(payload),
+      }).catch(() => {});
+
+      const btn = document.getElementById('upsellSubmit');
+      btn.textContent = '✅ קיבלנו! נחזור אליך בקרוב';
+      btn.disabled = true;
     }
 
     // Initialize
