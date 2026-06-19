@@ -1311,10 +1311,6 @@
           <p style="margin:0;color:#6B8299;font-size:0.95rem;">נתראה בקרוב! 💪</p>
         </div>
 
-        <button class="button" onclick="goTo(7)" style="margin-top:4px;">
-          יש לי עוד משהו חשוב עבורך ←
-        </button>
-
       </div>
     </section>
 
@@ -1492,6 +1488,8 @@
         if (p < 1) requestAnimationFrame(update);
       })(performance.now());
 
+      answers.bmi         = rounded;
+      answers.bmiCategory = category;
       document.getElementById('bmiCategory').textContent = category;
       document.getElementById('bmiDesc').textContent = desc;
     }
@@ -1507,7 +1505,6 @@
       if (!nameEl.value.trim())  { nameEl.classList.add('error');  nameEl.focus(); return; }
       if (!phoneEl.value.trim()) { phoneEl.classList.add('error'); phoneEl.focus(); return; }
 
-      const bmi = +(answers.weight / Math.pow(answers.height / 100, 2)).toFixed(1);
       const payload = {
         name:        nameEl.value.trim(),
         phone:       phoneEl.value.trim(),
@@ -1516,22 +1513,24 @@
         activity:    answers.activity,
         height:      answers.height,
         weight:      answers.weight,
-        bmi:         bmi,
-        bmiCategory: document.getElementById('bmiCategory')?.textContent || '',
+        bmi:         answers.bmi,
+        bmiCategory: answers.bmiCategory,
         why:         answers.why,
       };
 
-      // שמירת נתוני הליד לשימוש בטופס האפסל
       window._leadData = payload;
 
+      console.log('[CEO-FIT] submitLead — שולח ליד:', payload);
       fetch(APPS_SCRIPT_URL, {
         method:  'POST',
         mode:    'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body:    JSON.stringify(payload),
-      }).catch(() => {});
+      })
+        .then(() => console.log('[CEO-FIT] submitLead — fetch הסתיים (no-cors, אין תוכן תשובה)'))
+        .catch(err => console.error('[CEO-FIT] submitLead — שגיאת fetch:', err));
 
-      goTo(8);
+      goToUpsell();
     }
 
     // ── Step 6: Plan rendering ────────────────────────────────────────────────
@@ -1810,16 +1809,17 @@
         reason: document.getElementById('upsellReason').value.trim(),
       };
 
+      console.log('[CEO-FIT] submitUpsell — שולח בקשת ליווי:', payload);
       fetch(APPS_SCRIPT_URL, {
         method:  'POST',
         mode:    'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body:    JSON.stringify(payload),
-      }).catch(() => {});
+      })
+        .then(() => console.log('[CEO-FIT] submitUpsell — fetch הסתיים'))
+        .catch(err => console.error('[CEO-FIT] submitUpsell — שגיאת fetch:', err));
 
-      const btn = document.getElementById('upsellSubmit');
-      btn.textContent = '✅ קיבלנו! נחזור אליך בקרוב';
-      btn.disabled = true;
+      goTo(8);
     }
 
     // Initialize
