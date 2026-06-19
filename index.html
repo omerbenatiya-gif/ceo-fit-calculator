@@ -1084,6 +1084,55 @@
       color: #EAF6FF;
       margin: 0 0 16px;
     }
+
+    .hf-disclaimer {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: rgba(234,246,255,0.4);
+      font-style: italic;
+    }
+
+    /* ── TIME RADIO OPTIONS (upsell form) ─────────────────────────────── */
+
+    .time-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .time-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: 'Heebo', sans-serif;
+      color: #EAF6FF;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .time-opt:has(input:checked) {
+      border-color: rgba(61,240,255,0.55);
+      background: rgba(61,240,255,0.09);
+    }
+
+    .time-opt input[type="radio"] {
+      accent-color: #3DF0FF;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .time-section-label {
+      font-size: 0.88rem;
+      color: rgba(234,246,255,0.6);
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -1137,6 +1186,7 @@
           <span class="hl-under">להתבנזר</span>,
           <span class="hl-under">ואיך אפשר</span>
           להיות בעל עסק עמוס עם גוף שבאמת משקף את מי שאתה.
+          <span class="hf-disclaimer">*השאלון מותאם לגברים בלבד. הנתונים עבור נשים לא יהיו מדויקים.</span>
         </p>
 
         <div class="hf-progress-track">
@@ -1208,13 +1258,13 @@
             <input class="lead-input" id="upsellName"  type="text" placeholder="איך קוראים לך?" />
             <input class="lead-input" id="upsellPhone" type="tel"  placeholder="מה המספר שלך?" />
 
-            <select class="upsell-select" id="upsellTime">
-              <option value="" disabled selected>כמה זמן ניסית לשנות את הגוף שלך?</option>
-              <option>מתחת ל-3 חודשים</option>
-              <option>חצי שנה</option>
-              <option>שנה ומעלה</option>
-              <option>כל החיים...</option>
-            </select>
+            <p class="time-section-label">כמה זמן ניסית לשנות את הגוף שלך?</p>
+            <div class="time-options" id="upsellTimeGroup">
+              <label class="time-opt"><input type="radio" name="upsellTime" value="מתחת ל-3 חודשים"> <span>מתחת ל-3 חודשים</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="חצי שנה"> <span>חצי שנה</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="שנה ומעלה"> <span>שנה ומעלה</span></label>
+              <label class="time-opt"><input type="radio" name="upsellTime" value="כל החיים"> <span>כל החיים</span></label>
+            </div>
 
             <textarea class="upsell-textarea" id="upsellReason" placeholder="למה חשוב לך לעשות שינוי עכשיו? פרט..."></textarea>
 
@@ -1233,16 +1283,16 @@
   </main>
 
   <script>
-    const answers = { goal: null, activity: null, height: 175, weight: 78 };
+    const answers = { goal: null, activity: null, height: 175, weight: 78, why: '' };
 
     // ── Navigation ───────────────────────────────────────────────────────────
-    const QUIZ_PCT = { 0: 0, 2: 25, 3: 50, 4: 75, 5: 100 };
+    const QUIZ_PCT = { 0: 0, 2: 20, 3: 40, 4: 60, 1: 80, 5: 100 };
 
     function stepContent(n) {
       const h = answers.height, w = answers.weight;
       switch (n) {
         case 0: return `
-          <p class="qa-pick-label">עם מי אני? תלחץ כאן 👇</p>
+          <p class="qa-pick-label">מה המטרה שלך?</p>
           <div class="choice-grid-2">
             <button class="choice-card" style="min-height:130px;" onclick="pickGoalAndStart('cut')">
               <span class="choice-icon">🔥</span>
@@ -1255,11 +1305,23 @@
           </div>`;
         case 2: return `
           <h2 class="step-title">מה רמת הפעילות שלך?</h2>
-          <div class="option-buttons">
-            <button class="option-button" onclick="pickActivity('1.2',this)"><span class="opt-icon">🪑</span> יושב רוב היום</button>
-            <button class="option-button" onclick="pickActivity('1.375',this)"><span class="opt-icon">🚶</span> פעילות קלה</button>
-            <button class="option-button" onclick="pickActivity('1.55',this)"><span class="opt-icon">🏃</span> פעילות בינונית</button>
-            <button class="option-button" onclick="pickActivity('1.725',this)"><span class="opt-icon">⚡</span> פעילות גבוהה</button>
+          <div class="choice-grid-2">
+            <button class="choice-card" style="min-height:120px;" onclick="pickActivity('1.2',this)">
+              <span class="choice-label" style="font-size:1rem;">יושב רוב היום</span>
+              <span class="choice-icon" style="font-size:2.2rem;">🪑</span>
+            </button>
+            <button class="choice-card" style="min-height:120px;" onclick="pickActivity('1.375',this)">
+              <span class="choice-label" style="font-size:1rem;">פעילות קלה</span>
+              <span class="choice-icon" style="font-size:2.2rem;">🚶</span>
+            </button>
+            <button class="choice-card" style="min-height:120px;" onclick="pickActivity('1.55',this)">
+              <span class="choice-label" style="font-size:1rem;">פעילות בינונית</span>
+              <span class="choice-icon" style="font-size:2.2rem;">🏃</span>
+            </button>
+            <button class="choice-card" style="min-height:120px;" onclick="pickActivity('1.725',this)">
+              <span class="choice-label" style="font-size:1rem;">פעילות גבוהה</span>
+              <span class="choice-icon" style="font-size:2.2rem;">⚡</span>
+            </button>
           </div>`;
         case 3: return `
           <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
@@ -1277,26 +1339,31 @@
           </div>
           <button class="button" onclick="goToBmi()">המשך</button>`;
         case 4: return `
-          <div style="display:grid;gap:24px;">
+          <div style="display:grid;gap:28px;">
             <div class="bmi-card">
               <div class="bmi-eyebrow">מדד BMI שלך</div>
               <div class="bmi-number" id="bmiValue">0.0</div>
               <div class="bmi-category" id="bmiCategory"></div>
               <p class="bmi-desc" id="bmiDesc"></p>
             </div>
-            <button class="button" onclick="goTo(5)">קבל את התוכנית שלי ←</button>
+            <button class="button" onclick="goTo(1)">לשאלה האחרונה ←</button>
+          </div>`;
+        case 1: return `
+          <div style="display:grid;gap:22px;">
+            <h2 class="step-title">שאלה אחרונה!</h2>
+            <p style="margin:0;font-size:1.05rem;line-height:1.75;color:#EAF6FF;text-align:center;font-weight:600;">למה חשוב לך לשנות את הגוף שלך?</p>
+            <textarea class="upsell-textarea" id="whyInput" placeholder="כתוב בחופשיות..." style="min-height:110px;"></textarea>
+            <button class="button" onclick="goToLeadForm()">לשלב האחרון ←</button>
           </div>`;
         case 5: return `
           <div style="display:grid;gap:18px;">
-            <h2 class="step-title" style="margin-bottom:0;">הפרופיל שלך מוכן!</h2>
-            <p style="margin:0;font-size:0.95rem;line-height:1.75;color:#EAF6FF;text-align:center;">בדיוק כמו בעסק, את הדברים החשובים נותנים למי שיודע. השאר פרטים ותקבל גישה להדרכה וייעוץ אישי.</p>
-            <div class="divider"></div>
+            <h2 class="step-title" style="margin-bottom:0;">לאן לשלוח את התפריט ותוכנית האימונים בחינם? 👇</h2>
             <div style="display:grid;gap:12px;">
               <input class="lead-input" id="leadName" type="text" placeholder="שם מלא *" />
               <input class="lead-input" id="leadPhone" type="tel" placeholder="טלפון *" />
               <input class="lead-input" id="leadEmail" type="email" placeholder="מייל" />
             </div>
-            <button class="button" onclick="submitLead()">אני רוצה לקבל את התוכנית שלי ←</button>
+            <button class="button" onclick="submitLead()">תבנה לי תוכנית אימונים ותפריט תזונה חינם ←</button>
             <p style="text-align:center;color:#6B8299;font-size:0.88rem;margin:0;">✓ ללא התחייבות &nbsp;•&nbsp; ✓ הפרטים שלך מוגנים</p>
           </div>`;
         default: return '';
@@ -1305,7 +1372,7 @@
 
     function goTo(n) {
       const quizView = document.getElementById('quizView');
-      const inQuiz = n >= 0 && n <= 5;
+      const inQuiz = [0, 1, 2, 3, 4, 5].includes(n);
 
       quizView.style.display = inQuiz ? '' : 'none';
 
@@ -1336,9 +1403,16 @@
     // ── Q2: Activity ─────────────────────────────────────────────────────────
     function pickActivity(value, btn) {
       answers.activity = value;
-      document.querySelectorAll('#questionArea .option-button').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#questionArea .choice-card').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       setTimeout(() => goTo(3), 380);
+    }
+
+    // ── Step 1: Why question → lead form ─────────────────────────────────────
+    function goToLeadForm() {
+      const el = document.getElementById('whyInput');
+      answers.why = el ? el.value.trim() : '';
+      goTo(5);
     }
 
     // ── Q3: Sliders ──────────────────────────────────────────────────────────
@@ -1405,10 +1479,10 @@
         height:   answers.height,
         weight:   answers.weight,
         bmi:      +(answers.weight / Math.pow(answers.height / 100, 2)).toFixed(1),
+        why:      answers.why,
       });
 
-      renderPlan();
-      goTo(6);
+      goTo(7);
     }
 
     // ── Step 6: Plan rendering ────────────────────────────────────────────────
@@ -1633,7 +1707,7 @@
         </div>
 
         <div class="plan-section">
-          <div class="plan-section-header">תפריט יום לדוגמה</div>
+          <div class="plan-section-header">תפריט תזונה</div>
           ${mealsHTML}
         </div>
 
@@ -1671,7 +1745,7 @@
       console.log('Upsell:', {
         name:   document.getElementById('upsellName').value,
         phone:  document.getElementById('upsellPhone').value,
-        time:   document.getElementById('upsellTime').value,
+        time:   (document.querySelector('input[name="upsellTime"]:checked')?.value || ''),
         reason: document.getElementById('upsellReason').value,
       });
       // TODO: POST to webhook
