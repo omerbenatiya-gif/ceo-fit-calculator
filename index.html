@@ -1288,6 +1288,36 @@
       </div>
     </section>
 
+    <!-- ── Step 8: Thank you ──────────────────────────────────────────── -->
+    <section class="step panel" id="step-8">
+      <div style="display:grid;gap:28px;padding:8px 0 32px;text-align:center;">
+
+        <div style="font-size:4rem;line-height:1;">✅</div>
+
+        <h2 style="font-size:1.45rem;font-weight:800;color:#3DF0FF;margin:0;line-height:1.35;">
+          קיבלנו את הפרטים שלך!
+        </h2>
+
+        <div style="background:linear-gradient(135deg,#0D2035,#102036);border:1px solid #1E3A52;border-radius:16px;padding:24px 22px;text-align:right;display:grid;gap:14px;">
+          <p style="margin:0;color:#C8D8E8;font-size:1rem;line-height:1.7;">
+            התוכנית האישית שלך בדרך אליך למייל ותגיע בקרוב.
+          </p>
+          <p style="margin:0;color:#C8D8E8;font-size:1rem;line-height:1.7;">
+            אחד מהצוות שלנו גם יחזור אליך לשיחת התאמה אישית.
+          </p>
+          <p style="margin:0;padding:12px 14px;background:#071828;border-radius:10px;color:#8AFFD6;font-size:0.92rem;line-height:1.6;">
+            📬 שווה לבדוק שהמייל לא נחת בקידומי מכירות או בספאם.
+          </p>
+          <p style="margin:0;color:#6B8299;font-size:0.95rem;">נתראה בקרוב! 💪</p>
+        </div>
+
+        <button class="button" onclick="goTo(7)" style="margin-top:4px;">
+          יש לי עוד משהו חשוב עבורך ←
+        </button>
+
+      </div>
+    </section>
+
   </main>
 
   <script>
@@ -1393,8 +1423,8 @@
         document.getElementById('hfFill').style.width = (QUIZ_PCT[n] ?? 0) + '%';
       }
 
-      // Steps 6 & 7 (plan + upsell)
-      [6, 7].forEach(k => {
+      // Steps 6, 7, 8
+      [6, 7, 8].forEach(k => {
         const el = document.getElementById('step-' + k);
         if (el) el.classList.toggle('active', k === n);
       });
@@ -1496,11 +1526,12 @@
 
       fetch(APPS_SCRIPT_URL, {
         method:  'POST',
-        headers: { 'Content-Type': 'text/plain' },
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body:    JSON.stringify(payload),
-      }).catch(() => {}); // שגיאות רשת שקטות — הדף ממשיך בכל מקרה
+      }).catch(() => {});
 
-      goTo(7);
+      goTo(8);
     }
 
     // ── Step 6: Plan rendering ────────────────────────────────────────────────
@@ -1781,7 +1812,8 @@
 
       fetch(APPS_SCRIPT_URL, {
         method:  'POST',
-        headers: { 'Content-Type': 'text/plain' },
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body:    JSON.stringify(payload),
       }).catch(() => {});
 
