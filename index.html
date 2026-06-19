@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>שאלון אפיון | C.E.O fit</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -728,27 +731,126 @@
 
     /* ── UPSELL ──────────────────────────────────────────────────────── */
 
-    .upsell-warning {
-      background: linear-gradient(135deg,rgba(255,183,0,0.1),rgba(255,100,50,0.07));
-      border: 2px solid rgba(255,183,0,0.4);
-      border-radius: 24px;
-      padding: 24px;
-      text-align: center;
+    /* ── UPSELL PAGE ─────────────────────────────────────────────────── */
+
+    .upsell-wrap {
       display: grid;
-      gap: 12px;
+      gap: 30px;
+      padding: 4px 0;
     }
 
-    .vsl-placeholder {
-      background: linear-gradient(180deg,rgba(61,240,255,0.1) 0%,rgba(138,255,214,0.05) 100%);
-      border: 1.5px dashed rgba(61,240,255,0.3);
+    .upsell-alert {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(61,240,255,0.07);
+      border: 1.5px solid rgba(61,240,255,0.35);
+      border-radius: 99px;
+      padding: 10px 28px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #3DF0FF;
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+
+    .upsell-email-note {
+      margin: 0;
+      text-align: center;
+      font-size: 0.95rem;
+      color: rgba(234,246,255,0.72);
+      font-weight: 500;
+    }
+
+    .upsell-h1 {
+      margin: 0;
+      font-size: clamp(1.45rem, 5.5vw, 2.1rem);
+      font-weight: 900;
+      line-height: 1.38;
+      text-align: center;
+    }
+
+    .upsell-sub {
+      margin: 0;
+      font-size: clamp(0.95rem, 3vw, 1.07rem);
+      line-height: 1.75;
+      text-align: center;
+      color: rgba(234,246,255,0.8);
+    }
+
+    .vsl-wrap { display: grid; gap: 12px; }
+
+    .vsl-label {
+      margin: 0;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #8AFFD6;
+      letter-spacing: 0.02em;
+    }
+
+    .vsl-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(145deg, rgba(10,28,46,0.95) 0%, rgba(5,15,28,1) 100%);
       border-radius: 20px;
-      height: 220px;
+      border: 2px solid rgba(61,240,255,0.4);
+      box-shadow:
+        0 0 32px rgba(61,240,255,0.22),
+        0 0 70px rgba(61,240,255,0.08),
+        inset 0 0 50px rgba(61,240,255,0.04);
       display: grid;
       place-items: center;
-      color: #6B8299;
-      font-size: 0.95rem;
-      gap: 6px;
+      overflow: hidden;
+    }
+
+    .vsl-play {
+      width: 76px;
+      height: 76px;
+      background: linear-gradient(135deg, #3DF0FF 0%, #8AFFD6 100%);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      color: #071828;
+      font-weight: 900;
+      padding-right: 4px;
+      box-shadow: 0 0 28px rgba(61,240,255,0.55), 0 4px 18px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      user-select: none;
+    }
+
+    .vsl-play:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 44px rgba(61,240,255,0.75), 0 6px 24px rgba(0,0,0,0.55);
+    }
+
+    .upsell-form-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(61,240,255,0.15);
+      border-radius: 24px;
+      padding: 28px 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .upsell-form-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
       text-align: center;
+      color: #EAF6FF;
+      line-height: 1.4;
+    }
+
+    .upsell-form-sub {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      text-align: center;
+      color: rgba(234,246,255,0.7);
     }
 
     .upsell-select {
@@ -892,13 +994,95 @@
 
     .workout-table .col-notes { font-size: 0.79rem; color: #b0cce0; }
 
-    /* ── QUIZ SHELL ──────────────────────────────────────────────────── */
+    /* ── QUIZ VIEW (header-fixed + question-area) ────────────────────── */
 
-    .quiz-content { display: none; }
+    #quizView {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-    .quiz-content.qc-active {
-      display: block;
-      animation: stepIn 0.32s cubic-bezier(0.25,0.46,0.45,0.94);
+    #headerFixed {
+      display: grid;
+      gap: 16px;
+      text-align: center;
+      padding: 4px 4px 0;
+    }
+
+    .hf-logo {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .hf-logo-glow {
+      position: absolute;
+      inset: -36px -56px;
+      background: radial-gradient(ellipse, rgba(61,240,255,0.38) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(12px);
+      animation: hdrPulse 3s ease-in-out infinite alternate;
+    }
+
+    .hf-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(61,240,255,0.07);
+      border: 1px solid rgba(61,240,255,0.3);
+      border-radius: 99px;
+      padding: 7px 22px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #8AFFD6;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px rgba(61,240,255,0.12);
+    }
+
+    .hf-title {
+      margin: 0;
+      font-size: clamp(1.45rem, 5vw, 2.15rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .hf-sub {
+      margin: 0 auto;
+      font-size: clamp(0.92rem, 3vw, 1.04rem);
+      line-height: 1.85;
+      color: rgba(234,246,255,0.82);
+      max-width: 520px;
+    }
+
+    .hf-progress-track {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+      box-shadow: inset 0 0 0 1px rgba(61,240,255,0.08);
+    }
+
+    .hf-progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3DF0FF, #8AFFD6);
+      box-shadow: 0 0 10px rgba(61,240,255,0.5);
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .qa-pick-label {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #EAF6FF;
+      margin: 0 0 16px;
     }
   </style>
 </head>
@@ -918,173 +1102,52 @@
     </defs>
   </svg>
 
-  <!-- ── Global sticky header ─────────────────────────────────────────── -->
-  <header class="site-header" id="siteHeader">
-    <div class="site-header-inner">
-
-      <!-- Badge: step 0 only -->
-      <div class="hdr-badge" id="hdrBadge">
-        ✦ לבעלי עסקים בלבד &nbsp;|&nbsp; C.E.O FIT ✦
-      </div>
-
-      <!-- Logo + glow (always visible) -->
-      <div class="hdr-logo">
-        <div class="hdr-logo-glow"></div>
-        <svg width="50" height="36" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-          <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-          <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-          <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-          <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
-        </svg>
-        <span class="logo-text" style="font-size:1.7rem;"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-      </div>
-
-      <!-- Progress bar: steps 2-5 only -->
-      <div class="hdr-progress hdr-hidden" id="hdrProgress">
-        <div class="hdr-progress-track">
-          <div class="hdr-progress-fill" id="hdrProgressFill" style="width:0%"></div>
-        </div>
-      </div>
-
-    </div>
-  </header>
-
   <main class="page">
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 0 — WELCOME
+         QUIZ VIEW — persistent header + swappable question area
     ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step hero-step active" id="step-0">
+    <div id="quizView">
 
-      <!-- Headline with gradient highlights -->
-      <h1 class="hero-h1">
-        שאלון אפיון <span class="hl-grad">בחינם</span> שיבנה לך<br>
-        <span class="hl-grad">תוכנית אימון ותפריט תזונה</span><br>
-        מותאמים לעומס ולעסק שלך!
-      </h1>
+      <!-- Fixed header: always visible on all quiz steps 0-5 -->
+      <div id="headerFixed">
 
-      <!-- Gradient rule -->
-      <div class="hero-rule"></div>
-
-      <!-- Sub-text with underlined key phrases -->
-      <p class="hero-sub">
-        בסוף השאלון תקבל גישה להדרכה שתגלה לך<br>
-        למה בעלי עסקים לא מצליחים <span class="hl-under">להתבנזר</span>&nbsp;—<br>
-        <span class="hl-under">ואיך אפשר</span> להיות בעל עסק עמוס עם גוף<br>
-        שבאמת משקף את מי שאתה.
-      </p>
-
-      <!-- CTA -->
-      <p class="hero-pick-label">עם מי אני? תלחץ כאן 👇</p>
-
-      <!-- Goal cards -->
-      <div class="choice-grid-2 hero-choices">
-        <button class="choice-card hero-card" onclick="pickGoalAndStart('cut')">
-          <span class="choice-icon">🔥</span>
-          <span class="choice-label">להתחטב</span>
-        </button>
-        <button class="choice-card hero-card" onclick="pickGoalAndStart('bulk')">
-          <span class="choice-icon">💪</span>
-          <span class="choice-label">לעלות במסה</span>
-        </button>
-      </div>
-
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         QUIZ SHELL — single persistent card for steps 2-5
-    ═══════════════════════════════════════════════════════════════════ -->
-    <div id="quizShell" style="display:none;">
-      <div class="panel">
-
-        <!-- ── Step 2: Activity ──────────────────────────────────────── -->
-        <div class="quiz-content" id="qc-2">
-          <h2 class="step-title">מה רמת הפעילות שלך?</h2>
-          <div class="option-buttons">
-            <button class="option-button" data-activity="1.2"    onclick="pickActivity('1.2',   this)">
-              <span class="opt-icon">🪑</span> יושב רוב היום
-            </button>
-            <button class="option-button" data-activity="1.375"  onclick="pickActivity('1.375', this)">
-              <span class="opt-icon">🚶</span> פעילות קלה
-            </button>
-            <button class="option-button" data-activity="1.55"   onclick="pickActivity('1.55',  this)">
-              <span class="opt-icon">🏃</span> פעילות בינונית
-            </button>
-            <button class="option-button" data-activity="1.725"  onclick="pickActivity('1.725', this)">
-              <span class="opt-icon">⚡</span> פעילות גבוהה
-            </button>
-          </div>
+        <div class="hf-logo">
+          <div class="hf-logo-glow"></div>
+          <svg width="68" height="50" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
+            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
+            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
+          </svg>
+          <span class="logo-text" style="font-size:2.2rem;"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
         </div>
 
-        <!-- ── Step 3: Height & Weight ──────────────────────────────── -->
-        <div class="quiz-content" id="qc-3">
-          <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
-          <div style="display:grid;gap:32px;margin-bottom:32px;">
-            <div class="range-control">
-              <div class="slider-row">
-                <span class="slider-label">גובה</span>
-                <span class="slider-val" id="heightDisplay">175 ס"מ</span>
-              </div>
-              <input type="range" id="heightSlider" min="150" max="210" step="1" value="175"
-                     oninput="onSlider('height', this.value, 'heightDisplay', ' ס&quot;מ')" />
-              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
-                <span>150</span><span>210</span>
-              </div>
-            </div>
-            <div class="range-control">
-              <div class="slider-row">
-                <span class="slider-label">משקל</span>
-                <span class="slider-val" id="weightDisplay">78 ק"ג</span>
-              </div>
-              <input type="range" id="weightSlider" min="45" max="150" step="1" value="78"
-                     oninput="onSlider('weight', this.value, 'weightDisplay', ' ק&quot;ג')" />
-              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;">
-                <span>45</span><span>150</span>
-              </div>
-            </div>
-          </div>
-          <button class="button" onclick="goToBmi()">המשך</button>
-        </div>
+        <div class="hf-badge">✦ לבעלי עסקים בלבד &nbsp;|&nbsp; בחסות C.E.O FIT ✦</div>
 
-        <!-- ── Step 4: BMI Result ────────────────────────────────────── -->
-        <div class="quiz-content" id="qc-4">
-          <div style="display:grid;gap:24px;">
-            <div class="bmi-card">
-              <div class="bmi-eyebrow">מדד BMI שלך</div>
-              <div class="bmi-number" id="bmiValue">—</div>
-              <div class="bmi-category" id="bmiCategory"></div>
-              <p class="bmi-desc" id="bmiDesc"></p>
-            </div>
-            <button class="button" onclick="goTo(5)">
-              קבל את התוכנית שלי ←
-            </button>
-          </div>
-        </div>
+        <h1 class="hf-title">
+          שאלון אפיון <span class="hl-grad">בחינם</span> שיבנה לך
+          <span class="hl-grad">תוכנית אימון ותפריט תזונה</span>
+          מותאמים לעומס ולעסק שלך!
+        </h1>
 
-        <!-- ── Step 5: Lead Capture ──────────────────────────────────── -->
-        <div class="quiz-content" id="qc-5">
-          <div style="display:grid;gap:22px;">
-            <h2 class="step-title" style="margin-bottom:4px;">הפרופיל שלך מוכן!</h2>
-            <p style="margin:0;font-size:1rem;line-height:1.8;color:#EAF6FF;text-align:center;">
-              בדיוק כמו בעסק — את הדברים החשובים נותנים למי שיודע. השאר פרטים ותקבל גישה להדרכה + ייעוץ אישי.
-            </p>
-            <div class="divider"></div>
-            <div style="display:grid;gap:12px;">
-              <input class="lead-input" id="leadName"  type="text" placeholder="שם מלא *" />
-              <input class="lead-input" id="leadPhone" type="tel"  placeholder="טלפון *" />
-              <input class="lead-input" id="leadEmail" type="email" placeholder="מייל" />
-            </div>
-            <button class="button" onclick="submitLead()">
-              אני רוצה לקבל את התוכנית שלי ←
-            </button>
-            <p style="text-align:center;color:#6B8299;font-size:0.88rem;margin:0;">
-              ✓ ללא התחייבות &nbsp;•&nbsp; ✓ הפרטים שלך מוגנים
-            </p>
-          </div>
+        <p class="hf-sub">
+          בסוף השאלון תקבל גישה להדרכה שתגלה לך למה בעלי עסקים לא מצליחים
+          <span class="hl-under">להתבנזר</span>,
+          <span class="hl-under">ואיך אפשר</span>
+          להיות בעל עסק עמוס עם גוף שבאמת משקף את מי שאתה.
+        </p>
+
+        <div class="hf-progress-track">
+          <div class="hf-progress-fill" id="hfFill" style="width:0%"></div>
         </div>
 
       </div>
+
+      <!-- Question area: content swaps per step via JS -->
+      <div id="questionArea" class="panel"></div>
+
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
@@ -1107,60 +1170,64 @@
 
     <!-- ── Step 7: Upsell ─────────────────────────────────────────────── -->
     <section class="step panel" id="step-7">
+      <div class="upsell-wrap">
 
-      <div style="display:grid;gap:24px;">
+        <!-- Alert -->
+        <div class="upsell-alert">⚠️ רגע! לא לסגור את הדף!</div>
 
-        <div class="upsell-warning">
-          <div style="font-size:1.6rem;letter-spacing:0.03em;">⚠️ רגע! לא לסגור את הדף! ⚠️</div>
-          <p style="margin:0;font-size:1.05rem;font-weight:700;color:#EAF6FF;">
-            התפריט ותוכנית האימונים כבר בדרך אליך למייל
-          </p>
-          <p style="margin:0;font-size:1rem;line-height:1.75;color:#EAF6FF;">
-            יש לך הזדמנות חד פעמית להצטרף לליווי של C.E.O fit ולקבל חודש נוסף בחינם!
-          </p>
-          <p style="margin:0;font-size:0.94rem;line-height:1.7;color:#d0ecf5;">
-            זה מתאים גם אם אתה בעל עסק מאוד עמוס וגם אם אין לך כוח להכין ולשקול אוכל
-          </p>
+        <!-- Email confirmation -->
+        <p class="upsell-email-note">התפריט ותוכנית האימונים כבר בדרך אליך למייל</p>
+
+        <!-- Main headline -->
+        <h2 class="upsell-h1">
+          יש לך <span class="hl-grad">הזדמנות חד פעמית</span> להצטרף לליווי של C.E.O fit
+          ולקבל <span class="hl-grad">חודש נוסף בחינם!</span>
+        </h2>
+
+        <!-- Sub-headline -->
+        <p class="upsell-sub">
+          זה מתאים גם אם אתה בעל עסק מאוד עמוס וגם אם אין לך כוח להכין ולשקול אוכל
+        </p>
+
+        <!-- Video -->
+        <div class="vsl-wrap">
+          <p class="vsl-label">צפה בסרטון עכשיו (רק 4 דקות) 🔊</p>
+          <div class="vsl-box">
+            <div class="vsl-play">▶</div>
+          </div>
         </div>
 
-        <div class="vsl-placeholder">
-          <div style="font-size:3rem;opacity:0.6;">▶</div>
-          <div>נגן הוידאו יופיע כאן</div>
-        </div>
-
-        <div style="text-align:center;display:grid;gap:10px;">
-          <h3 style="margin:0;font-size:1.25rem;font-weight:700;line-height:1.4;">
-            לשיחת התאמה לליווי ולמימוש ההטבה! 👇🏻
-          </h3>
-          <p style="margin:0;font-size:0.93rem;line-height:1.75;color:#d0ecf5;">
-            הטופס הזה לבעלי עסקים עמוסים שרוצים ליווי צמוד ולחיות בגוף שמייצג את מי שהם באמת
+        <!-- Form card -->
+        <div class="upsell-form-card">
+          <h3 class="upsell-form-title">לשיחת התאמה לליווי ולמימוש ההטבה! 👇</h3>
+          <p class="upsell-form-sub">
+            הטופס הזה לבעלי עסקים עמוסים שרוצים את הליווי הצמוד שלנו כדי להיות בטוחים שהם יחיו בגוף שמייצג את מי שהם באמת
           </p>
-        </div>
 
-        <div style="display:grid;gap:12px;">
-          <input class="lead-input" id="upsellName"  type="text" placeholder="איך קוראים לך?" />
-          <input class="lead-input" id="upsellPhone" type="tel"  placeholder="מה המספר שלך?" />
+          <div style="display:grid;gap:14px;margin-top:4px;">
+            <input class="lead-input" id="upsellName"  type="text" placeholder="איך קוראים לך?" />
+            <input class="lead-input" id="upsellPhone" type="tel"  placeholder="מה המספר שלך?" />
 
-          <select class="upsell-select" id="upsellTime">
-            <option value="" disabled selected>כמה זמן ניסית לשנות את הגוף שלך?</option>
-            <option>מתחת ל-3 חודשים</option>
-            <option>חצי שנה</option>
-            <option>שנה ומעלה</option>
-            <option>כל החיים...</option>
-          </select>
+            <select class="upsell-select" id="upsellTime">
+              <option value="" disabled selected>כמה זמן ניסית לשנות את הגוף שלך?</option>
+              <option>מתחת ל-3 חודשים</option>
+              <option>חצי שנה</option>
+              <option>שנה ומעלה</option>
+              <option>כל החיים...</option>
+            </select>
 
-          <textarea class="upsell-textarea" id="upsellReason" placeholder="למה חשוב לך לעשות שינוי עכשיו? פרט..."></textarea>
+            <textarea class="upsell-textarea" id="upsellReason" placeholder="למה חשוב לך לעשות שינוי עכשיו? פרט..."></textarea>
 
-          <label class="checkbox-row" id="upsellConsentRow">
-            <input type="checkbox" id="upsellConsent" />
-            <span>אני מבין/ה שהליווי בתשלום והחודש הנוסף הוא הטבה בהתאם למסלול שאבחר</span>
-          </label>
+            <label class="checkbox-row" id="upsellConsentRow">
+              <input type="checkbox" id="upsellConsent" />
+              <span>אני מבין/ה שהליווי בתשלום וההטבה היא חודש נוסף בתוכנית בהתאם למסלול שאבחר, לא כולל שירותים שהם אינם ליווי בלבד</span>
+            </label>
 
-          <button class="button" onclick="submitUpsell()">אני רוצה שיחזרו אלי</button>
+            <button class="button" onclick="submitUpsell()">אני רוצה שיחזרו אלי</button>
+          </div>
         </div>
 
       </div>
-
     </section>
 
   </main>
@@ -1169,21 +1236,86 @@
     const answers = { goal: null, activity: null, height: 175, weight: 78 };
 
     // ── Navigation ───────────────────────────────────────────────────────────
-    const QUIZ_PCT = { 2: 25, 3: 50, 4: 75, 5: 100 };
+    const QUIZ_PCT = { 0: 0, 2: 25, 3: 50, 4: 75, 5: 100 };
+
+    function stepContent(n) {
+      const h = answers.height, w = answers.weight;
+      switch (n) {
+        case 0: return `
+          <p class="qa-pick-label">עם מי אני? תלחץ כאן 👇</p>
+          <div class="choice-grid-2">
+            <button class="choice-card" style="min-height:130px;" onclick="pickGoalAndStart('cut')">
+              <span class="choice-icon">🔥</span>
+              <span class="choice-label">להתחטב</span>
+            </button>
+            <button class="choice-card" style="min-height:130px;" onclick="pickGoalAndStart('bulk')">
+              <span class="choice-icon">💪</span>
+              <span class="choice-label">לעלות במסה</span>
+            </button>
+          </div>`;
+        case 2: return `
+          <h2 class="step-title">מה רמת הפעילות שלך?</h2>
+          <div class="option-buttons">
+            <button class="option-button" onclick="pickActivity('1.2',this)"><span class="opt-icon">🪑</span> יושב רוב היום</button>
+            <button class="option-button" onclick="pickActivity('1.375',this)"><span class="opt-icon">🚶</span> פעילות קלה</button>
+            <button class="option-button" onclick="pickActivity('1.55',this)"><span class="opt-icon">🏃</span> פעילות בינונית</button>
+            <button class="option-button" onclick="pickActivity('1.725',this)"><span class="opt-icon">⚡</span> פעילות גבוהה</button>
+          </div>`;
+        case 3: return `
+          <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
+          <div style="display:grid;gap:32px;margin-bottom:32px;">
+            <div class="range-control">
+              <div class="slider-row"><span class="slider-label">גובה</span><span class="slider-val" id="heightDisplay">${h} ס"מ</span></div>
+              <input type="range" id="heightSlider" min="150" max="210" step="1" value="${h}" oninput="onSlider('height',this.value,'heightDisplay',' ס&quot;מ')" />
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;"><span>150</span><span>210</span></div>
+            </div>
+            <div class="range-control">
+              <div class="slider-row"><span class="slider-label">משקל</span><span class="slider-val" id="weightDisplay">${w} ק"ג</span></div>
+              <input type="range" id="weightSlider" min="45" max="150" step="1" value="${w}" oninput="onSlider('weight',this.value,'weightDisplay',' ק&quot;ג')" />
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;"><span>45</span><span>150</span></div>
+            </div>
+          </div>
+          <button class="button" onclick="goToBmi()">המשך</button>`;
+        case 4: return `
+          <div style="display:grid;gap:24px;">
+            <div class="bmi-card">
+              <div class="bmi-eyebrow">מדד BMI שלך</div>
+              <div class="bmi-number" id="bmiValue">0.0</div>
+              <div class="bmi-category" id="bmiCategory"></div>
+              <p class="bmi-desc" id="bmiDesc"></p>
+            </div>
+            <button class="button" onclick="goTo(5)">קבל את התוכנית שלי ←</button>
+          </div>`;
+        case 5: return `
+          <div style="display:grid;gap:18px;">
+            <h2 class="step-title" style="margin-bottom:0;">הפרופיל שלך מוכן!</h2>
+            <p style="margin:0;font-size:0.95rem;line-height:1.75;color:#EAF6FF;text-align:center;">בדיוק כמו בעסק, את הדברים החשובים נותנים למי שיודע. השאר פרטים ותקבל גישה להדרכה וייעוץ אישי.</p>
+            <div class="divider"></div>
+            <div style="display:grid;gap:12px;">
+              <input class="lead-input" id="leadName" type="text" placeholder="שם מלא *" />
+              <input class="lead-input" id="leadPhone" type="tel" placeholder="טלפון *" />
+              <input class="lead-input" id="leadEmail" type="email" placeholder="מייל" />
+            </div>
+            <button class="button" onclick="submitLead()">אני רוצה לקבל את התוכנית שלי ←</button>
+            <p style="text-align:center;color:#6B8299;font-size:0.88rem;margin:0;">✓ ללא התחייבות &nbsp;•&nbsp; ✓ הפרטים שלך מוגנים</p>
+          </div>`;
+        default: return '';
+      }
+    }
 
     function goTo(n) {
-      // Step 0 (hero)
-      document.getElementById('step-0').classList.toggle('active', n === 0);
+      const quizView = document.getElementById('quizView');
+      const inQuiz = n >= 0 && n <= 5;
 
-      // Quiz shell (steps 2-5) — single card, swap content block
-      const shell = document.getElementById('quizShell');
-      const inQuiz = n >= 2 && n <= 5;
-      shell.style.display = inQuiz ? '' : 'none';
+      quizView.style.display = inQuiz ? '' : 'none';
+
       if (inQuiz) {
-        document.querySelectorAll('.quiz-content').forEach(el => {
-          const isTarget = el.id === 'qc-' + n;
-          el.classList.toggle('qc-active', isTarget);
-        });
+        const qa = document.getElementById('questionArea');
+        qa.innerHTML = stepContent(n);
+        qa.style.animation = 'none';
+        void qa.offsetWidth;
+        qa.style.animation = 'stepIn 0.32s cubic-bezier(0.25,0.46,0.45,0.94)';
+        document.getElementById('hfFill').style.width = (QUIZ_PCT[n] ?? 0) + '%';
       }
 
       // Steps 6 & 7 (plan + upsell)
@@ -1193,41 +1325,18 @@
       });
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      updateHeader(n);
     }
 
-    function updateHeader(n) {
-      const badge    = document.getElementById('hdrBadge');
-      const progress = document.getElementById('hdrProgress');
-      const fill     = document.getElementById('hdrProgressFill');
-
-      badge.classList.toggle('hdr-hidden', n !== 0);
-      if (QUIZ_PCT[n] !== undefined) {
-        progress.classList.remove('hdr-hidden');
-        fill.style.width = QUIZ_PCT[n] + '%';
-      } else {
-        progress.classList.add('hdr-hidden');
-      }
-    }
-
-    // ── Q0: Goal from hero screen ────────────────────────────────────────────
+    // ── Q0: Goal selection ────────────────────────────────────────────────────
     function pickGoalAndStart(value) {
       answers.goal = value;
       goTo(2);
     }
 
-    // ── Q1: Goal (kept for step-1 fallback) ──────────────────────────────────
-    function pickGoal(value) {
-      answers.goal = value;
-      document.getElementById('goal-cut').classList.toggle('selected', value === 'cut');
-      document.getElementById('goal-bulk').classList.toggle('selected', value === 'bulk');
-      setTimeout(() => goTo(2), 380);
-    }
-
     // ── Q2: Activity ─────────────────────────────────────────────────────────
     function pickActivity(value, btn) {
       answers.activity = value;
-      document.querySelectorAll('#step-2 .option-button').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#questionArea .option-button').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       setTimeout(() => goTo(3), 380);
     }
@@ -1257,7 +1366,7 @@
         desc = 'עם התוכנית הנכונה לבעל עסק עמוס, תראה שינויים מהירים בלי לשבור את השגרה.';
       } else {
         category = 'עודף משקל';
-        desc = 'גופך מוכן לשינוי. התוכנית שלנו מותאמת לבעלי עסקים כמוך — תוצאות אמיתיות בלי זמן מיותר.';
+        desc = 'גופך מוכן לשינוי. התוכנית שלנו מותאמת לבעלי עסקים כמוך, תוצאות אמיתיות בלי זמן מיותר.';
       }
 
       // Animated count-up
@@ -1306,17 +1415,17 @@
 
     const WORKOUT_PRINCIPLES = [
       'כל אימון 45 דקות, 3 פעמים בשבוע, עם לפחות יום מנוחה בין אימון לאימון',
-      'האימון לא כולל חימום — לפני התרגיל הראשון של כל שריר גדול (חזה/רגליים/גב) עשה סט חימום במשקל קל',
-      'עבודה איטית ובטכניקה נקייה — איכות לפני כמות. אל תתבייש להרים משקל נמוך ולעבוד נקי',
+      'האימון לא כולל חימום. לפני התרגיל הראשון של כל שריר גדול (חזה/רגליים/גב) עשה סט חימום במשקל קל',
+      'עבודה איטית ובטכניקה נקייה, איכות לפני כמות. אל תתבייש להרים משקל נמוך ולעבוד נקי',
       'יום בלי כוח? תוריד את המשקל לחצי. בונים עקביות, עדיף קצת מלא כלום',
-      'יום שאין אפשרות להגיע לחדר כושר — עושים את אימון הגיבוי הביתי',
+      'יום שאין אפשרות להגיע לחדר כושר: עושים את אימון הגיבוי הביתי',
       'מנוחה בין סטים: 45-90 שניות (חיטוב) / 90-120 שניות (מסה)',
       'חיטוב: מורכב 8-15 חזרות, פשוט 12-30. מסה: מורכב 6-12, פשוט 10-15',
     ];
 
     const WORKOUTS = {
       cut: {
-        A: { title: 'אימון A — דגש חזה', exercises: [
+        A: { title: 'אימון A: דגש חזה', exercises: [
           { n: 'לחיצת חזה במוט (ספסל ישר)',              s: '3', r: '8-15',         t: 'הורד באיטיות עד גובה החזה, מרפקים 45°, דחוף בשליטה' },
           { n: 'פתיחות חזה בפולי',                        s: '2', r: '12-30',        t: 'תנועה רחבה כמו חיבוק, כיווץ בחזה, בלי לכופף מרפקים' },
           { n: 'סקוואט עם מוט',                           s: '3', r: '8-15',         t: 'גב ישר, ירידה עד שהירכיים מקבילות לרצפה, דחיפה מהעקבים' },
@@ -1326,7 +1435,7 @@
           { n: 'פשיטת מרפק בפולי (יד אחורית)',            s: '2', r: '12-30',        t: 'מרפקים צמודים, יישר עד הסוף וכווץ' },
           { n: 'פלאנק',                                    s: '2', r: 'מקסימום זמן', t: 'גוף בקו ישר, בטן כווצה, בלי להפיל את האגן' },
         ]},
-        B: { title: 'אימון B — דגש רגליים', exercises: [
+        B: { title: 'אימון B: דגש רגליים', exercises: [
           { n: 'לחיצת רגליים במכונה',                     s: '3', r: '8-15',  t: 'כפות רגליים ברוחב כתפיים, ירידה מבוקרת, בלי לנעול ברכיים' },
           { n: 'מתח ירך רומני (דדליפט רומני במוט)',        s: '3', r: '8-15',  t: 'רגליים כמעט ישרות, הורד לאורך הרגליים, מתיחה באחורי הירך' },
           { n: 'לחיצת חזה בשיפוע (משקולות יד)',           s: '3', r: '8-15',  t: 'ספסל בשיפוע קל, דחוף למעלה ופנימה, ירידה איטית' },
@@ -1335,7 +1444,7 @@
           { n: 'כפיפת מרפק פטיש (משקולות יד)',            s: '2', r: '12-30', t: 'אחיזה ניטרלית, בלי תנופה' },
           { n: 'הרמות רגליים בשכיבה',                     s: '2', r: '12-30', t: 'הרם רגליים ישרות, הורד באיטיות בלי לגעת ברצפה' },
         ]},
-        C: { title: 'אימון C — דגש גב', exercises: [
+        C: { title: 'אימון C: דגש גב', exercises: [
           { n: 'חתירה עם משקולת יד אחת (נשען על ספסל)',   s: '3', r: '8-15',  t: 'גב ישר, משוך לכיוון המותן, כיווץ בגב' },
           { n: 'משיכת פולי תחתון לבטן',                   s: '3', r: '8-15',  t: 'גב זקוף, משוך לבטן, כתפיים אחורה' },
           { n: 'מספריים בהליכה (משקולות יד)',              s: '3', r: '8-15',  t: 'צעד גדול קדימה, ברך אחורית לרצפה, גב זקוף' },
@@ -1346,7 +1455,7 @@
         ]},
       },
       bulk: {
-        A: { title: 'אימון A — דגש חזה', exercises: [
+        A: { title: 'אימון A: דגש חזה', exercises: [
           { n: 'לחיצת חזה במוט (ספסל ישר)',              s: '4', r: '6-12',  t: 'הורד באיטיות עד גובה החזה, מרפקים 45°, דחוף בשליטה' },
           { n: 'פתיחות חזה בפולי',                        s: '3', r: '10-15', t: 'תנועה רחבה כמו חיבוק, כיווץ בחזה, בלי לכופף מרפקים' },
           { n: 'סקוואט עם מוט',                           s: '4', r: '6-12',  t: 'גב ישר, ירידה עד שהירכיים מקבילות לרצפה, דחיפה מהעקבים' },
@@ -1356,7 +1465,7 @@
           { n: 'פשיטת מרפק בפולי (יד אחורית)',            s: '3', r: '10-15', t: 'מרפקים צמודים, יישר עד הסוף וכווץ' },
           { n: 'פלאנק',                                    s: '2', r: 'מקסימום זמן', t: 'גוף בקו ישר, בטן כווצה, בלי להפיל את האגן' },
         ]},
-        B: { title: 'אימון B — דגש רגליים', exercises: [
+        B: { title: 'אימון B: דגש רגליים', exercises: [
           { n: 'לחיצת רגליים במכונה',                     s: '4', r: '6-12',  t: 'כפות רגליים ברוחב כתפיים, ירידה מבוקרת, בלי לנעול ברכיים' },
           { n: 'מתח ירך רומני (דדליפט רומני במוט)',        s: '4', r: '6-12',  t: 'רגליים כמעט ישרות, הורד לאורך הרגליים, מתיחה באחורי הירך' },
           { n: 'לחיצת חזה בשיפוע (משקולות יד)',           s: '4', r: '6-12',  t: 'ספסל בשיפוע קל, דחוף למעלה ופנימה, ירידה איטית' },
@@ -1365,7 +1474,7 @@
           { n: 'כפיפת מרפק פטיש (משקולות יד)',            s: '3', r: '10-15', t: 'אחיזה ניטרלית, בלי תנופה' },
           { n: 'הרמות רגליים בשכיבה',                     s: '2', r: '12-15', t: 'הרם רגליים ישרות, הורד באיטיות בלי לגעת ברצפה' },
         ]},
-        C: { title: 'אימון C — דגש גב', exercises: [
+        C: { title: 'אימון C: דגש גב', exercises: [
           { n: 'חתירה עם משקולת יד אחת (נשען על ספסל)',   s: '4', r: '6-12',  t: 'גב ישר, משוך לכיוון המותן, כיווץ בגב' },
           { n: 'משיכת פולי תחתון לבטן',                   s: '4', r: '6-12',  t: 'גב זקוף, משוך לבטן, כתפיים אחורה' },
           { n: 'מספריים בהליכה (משקולות יד)',              s: '4', r: '6-12',  t: 'צעד גדול קדימה, ברך אחורית לרצפה, גב זקוף' },
@@ -1375,7 +1484,7 @@
           { n: 'כפיפות בטן (קראנץ\')',                    s: '2', r: '12-15', t: 'הרם חלק עליון של הגב, כווץ בטן, בלי למשוך צוואר' },
         ]},
       },
-      home: { title: 'אימון גיבוי ביתי — משקל גוף', exercises: [
+      home: { title: 'אימון גיבוי ביתי: משקל גוף', exercises: [
         { n: 'סקוואט משקל גוף',                           s: '3', r: '15-25',          t: 'ירידה עד שהירכיים מקבילות לרצפה, גב ישר' },
         { n: 'מספריים בהליכה',                            s: '2', r: '12-20 לכל רגל',  t: 'צעד גדול, ברך אחורית לרצפה, שיווי משקל' },
         { n: 'שכיבות סמיכה',                              s: '3', r: 'מקסימום',         t: 'גוף בקו ישר, ירידה עד שהחזה כמעט נוגע ברצפה' },
@@ -1427,19 +1536,19 @@
 
     const nutritionPrinciples = {
       cut: [
-        { icon: '🥩', text: 'חלבון בכל ארוחה — לאכול עד תחושת שובע של 70-80%' },
+        { icon: '🥩', text: 'חלבון בכל ארוחה, לאכול עד תחושת שובע של 70-80%' },
         { icon: '🥦', text: 'ירקות ירוקים חופשי + עד 3 פירות ביום' },
         { icon: '⚡', text: 'רוב הפחמימה מסביב לאימון' },
         { icon: '💧', text: '3-4 ליטר מים ביום' },
         { icon: '🚶', text: 'בצע הליכה של 30 דקות, 4 פעמים בשבוע' },
-        { icon: '📅', text: 'תוצאות לוקחות זמן — שבוע-שבועיים לא פקטור. להישאר עקבי.' },
+        { icon: '📅', text: 'תוצאות לוקחות זמן. שבוע-שבועיים לא פקטור. להישאר עקבי.' },
       ],
       bulk: [
-        { icon: '🥩', text: 'חלבון בכל ארוחה — פרוס על כל היום' },
-        { icon: '⚡', text: 'עודף קלורי מבוקר — לא לזלול' },
+        { icon: '🥩', text: 'חלבון בכל ארוחה, פרוס על כל היום' },
+        { icon: '⚡', text: 'עודף קלורי מבוקר, לא לזלול' },
         { icon: '🕐', text: 'פחמימה מסביב לאימון' },
         { icon: '🌙', text: "ארוחה לפני שינה עם חלבון איטי (קוטג'/קזאין)" },
-        { icon: '⏰', text: 'לא לדלג על ארוחות — עקביות היא המפתח' },
+        { icon: '⏰', text: 'לא לדלג על ארוחות. עקביות היא המפתח' },
       ],
     };
 
@@ -1569,6 +1678,9 @@
       document.querySelector('#step-7 .button').textContent = '✅ קיבלנו! נחזור אליך בקרוב';
       document.querySelector('#step-7 .button').disabled = true;
     }
+
+    // Initialize
+    goTo(0);
   </script>
 </body>
 </html>
