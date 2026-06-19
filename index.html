@@ -1330,13 +1330,13 @@
   </main>
 
   <script>
-    const answers = { goal: null, activity: null, height: 175, weight: 78, why: '' };
+    const answers = { goal: null, activity: null, age: 30, height: 175, weight: 78, why: '' };
 
     // ── Navigation ───────────────────────────────────────────────────────────
-    const QUIZ_PCT = { 0: 0, 2: 20, 3: 40, 4: 60, 1: 80, 5: 100 };
+    const QUIZ_PCT = { 0: 0, 2: 17, 9: 33, 3: 50, 4: 67, 1: 83, 5: 100 };
 
     function stepContent(n) {
-      const h = answers.height, w = answers.weight;
+      const h = answers.height, w = answers.weight, a = answers.age;
       switch (n) {
         case 0: return `
           <p class="qa-pick-label">מה המטרה שלך?</p>
@@ -1370,6 +1370,16 @@
               <span class="choice-icon" style="font-size:2.2rem;">⚡</span>
             </button>
           </div>`;
+        case 9: return `
+          <h2 class="step-title">מה הגיל שלך?</h2>
+          <div style="display:grid;gap:32px;margin-bottom:32px;">
+            <div class="range-control">
+              <div class="slider-row"><span class="slider-label">גיל</span><span class="slider-val" id="ageDisplay">${a} שנים</span></div>
+              <input type="range" id="ageSlider" min="18" max="70" step="1" value="${a}" oninput="onSlider('age',this.value,'ageDisplay',' שנים')" />
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#6B8299;font-family:'JetBrains Mono',monospace;"><span>18</span><span>70</span></div>
+            </div>
+          </div>
+          <button class="button" onclick="goTo(3)">המשך</button>`;
         case 3: return `
           <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
           <div style="display:grid;gap:32px;margin-bottom:32px;">
@@ -1419,7 +1429,7 @@
 
     function goTo(n) {
       const quizView = document.getElementById('quizView');
-      const inQuiz = [0, 1, 2, 3, 4, 5].includes(n);
+      const inQuiz = [0, 1, 2, 3, 4, 5, 9].includes(n);
 
       quizView.style.display = inQuiz ? '' : 'none';
 
@@ -1452,7 +1462,7 @@
       answers.activity = value;
       document.querySelectorAll('#questionArea .choice-card').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      setTimeout(() => goTo(3), 380);
+      setTimeout(() => goTo(9), 380);
     }
 
     // ── Step 1: Why question → lead form ─────────────────────────────────────
@@ -1524,6 +1534,7 @@
         email:       document.getElementById('leadEmail').value.trim(),
         goal:        answers.goal,
         activity:    answers.activity,
+        age:         answers.age,
         height:      answers.height,
         weight:      answers.weight,
         bmi:         answers.bmi,
