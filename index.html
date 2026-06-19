@@ -411,14 +411,99 @@
       .macro-val { font-size: 1.45rem; }
     }
 
+    /* ── GLOBAL STICKY HEADER ───────────────────────────────────────── */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(4,12,24,0.92);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-bottom: 1px solid rgba(61,240,255,0.1);
+      padding: 14px 20px 16px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+
+    .site-header-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .hdr-logo {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hdr-logo-glow {
+      position: absolute;
+      inset: -28px -40px;
+      background: radial-gradient(ellipse, rgba(61,240,255,0.42) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(10px);
+      animation: hdrPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes hdrPulse {
+      from { opacity: 0.65; }
+      to   { opacity: 1; }
+    }
+
+    .hdr-badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(61,240,255,0.07);
+      border: 1px solid rgba(61,240,255,0.32);
+      border-radius: 99px;
+      padding: 5px 20px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: #8AFFD6;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px rgba(61,240,255,0.14), inset 0 0 10px rgba(61,240,255,0.04);
+      transition: opacity 0.3s;
+    }
+
+    .hdr-progress {
+      width: 100%;
+      max-width: 500px;
+      transition: opacity 0.3s;
+    }
+
+    .hdr-progress-track {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(61,240,255,0.08);
+    }
+
+    .hdr-progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3DF0FF, #8AFFD6);
+      box-shadow: 0 0 10px rgba(61,240,255,0.55);
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .hdr-hidden { display: none !important; }
+
     /* ── STEP 0 HERO ─────────────────────────────────────────────────── */
 
     .hero-step.active {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
-      padding: 56px 16px 68px;
+      gap: 22px;
+      padding: 36px 16px 64px;
       text-align: center;
       background: none !important;
       border: none !important;
@@ -824,28 +909,44 @@
     </defs>
   </svg>
 
-  <main class="page">
+  <!-- ── Global sticky header ─────────────────────────────────────────── -->
+  <header class="site-header" id="siteHeader">
+    <div class="site-header-inner">
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         STEP 0 — WELCOME
-    ═══════════════════════════════════════════════════════════════════ -->
-    <section class="step hero-step active" id="step-0">
+      <!-- Badge: step 0 only -->
+      <div class="hdr-badge" id="hdrBadge">
+        ✦ לבעלי עסקים בלבד &nbsp;|&nbsp; C.E.O FIT ✦
+      </div>
 
-      <!-- Logo + ambient glow -->
-      <div class="hero-logo">
-        <div class="hero-logo-glow"></div>
-        <svg width="84" height="60" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Logo + glow (always visible) -->
+      <div class="hdr-logo">
+        <div class="hdr-logo-glow"></div>
+        <svg width="50" height="36" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
           <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
           <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
           <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
           <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
         </svg>
-        <span class="logo-text" style="font-size:2.5rem;"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
+        <span class="logo-text" style="font-size:1.7rem;"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
       </div>
 
-      <!-- Badge -->
-      <div class="hero-badge">✦ לבעלי עסקים בלבד &nbsp;|&nbsp; C.E.O fit ✦</div>
+      <!-- Progress bar: steps 2-5 only -->
+      <div class="hdr-progress hdr-hidden" id="hdrProgress">
+        <div class="hdr-progress-track">
+          <div class="hdr-progress-fill" id="hdrProgressFill" style="width:0%"></div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         STEP 0 — WELCOME
+    ═══════════════════════════════════════════════════════════════════ -->
+    <section class="step hero-step active" id="step-0">
 
       <!-- Headline with gradient highlights -->
       <h1 class="hero-h1">
@@ -887,22 +988,6 @@
     ═══════════════════════════════════════════════════════════════════ -->
     <section class="step panel" id="step-1">
 
-      <div class="step-header">
-        <div class="logo-sm">
-          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
-          </svg>
-          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-        </div>
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" style="width:33%"></div>
-        </div>
-      </div>
-
       <h2 class="step-title">מה המטרה שלך?</h2>
 
       <div class="choice-grid-2">
@@ -922,22 +1007,6 @@
          STEP 2 — ACTIVITY
     ═══════════════════════════════════════════════════════════════════ -->
     <section class="step panel" id="step-2">
-
-      <div class="step-header">
-        <div class="logo-sm">
-          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
-          </svg>
-          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-        </div>
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" style="width:67%"></div>
-        </div>
-      </div>
 
       <h2 class="step-title">מה רמת הפעילות שלך?</h2>
 
@@ -962,22 +1031,6 @@
          STEP 3 — HEIGHT & WEIGHT
     ═══════════════════════════════════════════════════════════════════ -->
     <section class="step panel" id="step-3">
-
-      <div class="step-header">
-        <div class="logo-sm">
-          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
-          </svg>
-          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-        </div>
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" style="width:100%"></div>
-        </div>
-      </div>
 
       <h2 class="step-title">מה הגובה והמשקל שלך?</h2>
 
@@ -1022,17 +1075,6 @@
 
       <div style="display:grid;gap:24px;">
 
-        <div class="logo-sm" style="justify-content:center;">
-          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
-          </svg>
-          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-        </div>
-
         <div class="bmi-card">
           <div class="bmi-eyebrow">מדד BMI שלך</div>
           <div class="bmi-number" id="bmiValue">—</div>
@@ -1054,17 +1096,6 @@
     <section class="step panel" id="step-5">
 
       <div style="display:grid;gap:22px;">
-
-        <div class="logo-sm" style="justify-content:center;">
-          <svg width="44" height="32" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4"  y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <rect x="12" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="54" y="10" width="6" height="32" rx="3" fill="url(#lg)"/>
-            <rect x="62" y="16" width="6" height="20" rx="3" fill="url(#lg)"/>
-            <path d="M18 26H30L34 16L40 36L44 26H54" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lf)"/>
-          </svg>
-          <span class="logo-text"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
-        </div>
 
         <h2 class="step-title" style="margin-bottom:4px;">הפרופיל שלך מוכן!</h2>
 
@@ -1181,6 +1212,22 @@
       if (next) {
         next.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      updateHeader(n);
+    }
+
+    function updateHeader(n) {
+      const badge    = document.getElementById('hdrBadge');
+      const progress = document.getElementById('hdrProgress');
+      const fill     = document.getElementById('hdrProgressFill');
+      const pct      = { 2: 25, 3: 50, 4: 75, 5: 100 };
+
+      badge.classList.toggle('hdr-hidden', n !== 0);
+      if (pct[n] !== undefined) {
+        progress.classList.remove('hdr-hidden');
+        fill.style.width = pct[n] + '%';
+      } else {
+        progress.classList.add('hdr-hidden');
       }
     }
 
