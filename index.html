@@ -1141,6 +1141,18 @@
       filter: grayscale(0.4);
       transform: none !important;
     }
+
+    /* ── ROUTING VIEWS ─────────────────────────────────────────────── */
+    #viewHome {
+      position: fixed;
+      inset: 0;
+      background: #071828;
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
   </style>
 </head>
 <body>
@@ -1159,7 +1171,18 @@
     </defs>
   </svg>
 
+  <!-- ═══ VIEW: HOME ══════════════════════════════════════════════════════ -->
+  <div id="viewHome" style="display:none">
+    <div style="font-size:3.2rem;font-weight:900;letter-spacing:8px;line-height:1;text-align:center;">
+      <span style="color:#EAF6FF;">C.E.O</span><span style="color:#8AFFD6;"> fit</span>
+    </div>
+    <div style="font-size:1rem;color:#6B8299;letter-spacing:0.14em;font-weight:500;">בקרוב</div>
+  </div>
+
   <main class="page">
+
+    <!-- ═══ VIEW: CALCULATOR ════════════════════════════════════════════ -->
+    <div id="viewCalc" style="display:none">
 
     <!-- ═══════════════════════════════════════════════════════════════════
          QUIZ VIEW — persistent header + swappable question area
@@ -1219,12 +1242,17 @@
       </div>
 
       <div style="margin-top:28px;display:grid;gap:12px;">
-        <button class="button" onclick="goToUpsell()">
+        <button class="button" onclick="navigate('/offer')">
           יש לי עוד משהו חשוב עבורך ←
         </button>
       </div>
 
     </section>
+
+    </div><!-- /viewCalc -->
+
+    <!-- ═══ VIEW: OFFER ═════════════════════════════════════════════════ -->
+    <div id="viewOffer" style="display:none">
 
     <!-- ── Step 7: Upsell ─────────────────────────────────────────────── -->
     <section class="step panel" id="step-7">
@@ -1326,6 +1354,8 @@
         </div>
       </div>
     </section>
+
+    </div><!-- /viewOffer -->
 
   </main>
 
@@ -1808,11 +1838,7 @@
     }
 
     function goToUpsell() {
-      const name  = (document.getElementById('leadName')?.value  || '').trim();
-      const phone = (document.getElementById('leadPhone')?.value || '').trim();
-      document.getElementById('upsellName').value  = name;
-      document.getElementById('upsellPhone').value = phone;
-      goTo(7);
+      navigate('/offer');
     }
 
     function submitUpsell() {
@@ -1846,8 +1872,54 @@
       goTo(8);
     }
 
+    // ── Router ───────────────────────────────────────────────────────────────
+    function navigate(path) {
+      history.pushState({}, '', path);
+      renderRoute(path);
+    }
+
+    function prefillOffer() {
+      const nameEl  = document.getElementById('upsellName');
+      const phoneEl = document.getElementById('upsellPhone');
+      if (!nameEl || !phoneEl) return;
+      const d = window._leadData || {};
+      if (!nameEl.value)  nameEl.value  = d.name  || '';
+      if (!phoneEl.value) phoneEl.value = d.phone || '';
+      checkUpsellValid();
+    }
+
+    function renderRoute(path) {
+      const p      = path.replace(/\/+$/, '') || '/';
+      const vHome  = document.getElementById('viewHome');
+      const vCalc  = document.getElementById('viewCalc');
+      const vOffer = document.getElementById('viewOffer');
+
+      vHome.style.display  = 'none';
+      vCalc.style.display  = 'none';
+      vOffer.style.display = 'none';
+
+      if (p === '/calculator') {
+        vCalc.style.display = 'block';
+        if (!window._calcInitialized) {
+          window._calcInitialized = true;
+          goTo(0);
+        }
+      } else if (p === '/offer') {
+        vOffer.style.display = 'block';
+        document.getElementById('step-7')?.classList.add('active');
+        document.getElementById('step-8')?.classList.remove('active');
+        prefillOffer();
+      } else {
+        vHome.style.display = 'flex';
+      }
+
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    window.addEventListener('popstate', () => renderRoute(location.pathname));
+
     // Initialize
-    goTo(0);
+    renderRoute(location.pathname);
   </script>
 </body>
 </html>
