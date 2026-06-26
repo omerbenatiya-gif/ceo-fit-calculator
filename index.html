@@ -811,18 +811,44 @@
     }
 
     .upsell-alert {
-      display: inline-flex;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(61,240,255,0.07);
-      border: 1.5px solid rgba(61,240,255,0.35);
-      border-radius: 99px;
-      padding: 10px 28px;
-      font-size: 1rem;
-      font-weight: 800;
-      color: #3DF0FF;
-      letter-spacing: 0.02em;
+      gap: 10px;
+      background: rgba(220, 38, 38, 0.07);
+      border: 2px solid rgba(220, 38, 38, 0.45);
+      border-radius: 20px;
+      padding: 22px 32px;
       text-align: center;
+      box-shadow: 0 0 0 1px rgba(220,38,38,0.1), 0 8px 36px rgba(220,38,38,0.18);
+    }
+
+    .upsell-alert-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: alert-glow-pulse 2.2s ease-in-out infinite;
+    }
+
+    .upsell-alert-icon svg {
+      width: 46px;
+      height: 46px;
+      color: #EF4444;
+      stroke-width: 2;
+    }
+
+    @keyframes alert-glow-pulse {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(239,68,68,0.55)); }
+      50%       { filter: drop-shadow(0 0 18px rgba(239,68,68,0.9)); }
+    }
+
+    .upsell-alert-text {
+      font-size: clamp(1.35rem, 5vw, 1.75rem);
+      font-weight: 900;
+      color: #F87171;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
     }
 
     .upsell-email-note {
@@ -1391,7 +1417,10 @@
       <div class="upsell-wrap">
 
         <!-- Alert -->
-        <div class="upsell-alert">⚠️ רגע! לא לסגור את הדף!</div>
+        <div class="upsell-alert">
+          <div class="upsell-alert-icon"><i data-lucide="alert-triangle"></i></div>
+          <div class="upsell-alert-text">רגע! לא לסגור את הדף!</div>
+        </div>
 
         <!-- Email confirmation -->
         <p class="upsell-email-note">התפריט ותוכנית האימונים כבר בדרך אליך למייל</p>
@@ -2279,6 +2308,7 @@
       }
 
       showCookieBannerIfNeeded();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
