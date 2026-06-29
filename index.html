@@ -916,16 +916,11 @@
       width: 72px;
       height: 72px;
       background: transparent;
-      border-radius: 50%;
       display: grid;
       place-items: center;
-      font-size: 2.8rem;
-      color: #ffffff;
-      padding-right: 4px;
       cursor: pointer;
       transition: transform 0.2s, opacity 0.2s;
       user-select: none;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
     }
 
     .vsl-play:hover {
@@ -1448,7 +1443,11 @@
         <!-- Video -->
         <div class="vsl-wrap">
           <div class="vsl-box">
-            <div class="vsl-play">▶</div>
+            <div class="vsl-play">
+              <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
+                <polygon points="5,3 19,12 5,21"/>
+              </svg>
+            </div>
           </div>
         </div>
 
