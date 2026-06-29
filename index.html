@@ -913,25 +913,24 @@
     .vsl-play {
       position: relative;
       z-index: 1;
-      width: 76px;
-      height: 76px;
-      background: linear-gradient(135deg, #3DF0FF 0%, #8AFFD6 100%);
+      width: 72px;
+      height: 72px;
+      background: transparent;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      font-size: 1.6rem;
-      color: #071828;
-      font-weight: 900;
+      font-size: 2.8rem;
+      color: #ffffff;
       padding-right: 4px;
-      box-shadow: 0 0 28px rgba(61,240,255,0.55), 0 4px 18px rgba(0,0,0,0.5);
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, opacity 0.2s;
       user-select: none;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
     }
 
     .vsl-play:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 44px rgba(61,240,255,0.75), 0 6px 24px rgba(0,0,0,0.55);
+      transform: scale(1.12);
+      opacity: 0.85;
     }
 
     .upsell-form-card {
