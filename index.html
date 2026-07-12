@@ -1895,6 +1895,27 @@
     // ── Step 5: Lead submission ───────────────────────────────────────────────
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmyfqm_YVA9SgmiUv0G9SLZS_Q_hMBtRsdrvEhCf2od3pU5RWeAhDOcu6qKoxHfDElIA/exec';
 
+    // ── Supabase lead ingest (CRM + Telegram + backup) ────────────────────────
+    // Both capture points also POST here. Phone is normalized IDENTICALLY in both
+    // stages so the same person's plan + coaching submissions link into one lead.
+    const SUPABASE_LEAD_URL = 'https://zkffqwgfdcallxmkfvjl.supabase.co/functions/v1/rapid-service';
+
+    // Digits only; Israeli +972/972 → leading 0. Same rule both stages → dedup match.
+    function normalizePhone(raw) {
+      let p = String(raw || '').replace(/\D/g, '');
+      if (p.indexOf('972') === 0) p = '0' + p.slice(3);
+      return p;
+    }
+
+    // Fire-and-forget — never blocks the user's flow.
+    function sendLeadToSupabase(body) {
+      fetch(SUPABASE_LEAD_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(body),
+      }).catch(() => {});
+    }
+
     function submitLead() {
       const nameEl  = document.getElementById('leadName');
       const phoneEl = document.getElementById('leadPhone');
@@ -1918,6 +1939,24 @@
       };
 
       window._leadData = payload;
+
+      // → Supabase (stage 1: plan)
+      sendLeadToSupabase({
+        full_name: payload.name,
+        phone:     normalizePhone(payload.phone),
+        email:     payload.email || '',
+        stage:     'plan',
+        calculator_data: {
+          goal:        payload.goal,
+          activity:    payload.activity,
+          age:         payload.age,
+          height:      payload.height,
+          weight:      payload.weight,
+          bmi:         payload.bmi,
+          bmiCategory: payload.bmiCategory,
+          why:         payload.why,
+        },
+      });
 
       console.log('[CEO-FIT] submitLead — שולח ליד:', payload);
       fetch(APPS_SCRIPT_URL, {
@@ -2205,6 +2244,19 @@
         time:   (document.querySelector('input[name="upsellTime"]:checked')?.value || ''),
         reason: document.getElementById('upsellReason').value.trim(),
       };
+
+      // → Supabase (stage 2: coaching). Email reused from the plan step (offer form
+      // has no email field); phone normalized the same way → links to the same lead.
+      sendLeadToSupabase({
+        full_name: payload.name,
+        phone:     normalizePhone(payload.phone),
+        email:     (window._leadData && window._leadData.email) || '',
+        stage:     'coaching',
+        calculator_data: {
+          time:   payload.time,
+          reason: payload.reason,
+        },
+      });
 
       console.log('[CEO-FIT] submitUpsell — שולח בקשת ליווי:', payload);
       fetch(APPS_SCRIPT_URL, {
