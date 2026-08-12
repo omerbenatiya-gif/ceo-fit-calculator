@@ -1376,14 +1376,23 @@
     .a11y-sep { height: 1px; background: rgba(255,255,255,0.08); margin: 2px 0; }
 
     /* ── A11Y BODY STATES ────────────────────────────────────────── */
-    body.a11y-large  { font-size: 112%; }
-    body.a11y-xlarge { font-size: 126%; }
-    body.a11y-contrast { filter: contrast(1.4) brightness(1.05); }
+    html.a11y-large  { font-size: 120% !important; }
+    html.a11y-xlarge { font-size: 140% !important; }
+    body.a11y-contrast { filter: contrast(1.5) brightness(1.08); }
+    body.a11y-invert   { filter: invert(1) hue-rotate(180deg); }
+    body.a11y-grayscale { filter: grayscale(1); }
     body.a11y-links a, body.a11y-links button:not(#a11yBtn):not(.a11y-btn):not(.a11y-toggle):not(.a11y-reset) {
       outline: 2px solid #3DF0FF !important; outline-offset: 2px !important;
+      text-decoration: underline !important;
     }
     body.a11y-stop-anim *, body.a11y-stop-anim *::before, body.a11y-stop-anim *::after {
       animation: none !important; transition: none !important;
+    }
+    body.a11y-dyslexia, body.a11y-dyslexia * {
+      font-family: Arial, sans-serif !important;
+      letter-spacing: 0.05em !important;
+      word-spacing: 0.15em !important;
+      line-height: 1.9 !important;
     }
   </style>
 </head>
@@ -2542,14 +2551,10 @@
 
   <!-- ═══ ACCESSIBILITY WIDGET ══════════════════════════════════════════ -->
   <button id="a11yBtn" aria-label="פתח תפריט נגישות" aria-expanded="false" aria-controls="a11yPanel">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <circle cx="12" cy="4" r="1.5"/>
-      <path d="M7 8h10l-1.5 5H8.5L7 8z"/>
-      <path d="M9 13l-2 7"/>
-      <path d="M15 13l2 7"/>
-      <path d="M9 13l1.5 4"/>
-      <path d="M15 13l-1.5 4"/>
-      <path d="M10.5 17h3"/>
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <circle cx="12" cy="3.5" r="1.75"/>
+      <path d="M9 8.5c0-.83.67-1.5 1.5-1.5h3c.83 0 1.5.67 1.5 1.5V13h2.25a1 1 0 0 1 0 2H15v.5l1.6 3.2a1 1 0 1 1-1.79.9L13.1 16.6A2.5 2.5 0 0 0 10.75 15H9.5v-1.5H12V10H9.5V8.5H9z"/>
+      <path d="M8.5 12.5A5.5 5.5 0 1 0 14 20"/>
     </svg>
   </button>
 
@@ -2572,8 +2577,25 @@
     </div>
 
     <div class="a11y-row">
+      <span class="a11y-label">היפוך צבעים</span>
+      <button class="a11y-toggle" id="togInvert" aria-label="היפוך צבעים" role="switch" aria-checked="false"></button>
+    </div>
+
+    <div class="a11y-row">
+      <span class="a11y-label">גוון אפור</span>
+      <button class="a11y-toggle" id="togGrayscale" aria-label="גוון אפור" role="switch" aria-checked="false"></button>
+    </div>
+
+    <div class="a11y-sep"></div>
+
+    <div class="a11y-row">
       <span class="a11y-label">הדגשת קישורים</span>
       <button class="a11y-toggle" id="togLinks" aria-label="הדגשת קישורים" role="switch" aria-checked="false"></button>
+    </div>
+
+    <div class="a11y-row">
+      <span class="a11y-label">גופן קריא</span>
+      <button class="a11y-toggle" id="togDyslexia" aria-label="גופן קריא לדיסלקציה" role="switch" aria-checked="false"></button>
     </div>
 
     <div class="a11y-row">
@@ -2591,43 +2613,52 @@
     var btn = document.getElementById('a11yBtn');
     var panel = document.getElementById('a11yPanel');
     var body = document.body;
+    var html = document.documentElement;
 
-    var fontLevel = 0; // -1, 0, 1, 2
-    var state = { contrast: false, links: false, anim: false };
+    var fontLevel = 0; // 0, 1, 2
+    var state = { contrast: false, invert: false, grayscale: false, links: false, dyslexia: false, anim: false };
 
     function save() {
-      try { localStorage.setItem('a11y', JSON.stringify({ fontLevel: fontLevel, contrast: state.contrast, links: state.links, anim: state.anim })); } catch(e) {}
+      try { localStorage.setItem('a11y', JSON.stringify({ fontLevel: fontLevel, state: state })); } catch(e) {}
     }
 
     function applyFont() {
-      body.classList.remove('a11y-large', 'a11y-xlarge');
-      if (fontLevel === 1) body.classList.add('a11y-large');
-      if (fontLevel >= 2) body.classList.add('a11y-xlarge');
+      html.classList.remove('a11y-large', 'a11y-xlarge');
+      if (fontLevel === 1) html.classList.add('a11y-large');
+      if (fontLevel >= 2) html.classList.add('a11y-xlarge');
     }
 
     function setToggle(id, on) {
       var el = document.getElementById(id);
+      if (!el) return;
       el.classList.toggle('on', on);
       el.setAttribute('aria-checked', on ? 'true' : 'false');
     }
 
+    var toggleMap = {
+      togContrast:  ['contrast',  'a11y-contrast'],
+      togInvert:    ['invert',    'a11y-invert'],
+      togGrayscale: ['grayscale', 'a11y-grayscale'],
+      togLinks:     ['links',     'a11y-links'],
+      togDyslexia:  ['dyslexia',  'a11y-dyslexia'],
+      togAnim:      ['anim',      'a11y-stop-anim']
+    };
+
     function applyAll() {
       applyFont();
-      body.classList.toggle('a11y-contrast', state.contrast);
-      body.classList.toggle('a11y-links', state.links);
-      body.classList.toggle('a11y-stop-anim', state.anim);
-      setToggle('togContrast', state.contrast);
-      setToggle('togLinks', state.links);
-      setToggle('togAnim', state.anim);
+      Object.keys(toggleMap).forEach(function(id) {
+        var key = toggleMap[id][0];
+        var cls = toggleMap[id][1];
+        body.classList.toggle(cls, !!state[key]);
+        setToggle(id, !!state[key]);
+      });
     }
 
     function load() {
       try {
         var s = JSON.parse(localStorage.getItem('a11y') || '{}');
-        if (s.fontLevel != null) fontLevel = Math.max(-1, Math.min(2, s.fontLevel));
-        if (s.contrast != null) state.contrast = !!s.contrast;
-        if (s.links != null) state.links = !!s.links;
-        if (s.anim != null) state.anim = !!s.anim;
+        if (s.fontLevel != null) fontLevel = Math.max(0, Math.min(2, s.fontLevel));
+        if (s.state) Object.keys(state).forEach(function(k) { if (s.state[k] != null) state[k] = !!s.state[k]; });
       } catch(e) {}
       applyAll();
     }
@@ -2650,24 +2681,25 @@
     });
 
     document.getElementById('a11yFontUp').addEventListener('click', function() {
-      if (fontLevel < 2) fontLevel++;
-      applyFont(); save();
+      if (fontLevel < 2) { fontLevel++; applyFont(); save(); }
     });
     document.getElementById('a11yFontDown').addEventListener('click', function() {
-      if (fontLevel > -1) fontLevel--;
-      applyFont(); save();
+      if (fontLevel > 0) { fontLevel--; applyFont(); save(); }
     });
 
-    ['togContrast','togLinks','togAnim'].forEach(function(id) {
-      document.getElementById(id).addEventListener('click', function() {
-        var key = { togContrast:'contrast', togLinks:'links', togAnim:'anim' }[id];
+    Object.keys(toggleMap).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('click', function() {
+        var key = toggleMap[id][0];
         state[key] = !state[key];
         applyAll(); save();
       });
     });
 
     document.getElementById('a11yReset').addEventListener('click', function() {
-      fontLevel = 0; state = { contrast: false, links: false, anim: false };
+      fontLevel = 0;
+      Object.keys(state).forEach(function(k) { state[k] = false; });
       applyAll(); save();
     });
 
