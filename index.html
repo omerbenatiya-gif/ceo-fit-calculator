@@ -1316,6 +1316,75 @@
 
     /* ── CONSENT NOTE ───────────────────────────────────────────── */
     .consent-note { text-align: center; color: #6B8299; font-size: 0.82rem; margin: 0; line-height: 1.55; }
+
+    /* ── ACCESSIBILITY WIDGET ────────────────────────────────────── */
+    #a11yBtn {
+      position: fixed; bottom: 24px; left: 24px; z-index: 9999;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(61,240,255,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #a11yBtn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(61,240,255,0.65); }
+    #a11yBtn svg { width: 28px; height: 28px; color: #071828; }
+    #a11yPanel {
+      position: fixed; bottom: 90px; left: 24px; z-index: 9999;
+      background: #0c1b30; border: 1.5px solid rgba(61,240,255,0.35);
+      border-radius: 18px; padding: 20px 18px 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.55);
+      width: 230px; direction: rtl;
+      display: none; flex-direction: column; gap: 10px;
+    }
+    #a11yPanel.open { display: flex; }
+    .a11y-title {
+      font-size: 0.82rem; font-weight: 700; color: #3DF0FF;
+      letter-spacing: 0.06em; margin-bottom: 4px; text-align: center;
+    }
+    .a11y-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px;
+    }
+    .a11y-label { font-size: 0.88rem; color: #C8D8E8; }
+    .a11y-controls { display: flex; gap: 6px; }
+    .a11y-btn {
+      background: rgba(61,240,255,0.1); border: 1px solid rgba(61,240,255,0.25);
+      color: #3DF0FF; border-radius: 8px; padding: 4px 10px;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: background 0.15s;
+      font-family: inherit;
+    }
+    .a11y-btn:hover { background: rgba(61,240,255,0.22); }
+    .a11y-toggle {
+      width: 42px; height: 24px; border-radius: 12px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer; position: relative; transition: background 0.2s; flex-shrink: 0;
+    }
+    .a11y-toggle::after {
+      content: ''; position: absolute; top: 3px; right: 3px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #6B8299; transition: transform 0.2s, background 0.2s;
+    }
+    .a11y-toggle.on { background: rgba(61,240,255,0.25); border-color: #3DF0FF; }
+    .a11y-toggle.on::after { transform: translateX(-18px); background: #3DF0FF; }
+    .a11y-reset {
+      margin-top: 4px; background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: #6B8299; border-radius: 10px; padding: 6px; font-size: 0.8rem;
+      cursor: pointer; width: 100%; transition: color 0.15s, border-color 0.15s;
+      font-family: inherit;
+    }
+    .a11y-reset:hover { color: #EAF6FF; border-color: rgba(255,255,255,0.35); }
+    .a11y-sep { height: 1px; background: rgba(255,255,255,0.08); margin: 2px 0; }
+
+    /* ── A11Y BODY STATES ────────────────────────────────────────── */
+    body.a11y-large  { font-size: 112%; }
+    body.a11y-xlarge { font-size: 126%; }
+    body.a11y-contrast { filter: contrast(1.4) brightness(1.05); }
+    body.a11y-links a, body.a11y-links button:not(#a11yBtn):not(.a11y-btn):not(.a11y-toggle):not(.a11y-reset) {
+      outline: 2px solid #3DF0FF !important; outline-offset: 2px !important;
+    }
+    body.a11y-stop-anim *, body.a11y-stop-anim *::before, body.a11y-stop-anim *::after {
+      animation: none !important; transition: none !important;
+    }
   </style>
 </head>
 <body>
@@ -2469,6 +2538,141 @@
     renderRoute(location.pathname);
     initCookies();
     if (typeof lucide !== 'undefined') lucide.createIcons();
+  </script>
+
+  <!-- ═══ ACCESSIBILITY WIDGET ══════════════════════════════════════════ -->
+  <button id="a11yBtn" aria-label="פתח תפריט נגישות" aria-expanded="false" aria-controls="a11yPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="4" r="1.5"/>
+      <path d="M7 8h10l-1.5 5H8.5L7 8z"/>
+      <path d="M9 13l-2 7"/>
+      <path d="M15 13l2 7"/>
+      <path d="M9 13l1.5 4"/>
+      <path d="M15 13l-1.5 4"/>
+      <path d="M10.5 17h3"/>
+    </svg>
+  </button>
+
+  <div id="a11yPanel" role="dialog" aria-label="תפריט נגישות" dir="rtl">
+    <div class="a11y-title">נגישות</div>
+
+    <div class="a11y-row">
+      <span class="a11y-label">גודל טקסט</span>
+      <div class="a11y-controls">
+        <button class="a11y-btn" id="a11yFontDown" aria-label="הקטן גופן">א-</button>
+        <button class="a11y-btn" id="a11yFontUp"   aria-label="הגדל גופן">א+</button>
+      </div>
+    </div>
+
+    <div class="a11y-sep"></div>
+
+    <div class="a11y-row">
+      <span class="a11y-label">ניגודיות גבוהה</span>
+      <button class="a11y-toggle" id="togContrast" aria-label="ניגודיות גבוהה" role="switch" aria-checked="false"></button>
+    </div>
+
+    <div class="a11y-row">
+      <span class="a11y-label">הדגשת קישורים</span>
+      <button class="a11y-toggle" id="togLinks" aria-label="הדגשת קישורים" role="switch" aria-checked="false"></button>
+    </div>
+
+    <div class="a11y-row">
+      <span class="a11y-label">עצור אנימציות</span>
+      <button class="a11y-toggle" id="togAnim" aria-label="עצור אנימציות" role="switch" aria-checked="false"></button>
+    </div>
+
+    <div class="a11y-sep"></div>
+
+    <button class="a11y-reset" id="a11yReset">איפוס הכל</button>
+  </div>
+
+  <script>
+  (function() {
+    var btn = document.getElementById('a11yBtn');
+    var panel = document.getElementById('a11yPanel');
+    var body = document.body;
+
+    var fontLevel = 0; // -1, 0, 1, 2
+    var state = { contrast: false, links: false, anim: false };
+
+    function save() {
+      try { localStorage.setItem('a11y', JSON.stringify({ fontLevel: fontLevel, contrast: state.contrast, links: state.links, anim: state.anim })); } catch(e) {}
+    }
+
+    function applyFont() {
+      body.classList.remove('a11y-large', 'a11y-xlarge');
+      if (fontLevel === 1) body.classList.add('a11y-large');
+      if (fontLevel >= 2) body.classList.add('a11y-xlarge');
+    }
+
+    function setToggle(id, on) {
+      var el = document.getElementById(id);
+      el.classList.toggle('on', on);
+      el.setAttribute('aria-checked', on ? 'true' : 'false');
+    }
+
+    function applyAll() {
+      applyFont();
+      body.classList.toggle('a11y-contrast', state.contrast);
+      body.classList.toggle('a11y-links', state.links);
+      body.classList.toggle('a11y-stop-anim', state.anim);
+      setToggle('togContrast', state.contrast);
+      setToggle('togLinks', state.links);
+      setToggle('togAnim', state.anim);
+    }
+
+    function load() {
+      try {
+        var s = JSON.parse(localStorage.getItem('a11y') || '{}');
+        if (s.fontLevel != null) fontLevel = Math.max(-1, Math.min(2, s.fontLevel));
+        if (s.contrast != null) state.contrast = !!s.contrast;
+        if (s.links != null) state.links = !!s.links;
+        if (s.anim != null) state.anim = !!s.anim;
+      } catch(e) {}
+      applyAll();
+    }
+
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!panel.contains(e.target) && e.target !== btn) {
+        panel.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { panel.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    });
+
+    document.getElementById('a11yFontUp').addEventListener('click', function() {
+      if (fontLevel < 2) fontLevel++;
+      applyFont(); save();
+    });
+    document.getElementById('a11yFontDown').addEventListener('click', function() {
+      if (fontLevel > -1) fontLevel--;
+      applyFont(); save();
+    });
+
+    ['togContrast','togLinks','togAnim'].forEach(function(id) {
+      document.getElementById(id).addEventListener('click', function() {
+        var key = { togContrast:'contrast', togLinks:'links', togAnim:'anim' }[id];
+        state[key] = !state[key];
+        applyAll(); save();
+      });
+    });
+
+    document.getElementById('a11yReset').addEventListener('click', function() {
+      fontLevel = 0; state = { contrast: false, links: false, anim: false };
+      applyAll(); save();
+    });
+
+    load();
+  })();
   </script>
 </body>
 </html>
