@@ -1100,6 +1100,22 @@
 
     /* ── QUIZ VIEW (header-fixed + question-area) ────────────────────── */
 
+    /* viewCalc is its own scroll container — body never scrolls while quiz is active */
+    #viewCalc {
+      position: fixed;
+      inset: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 4;
+      padding: 32px 20px 64px;
+    }
+    #viewCalc > .step,
+    #viewCalc > #quizView {
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
     #quizView {
       display: flex;
       flex-direction: column;
@@ -2018,7 +2034,7 @@
       });
 
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.getElementById('viewCalc').scrollTo({ top: 0, behavior: 'instant' });
     }
 
     // ── Q10: Gender selection ─────────────────────────────────────────────────
