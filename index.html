@@ -1450,7 +1450,7 @@
           <span class="logo-text" style="font-size:2.2rem;"><span class="logo-ceo">C.E.O</span> <span class="logo-fit">fit</span></span>
         </div>
 
-        <div class="hf-badge">✦ לבעלי עסקים בלבד &nbsp;|&nbsp; בחסות C.E.O FIT ✦</div>
+        <div class="hf-badge">✦ לבעלי ובעלות עסקים &nbsp;|&nbsp; בחסות C.E.O FIT ✦</div>
 
         <h1 class="hf-title">
           שאלון אפיון <span class="hl-grad">בחינם</span> שיבנה לך
@@ -1459,11 +1459,10 @@
         </h1>
 
         <p class="hf-sub">
-          בסוף השאלון תקבל גישה להדרכה שתגלה לך למה בעלי עסקים לא מצליחים
+          בסוף השאלון תקבל גישה להדרכה שתגלה לך למה בעלי ובעלות עסקים לא מצליחים
           <span class="hl-under">להתבנזר</span>,
           <span class="hl-under">ואיך אפשר</span>
-          להיות בעל עסק עמוס עם גוף שבאמת משקף את מי שאתה.
-          <span class="hf-disclaimer">*השאלון מותאם לגברים בלבד. הנתונים עבור נשים לא יהיו מדויקים.</span>
+          להיות בעל/ת עסק עמוס עם גוף שבאמת משקף את מי שאת/ה.
         </p>
 
         <div class="hf-progress-track">
@@ -1855,14 +1854,40 @@
   </div>
 
   <script>
-    const answers = { goal: null, activity: null, age: 30, height: 175, weight: 78, why: '' };
+    const answers = { gender: null, goal: null, activity: null, age: 30, height: 175, weight: 78, why: '' };
 
     // ── Navigation ───────────────────────────────────────────────────────────
-    const QUIZ_PCT = { 0: 0, 2: 17, 9: 33, 3: 50, 4: 67, 1: 83, 5: 100 };
+    const QUIZ_PCT = { 10: 0, 0: 14, 2: 28, 9: 43, 3: 57, 4: 71, 1: 86, 5: 100 };
 
     function stepContent(n) {
       const h = answers.height, w = answers.weight, a = answers.age;
       switch (n) {
+        case 10: return `
+          <p class="qa-pick-label">מי את/ה?</p>
+          <div class="choice-grid-2">
+            <button class="choice-card" style="min-height:150px;" onclick="pickGender('male')">
+              <span class="choice-icon">
+                <svg viewBox="0 0 48 58" fill="currentColor" width="52" height="52" aria-hidden="true">
+                  <circle cx="24" cy="14" r="11"/>
+                  <path d="M4 58 C4 40 12 31 24 29 C36 31 44 40 44 58Z"/>
+                  <polygon points="22,29 26,29 25,45 24,47 23,45" fill="#3DF0FF" opacity="0.85"/>
+                </svg>
+              </span>
+              <span class="choice-label">בעל עסק</span>
+            </button>
+            <button class="choice-card" style="min-height:150px;" onclick="pickGender('female')">
+              <span class="choice-icon">
+                <svg viewBox="0 0 48 58" fill="currentColor" width="52" height="52" aria-hidden="true">
+                  <circle cx="24" cy="14" r="11"/>
+                  <path d="M15 11 Q13 30 17 33" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
+                  <path d="M33 11 Q35 30 31 33" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
+                  <path d="M4 58 C4 40 12 31 24 29 C36 31 44 40 44 58Z"/>
+                  <ellipse cx="24" cy="33" rx="5" ry="4" fill="#3DF0FF" opacity="0.85"/>
+                </svg>
+              </span>
+              <span class="choice-label">בעלת עסק</span>
+            </button>
+          </div>`;
         case 0: return `
           <p class="qa-pick-label">מה המטרה שלך?</p>
           <div class="choice-grid-2">
@@ -1959,7 +1984,7 @@
 
     function goTo(n) {
       const quizView = document.getElementById('quizView');
-      const inQuiz = [0, 1, 2, 3, 4, 5, 9].includes(n);
+      const inQuiz = [10, 0, 1, 2, 3, 4, 5, 9].includes(n);
 
       quizView.style.display = inQuiz ? '' : 'none';
 
@@ -1981,6 +2006,14 @@
 
       if (typeof lucide !== 'undefined') lucide.createIcons();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Q10: Gender selection ─────────────────────────────────────────────────
+    function pickGender(value) {
+      answers.gender = value;
+      if (value === 'female') { answers.height = 163; answers.weight = 62; }
+      else                    { answers.height = 175; answers.weight = 78; }
+      goTo(0);
     }
 
     // ── Q0: Goal selection ────────────────────────────────────────────────────
@@ -2281,7 +2314,8 @@
 
     function renderPlan() {
       const { goal, activity, height, weight } = answers;
-      const bmr    = 10 * weight + 6.25 * height - 5 * 35 + 5;
+      const genderConst = answers.gender === 'female' ? -161 : 5;
+      const bmr    = 10 * weight + 6.25 * height - 5 * (answers.age || 35) + genderConst;
       const tdee   = Math.round(bmr * (+activity || 1.375));
       const target = Math.round(tdee * (goal === 'bulk' ? 1.1 : 0.8));
       const protein = Math.round(weight * 2);
@@ -2517,7 +2551,7 @@
         document.title = 'שאלון אפיון | C.E.O fit';
         if (!window._calcInitialized) {
           window._calcInitialized = true;
-          goTo(0);
+          goTo(10);
         }
       } else if (p === '/offer') {
         document.getElementById('viewOffer').style.display = 'block';
