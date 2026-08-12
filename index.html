@@ -1867,33 +1867,35 @@
           <div class="choice-grid-2">
             <button class="choice-card" style="min-height:150px;" onclick="pickGender('male')">
               <span class="choice-icon">
-                <svg viewBox="0 0 44 52" fill="currentColor" width="54" height="54" aria-hidden="true">
-                  <!-- suit jacket: left panel -->
-                  <path d="M22 0 L10 14 L4 52 L22 52Z"/>
-                  <!-- suit jacket: right panel -->
-                  <path d="M22 0 L34 14 L40 52 L22 52Z"/>
-                  <!-- center shirt (lighter) -->
-                  <path d="M12 17 L22 26 L32 17 L22 52Z" opacity="0.18"/>
+                <svg viewBox="0 0 48 56" fill="currentColor" width="56" height="56" aria-hidden="true">
+                  <!-- left jacket panel (includes left lapel) -->
+                  <path d="M5 12 L3 56 L24 56 L24 22 L19 16 L12 3Z"/>
+                  <!-- right jacket panel (mirror) -->
+                  <path d="M43 12 L45 56 L24 56 L24 22 L29 16 L36 3Z"/>
+                  <!-- shirt — light V between lapels -->
+                  <path d="M19 16 L29 16 L24 56Z" fill="rgba(255,255,255,0.13)"/>
                   <!-- tie -->
-                  <polygon points="19.5,17 24.5,17 23,37 22,39 21,37" fill="#3DF0FF" opacity="0.92"/>
+                  <polygon points="22,17 26,17 25,37 24,39 23,37" fill="#3DF0FF" opacity="0.92"/>
+                  <!-- lapel shading (subtle fold) -->
+                  <path d="M5 12 L12 3 L19 16Z" fill="rgba(255,255,255,0.07)"/>
+                  <path d="M43 12 L36 3 L29 16Z" fill="rgba(255,255,255,0.07)"/>
                 </svg>
               </span>
               <span class="choice-label">גבר</span>
             </button>
             <button class="choice-card" style="min-height:150px;" onclick="pickGender('female')">
               <span class="choice-icon">
-                <svg viewBox="0 0 44 54" fill="currentColor" width="54" height="54" aria-hidden="true">
-                  <!-- bodice (fitted top) -->
-                  <path d="M14 0 L30 0 L33 22 L11 22Z"/>
-                  <!-- shoulder straps -->
-                  <rect x="14" y="0" width="5" height="9" rx="2.5"/>
-                  <rect x="25" y="0" width="5" height="9" rx="2.5"/>
-                  <!-- neckline scoop cutout -->
-                  <path d="M14 0 Q22 11 30 0Z" fill="rgba(5,15,28,0.65)"/>
-                  <!-- skirt (A-line flare) -->
-                  <path d="M11 22 L2 54 L42 54 L33 22Z"/>
-                  <!-- waist band detail -->
-                  <rect x="13" y="20" width="18" height="4" rx="2" opacity="0.28"/>
+                <svg viewBox="0 0 48 58" fill="currentColor" width="56" height="56" aria-hidden="true">
+                  <!-- left spaghetti strap -->
+                  <rect x="15" y="0" width="6" height="11" rx="3"/>
+                  <!-- right spaghetti strap -->
+                  <rect x="27" y="0" width="6" height="11" rx="3"/>
+                  <!-- bodice with built-in scoop neckline -->
+                  <path d="M10 10 L15 10 Q24 20 33 10 L38 10 L40 26 L8 26Z"/>
+                  <!-- skirt (A-line) -->
+                  <path d="M8 26 L2 58 L46 58 L40 26Z"/>
+                  <!-- waist cinch -->
+                  <rect x="10" y="24" width="28" height="5" rx="2.5" fill="rgba(255,255,255,0.18)"/>
                 </svg>
               </span>
               <span class="choice-label">אישה</span>
@@ -2016,7 +2018,7 @@
       });
 
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
     // ── Q10: Gender selection ─────────────────────────────────────────────────
