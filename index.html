@@ -1867,25 +1867,36 @@
           <div class="choice-grid-2">
             <button class="choice-card" style="min-height:150px;" onclick="pickGender('male')">
               <span class="choice-icon">
-                <svg viewBox="0 0 48 58" fill="currentColor" width="52" height="52" aria-hidden="true">
-                  <circle cx="24" cy="14" r="11"/>
-                  <path d="M4 58 C4 40 12 31 24 29 C36 31 44 40 44 58Z"/>
-                  <polygon points="22,29 26,29 25,45 24,47 23,45" fill="#3DF0FF" opacity="0.85"/>
+                <svg viewBox="0 0 44 52" fill="currentColor" width="54" height="54" aria-hidden="true">
+                  <!-- suit jacket: left panel -->
+                  <path d="M22 0 L10 14 L4 52 L22 52Z"/>
+                  <!-- suit jacket: right panel -->
+                  <path d="M22 0 L34 14 L40 52 L22 52Z"/>
+                  <!-- center shirt (lighter) -->
+                  <path d="M12 17 L22 26 L32 17 L22 52Z" opacity="0.18"/>
+                  <!-- tie -->
+                  <polygon points="19.5,17 24.5,17 23,37 22,39 21,37" fill="#3DF0FF" opacity="0.92"/>
                 </svg>
               </span>
-              <span class="choice-label">בעל עסק</span>
+              <span class="choice-label">גבר</span>
             </button>
             <button class="choice-card" style="min-height:150px;" onclick="pickGender('female')">
               <span class="choice-icon">
-                <svg viewBox="0 0 48 58" fill="currentColor" width="52" height="52" aria-hidden="true">
-                  <circle cx="24" cy="14" r="11"/>
-                  <path d="M15 11 Q13 30 17 33" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
-                  <path d="M33 11 Q35 30 31 33" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
-                  <path d="M4 58 C4 40 12 31 24 29 C36 31 44 40 44 58Z"/>
-                  <ellipse cx="24" cy="33" rx="5" ry="4" fill="#3DF0FF" opacity="0.85"/>
+                <svg viewBox="0 0 44 54" fill="currentColor" width="54" height="54" aria-hidden="true">
+                  <!-- bodice (fitted top) -->
+                  <path d="M14 0 L30 0 L33 22 L11 22Z"/>
+                  <!-- shoulder straps -->
+                  <rect x="14" y="0" width="5" height="9" rx="2.5"/>
+                  <rect x="25" y="0" width="5" height="9" rx="2.5"/>
+                  <!-- neckline scoop cutout -->
+                  <path d="M14 0 Q22 11 30 0Z" fill="rgba(5,15,28,0.65)"/>
+                  <!-- skirt (A-line flare) -->
+                  <path d="M11 22 L2 54 L42 54 L33 22Z"/>
+                  <!-- waist band detail -->
+                  <rect x="13" y="20" width="18" height="4" rx="2" opacity="0.28"/>
                 </svg>
               </span>
-              <span class="choice-label">בעלת עסק</span>
+              <span class="choice-label">אישה</span>
             </button>
           </div>`;
         case 0: return `
@@ -2585,10 +2596,19 @@
 
   <!-- ═══ ACCESSIBILITY WIDGET ══════════════════════════════════════════ -->
   <button id="a11yBtn" aria-label="פתח תפריט נגישות" aria-expanded="false" aria-controls="a11yPanel">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <circle cx="12" cy="3.5" r="1.75"/>
-      <path d="M9 8.5c0-.83.67-1.5 1.5-1.5h3c.83 0 1.5.67 1.5 1.5V13h2.25a1 1 0 0 1 0 2H15v.5l1.6 3.2a1 1 0 1 1-1.79.9L13.1 16.6A2.5 2.5 0 0 0 10.75 15H9.5v-1.5H12V10H9.5V8.5H9z"/>
-      <path d="M8.5 12.5A5.5 5.5 0 1 0 14 20"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <!-- head -->
+      <circle cx="16.5" cy="3.5" r="2" fill="currentColor" stroke="none"/>
+      <!-- torso + seat -->
+      <path d="M16.5 5.5 L16.5 12 L9.5 12 L9.5 16.5"/>
+      <!-- arm pushing wheel -->
+      <path d="M16.5 9 L20.5 11"/>
+      <!-- footrest -->
+      <path d="M9.5 16.5 L7 16.5"/>
+      <!-- large back wheel -->
+      <circle cx="13" cy="19" r="4.5"/>
+      <!-- small front caster -->
+      <circle cx="21" cy="21" r="1.5" fill="currentColor" stroke="none"/>
     </svg>
   </button>
 
