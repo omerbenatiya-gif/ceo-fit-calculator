@@ -1100,20 +1100,6 @@
 
     /* ── QUIZ VIEW (header-fixed + question-area) ────────────────────── */
 
-    /* quiz-active: body locked, viewCalc is the sole scroll container */
-    body.quiz-active {
-      overflow: hidden;
-    }
-    body.quiz-active .page {
-      padding: 0;
-    }
-    #viewCalc {
-      height: 100dvh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      padding: 32px 20px 64px;
-    }
     #viewCalc > .step,
     #viewCalc > #quizView {
       max-width: 600px;
@@ -2039,7 +2025,6 @@
       });
 
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      document.getElementById('viewCalc').scrollTo({ top: 0, behavior: 'instant' });
     }
 
     // ── Q10: Gender selection ─────────────────────────────────────────────────
@@ -2579,10 +2564,7 @@
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
       });
-      document.body.classList.remove('quiz-active');
-
       if (p === '/calculator') {
-        document.body.classList.add('quiz-active');
         document.getElementById('viewCalc').style.display = 'block';
         document.title = 'שאלון אפיון | C.E.O fit';
         if (!window._calcInitialized) {
