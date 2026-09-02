@@ -1406,6 +1406,119 @@
       word-spacing: 0.15em !important;
       line-height: 1.9 !important;
     }
+
+    /* ── SURVEY ──────────────────────────────────────────────────────────── */
+    #viewSurvey {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1rem 3rem;
+    }
+    .survey-wrap { width: 100%; max-width: 680px; }
+    .survey-progress-track {
+      height: 5px;
+      background: rgba(61,240,255,0.12);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    .survey-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3DF0FF, #8AFFD6);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .survey-progress-label {
+      font-size: 0.78rem;
+      color: #6B8299;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .survey-q-num {
+      font-size: 0.72rem;
+      color: #3DF0FF;
+      letter-spacing: 1px;
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+    }
+    .survey-q-text {
+      font-size: 1.15rem;
+      color: #EAF6FF;
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .survey-textarea {
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(61,240,255,0.22);
+      border-radius: 8px;
+      color: #EAF6FF;
+      font-size: 1rem;
+      font-family: inherit;
+      line-height: 1.65;
+      padding: 1rem 1.1rem;
+      resize: vertical;
+      min-height: 130px;
+      outline: none;
+      transition: border-color 0.2s;
+      direction: rtl;
+    }
+    .survey-textarea:focus { border-color: rgba(61,240,255,0.6); }
+    .survey-textarea::placeholder { color: #3A5570; }
+    .survey-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+    .survey-btn-back {
+      background: none;
+      border: 1px solid rgba(61,240,255,0.25);
+      color: #6B8299;
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: inherit;
+    }
+    .survey-btn-back:hover { color: #3DF0FF; border-color: rgba(61,240,255,0.6); }
+    .survey-btn-next {
+      background: linear-gradient(135deg, #3DF0FF, #8AFFD6);
+      color: #071828;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      font-family: inherit;
+      margin-right: auto;
+    }
+    .survey-btn-next:hover { opacity: 0.88; }
+    .survey-btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+    .survey-thanks {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+      gap: 1.25rem;
+    }
+    .survey-thanks-check {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      border: 2px solid #3DF0FF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: #3DF0FF;
+    }
+    .survey-thanks h2 { font-size: 2rem; color: #EAF6FF; margin: 0; }
+    .survey-thanks p { color: #A0B8CC; font-size: 1.05rem; line-height: 1.6; margin: 0; }
   </style>
 </head>
 <body>
@@ -1865,6 +1978,28 @@
     </div>
   </div>
 
+  <!-- ═══ VIEW: SURVEY ══════════════════════════════════════════════════════ -->
+  <div id="viewSurvey" style="display:none">
+    <div class="survey-wrap">
+      <div id="surveyMain">
+        <div class="survey-progress-track">
+          <div class="survey-progress-fill" id="surveyProgressFill"></div>
+        </div>
+        <div class="survey-progress-label" id="surveyProgressLabel">שאלה 1 מתוך 21</div>
+        <div id="surveyQArea"></div>
+        <div class="survey-nav">
+          <button class="survey-btn-back" id="surveyBtnBack" onclick="surveyBack()">הקודם</button>
+          <button class="survey-btn-next" id="surveyBtnNext" onclick="surveyNext()">הבא</button>
+        </div>
+      </div>
+      <div class="survey-thanks" id="surveyThanks" style="display:none">
+        <div class="survey-thanks-check">✓</div>
+        <h2>תודה!</h2>
+        <p>קיבלנו את תשובותיך.<br>ניצור איתך קשר בקרוב.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
     const answers = { gender: null, goal: null, activity: null, age: 30, height: 175, weight: 78, why: '' };
 
@@ -2122,6 +2257,110 @@
     // Both capture points also POST here. Phone is normalized IDENTICALLY in both
     // stages so the same person's plan + coaching submissions link into one lead.
     const SUPABASE_LEAD_URL = 'https://zkffqwgfdcallxmkfvjl.supabase.co/functions/v1/rapid-service';
+
+    // ── Survey ────────────────────────────────────────────────────────────────
+    const SURVEY_QUESTIONS = [
+      'ספר לי קצת על עצמך ועל העסק שלך. מה אתה עושה וכמה זמן אתה בתחום?',
+      'כמה לקוחות יש לך כיום ומה סדר הגודל של ההכנסה החודשית מהעסק?',
+      'כמה שעות ביום בממוצע אתה משקיע בעסק? ומה בדרך כלל הכי שואב לך את הזמן והאנרגיה?',
+      'עם מי אתה גר כיום?',
+      'האם אתה עובד בעבודה נוספת מעבר לעסק? אם כן, במה וכמה שעות בשבוע בערך?',
+      'האם אתה בזוגיות? אם כן, עד כמה בת/בן הזוג תומכים בתהליך הכושר והתזונה שלך?',
+      'מה היית הכי רוצה לשנות בגוף שלך כרגע? ירידה באחוזי שומן / עלייה במסת שריר / ירידה במשקל / חיטוב / מראה כללי / משהו אחר.',
+      'למה דווקא עכשיו חשוב לך להשיג את המטרה הזאת? מה השתנה שגרם לך להחליט שאתה רוצה לטפל בזה?',
+      'אם בעוד 6 חודשים היית מגיע בדיוק לגוף שאתה רוצה, מה זה היה מאפשר לך להרגיש או לעשות אחרת בחיים ובעסק?',
+      'מה לדעתך הקשר בין איך שאתה נראה ומרגיש פיזית לבין ההצלחה שלך בעסק?',
+      'מה הדבר שהכי מקשה עליך להתמיד באימונים?',
+      'מה הדבר שהכי מקשה עליך להתמיד בתזונה?',
+      'כמה פעמים בשבוע אתה אוכל במסעדות / מזמין אוכל / יוצא לאכול עם אנשים? ועד כמה אתה מרגיש שזה מקשה עליך להתקדם?',
+      'איזה תהליכי כושר ותזונה כבר ניסית בעבר? מה עבד לך ומה גרם לך להפסיק?',
+      'כמה כסף בערך השקעת בעבר בתהליכי כושר ותזונה שלא הצליחו לך? ומה לדעתך היה חסר בהם?',
+      'מה מבחינתך חייב להיות בתהליך ליווי כדי שתצליח להתמיד לאורך זמן?',
+      'מה בדרך כלל גורם לך לקבל החלטה להשקיע כסף בעצמך או בעסק שלך?',
+      'מה הכי חשוב לך כשאתה בוחר מאמן או תוכנית ליווי? תוצאות, נוחות, גמישות, יחס אישי, אחריותיות, ידע מקצועי, זמינות או משהו אחר? ולמה?',
+      'כשאתה מדמיין את עצמך עם הגוף שאתה באמת רוצה, מה הדבר הראשון שאתה מרגיש?',
+      'אם היית יכול לפתור דבר אחד בלבד שקשור לכושר, תזונה ולגוף שלך, מה היית פותר?',
+      'אם היית צריך לבחור דבר אחד שמונע ממך היום להגיע לגוף שאתה רוצה, מה הוא?'
+    ];
+
+    let surveyStep = 0;
+    const surveyAnswers = {};
+
+    function initSurvey() {
+      surveyStep = 0;
+      document.getElementById('surveyThanks').style.display = 'none';
+      document.getElementById('surveyMain').style.display = '';
+      renderSurveyStep();
+    }
+
+    function renderSurveyStep() {
+      const total = SURVEY_QUESTIONS.length;
+      const pct = Math.round((surveyStep / total) * 100);
+      document.getElementById('surveyProgressFill').style.width = pct + '%';
+      document.getElementById('surveyProgressLabel').textContent = 'שאלה ' + (surveyStep + 1) + ' מתוך ' + total;
+
+      const area = document.getElementById('surveyQArea');
+      const key = 'q' + (surveyStep + 1);
+      area.innerHTML =
+        '<div class="survey-q-num">שאלה ' + (surveyStep + 1) + '</div>' +
+        '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
+        '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
+        (surveyAnswers[key] || '') + '</textarea>';
+
+      area.style.animation = 'none';
+      void area.offsetWidth;
+      area.style.animation = 'stepIn 0.28s ease';
+
+      const btnBack = document.getElementById('surveyBtnBack');
+      btnBack.style.visibility = surveyStep === 0 ? 'hidden' : 'visible';
+
+      const btnNext = document.getElementById('surveyBtnNext');
+      if (surveyStep === total - 1) {
+        btnNext.textContent = 'שלח';
+        btnNext.onclick = surveySubmit;
+      } else {
+        btnNext.textContent = 'הבא';
+        btnNext.onclick = surveyNext;
+      }
+      btnNext.disabled = false;
+
+      setTimeout(function() {
+        const ta = document.getElementById('surveyTA');
+        if (ta) ta.focus();
+      }, 80);
+    }
+
+    function saveSurveyAnswer() {
+      const ta = document.getElementById('surveyTA');
+      if (ta) surveyAnswers['q' + (surveyStep + 1)] = ta.value;
+    }
+
+    function surveyNext() {
+      saveSurveyAnswer();
+      if (surveyStep < SURVEY_QUESTIONS.length - 1) { surveyStep++; renderSurveyStep(); }
+    }
+
+    function surveyBack() {
+      saveSurveyAnswer();
+      if (surveyStep > 0) { surveyStep--; renderSurveyStep(); }
+    }
+
+    function surveySubmit() {
+      saveSurveyAnswer();
+      const btn = document.getElementById('surveyBtnNext');
+      btn.disabled = true;
+      btn.textContent = 'שולח...';
+      const payload = Object.assign({ type: 'survey' }, surveyAnswers);
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      }).finally(function() {
+        document.getElementById('surveyMain').style.display = 'none';
+        document.getElementById('surveyThanks').style.display = 'flex';
+      });
+    }
 
     // Digits only; Israeli +972/972 → leading 0. Same rule both stages → dedup match.
     function normalizePhone(raw) {
@@ -2561,7 +2800,7 @@
       checkUpsellValid();
     }
 
-    const VIEW_IDS = ['viewHome', 'viewCalc', 'viewOffer', 'viewTerms', 'viewAccessibility'];
+    const VIEW_IDS = ['viewHome', 'viewCalc', 'viewOffer', 'viewTerms', 'viewAccessibility', 'viewSurvey'];
 
     function renderRoute(path) {
       const p = path.replace(/\/+$/, '') || '/';
@@ -2588,6 +2827,10 @@
       } else if (p === '/accessibility') {
         document.getElementById('viewAccessibility').style.display = 'block';
         document.title = 'הצהרת נגישות | C.E.O fit';
+      } else if (p === '/survey') {
+        document.getElementById('viewSurvey').style.display = 'flex';
+        document.title = 'שאלון אפיון | C.E.O fit';
+        initSurvey();
       } else {
         document.getElementById('viewHome').style.display = 'flex';
         document.title = 'C.E.O fit | בקרוב';
