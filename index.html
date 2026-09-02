@@ -2257,6 +2257,7 @@
     // Both capture points also POST here. Phone is normalized IDENTICALLY in both
     // stages so the same person's plan + coaching submissions link into one lead.
     const SUPABASE_LEAD_URL = 'https://zkffqwgfdcallxmkfvjl.supabase.co/functions/v1/rapid-service';
+    const SURVEY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtd9HocidMX0jz-RB9s1OONaam1OGr29if9rEdGqSDP-dfsKQk4Ly55q8suUD7GP8xw/exec';
 
     // ── Survey ────────────────────────────────────────────────────────────────
     const SURVEY_QUESTIONS = [
@@ -2351,7 +2352,7 @@
       btn.disabled = true;
       btn.textContent = 'שולח...';
       const payload = Object.assign({ type: 'survey' }, surveyAnswers);
-      fetch(APPS_SCRIPT_URL, {
+      fetch(SURVEY_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
