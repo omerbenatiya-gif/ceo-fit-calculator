@@ -55,12 +55,12 @@ function setupSheets() {
 function createOrReplaceSheet_(ss, name, headers, colWidth) {
   let sheet = ss.getSheetByName(name);
   if (sheet) {
-    // אם קיים — מנקה ומאתחל מחדש
-    sheet.clearContents();
-    sheet.clearFormats();
-  } else {
-    sheet = ss.insertSheet(name);
+    // גיליון קיים — לא נוגעים בנתונים, רק מחזירים אותו
+    Logger.log('גיליון "' + name + '" כבר קיים — לא נמחק נתונים');
+    return sheet;
   }
+  // גיליון חדש — יוצרים עם כותרות
+  sheet = ss.insertSheet(name);
   const headerRange = sheet.getRange(1, 1, 1, headers.length);
   headerRange.setValues([headers])
     .setFontWeight('bold')
