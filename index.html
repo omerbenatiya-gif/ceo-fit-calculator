@@ -2061,6 +2061,9 @@
 
       <!-- שאלות -->
       <div id="surveyMain" style="display:none">
+        <div id="surveyInAppBanner" style="display:none;background:rgba(61,240,255,0.07);border:1px solid rgba(61,240,255,0.22);border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.1rem;font-size:0.88rem;color:#8AFFD6;text-align:center;line-height:1.6;">
+          🎤 להקלטה קולית — לחץ <strong>⋮</strong> ← <strong>פתח בדפדפן</strong>
+        </div>
         <div id="surveyQArea"></div>
         <div class="survey-nav">
           <button class="survey-btn-back" id="surveyBtnBack" onclick="surveyBack()">הקודם</button>
@@ -2375,6 +2378,13 @@
 
     let surveyStep = 0;
     const surveyAnswers = {};
+    const IS_INAPP = /Instagram|FBAN|FBAV/.test(navigator.userAgent);
+    const HAS_SPEECH = !IS_INAPP && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+    function micBtn_(taId, btnId) {
+      return HAS_SPEECH
+        ? '<button class="survey-mic-btn" id="' + btnId + '" onclick="startVoice(\'' + taId + '\',\'' + btnId + '\')">🎤 הקלטה קולית</button>'
+        : '';
+    }
 
     function initSurvey() {
       document.getElementById('surveyIntro').style.display = '';
@@ -2387,6 +2397,7 @@
       surveyStep = 0;
       document.getElementById('surveyIntro').style.display = 'none';
       document.getElementById('surveyMain').style.display = '';
+      if (IS_INAPP) document.getElementById('surveyInAppBanner').style.display = '';
       renderSurveyStep();
     }
 
@@ -2449,7 +2460,7 @@
           '</div>' +
           '<div class="survey-q-text" style="font-size:1rem;margin-bottom:0.75rem;">ומה בדרך כלל הכי שואב לך את הזמן והאנרגיה?</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="4">' + why + '</textarea>' +
-          '<button class="survey-mic-btn" id="micBtn" onclick="startVoice(\'surveyTA\',\'micBtn\')">&#127908; הקלטה קולית</button>';
+          micBtn_('surveyTA', 'micBtn');
         setTimeout(function() {
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
@@ -2458,10 +2469,10 @@
         area.innerHTML =
           '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד באימונים?</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י..." rows="3" style="margin-bottom:0.5rem;">' + (surveyAnswers['q10'] || '') + '</textarea>' +
-          '<button class="survey-mic-btn" id="micBtn" onclick="startVoice(\'surveyTA\',\'micBtn\')" style="margin-bottom:1.25rem;">&#127908; הקלטה קולית</button>' +
+          (HAS_SPEECH ? '<button class="survey-mic-btn" id="micBtn" onclick="startVoice(\'surveyTA\',\'micBtn\')" style="margin-bottom:1.25rem;">🎤 הקלטה קולית</button>' : '<div style="margin-bottom:1.25rem;"></div>') +
           '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד בתזונה?</div>' +
           '<textarea class="survey-textarea" id="surveyTA2" placeholder="הקלד/י..." rows="3" style="margin-bottom:0.5rem;">' + (surveyAnswers['q11'] || '') + '</textarea>' +
-          '<button class="survey-mic-btn" id="micBtn2" onclick="startVoice(\'surveyTA2\',\'micBtn2\')">&#127908; הקלטה קולית</button>';
+          micBtn_('surveyTA2', 'micBtn2');
         setTimeout(function() {
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
@@ -2477,7 +2488,7 @@
           '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
           (surveyAnswers[key] || '') + '</textarea>' +
-          '<button class="survey-mic-btn" id="micBtn" onclick="startVoice(\'surveyTA\',\'micBtn\')">&#127908; הקלטה קולית</button>';
+          micBtn_('surveyTA', 'micBtn');
         setTimeout(function() {
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
