@@ -2062,12 +2062,14 @@
       <!-- אוברליי פתיחה בדפדפן (מוצג רק בתוך אינסטגרם) -->
       <div id="surveyOpenBrowser" style="display:none;position:fixed;inset:0;background:rgba(7,24,40,0.97);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:1.5rem;">
         <div style="font-size:3rem;">🌐</div>
-        <h2 style="color:#EAF6FF;margin:0;font-size:1.8rem;">פתח בדפדפן</h2>
-        <p style="color:#A0B8CC;line-height:1.7;margin:0;">השאלון כולל הקלטה קולית<br>שלא עובדת בדפדפן של אינסטגרם</p>
-        <div style="background:rgba(61,240,255,0.09);border:1px solid rgba(61,240,255,0.3);border-radius:10px;padding:1.1rem 1.4rem;color:#8AFFD6;font-size:1rem;font-weight:700;line-height:1.8;">
-          לחץ על <strong style="color:#3DF0FF;">⋮</strong> בפינה הימנית<br>← בחר <strong style="color:#3DF0FF;">פתח בדפדפן</strong>
+        <h2 style="color:#EAF6FF;margin:0;font-size:1.7rem;">צעד אחד קטן</h2>
+        <p style="color:#A0B8CC;line-height:1.75;margin:0;">הקישור הועתק!<br>פתח Safari או Chrome<br>והדבק שם</p>
+        <div style="background:rgba(61,240,255,0.09);border:1px solid rgba(61,240,255,0.3);border-radius:10px;padding:1.1rem 1.4rem;color:#8AFFD6;font-size:1rem;font-weight:700;line-height:1.9;">
+          או לחץ על <strong style="color:#3DF0FF;">⋮</strong> בפינה<br>← <strong style="color:#3DF0FF;">פתח בדפדפן</strong>
         </div>
-        <p style="color:#4A6280;font-size:0.85rem;margin:0;">joinceofit.com/survey</p>
+        <button onclick="if(navigator.clipboard)navigator.clipboard.writeText(window.location.href);" style="background:linear-gradient(135deg,#3DF0FF,#8AFFD6);color:#071828;border:none;padding:0.8rem 2rem;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;">
+          העתק קישור שוב
+        </button>
       </div>
 
       <!-- שאלות -->
@@ -2399,15 +2401,25 @@
       document.getElementById('surveyMain').style.display = 'none';
       document.getElementById('surveyCTA').style.display = 'none';
       document.getElementById('surveyThanks').style.display = 'none';
-      if (IS_INAPP) {
-        var btn = document.getElementById('surveyStartBtn');
-        if (btn) btn.textContent = '🌐 פתח בדפדפן';
-      }
     }
 
     function surveyStart() {
       if (IS_INAPP) {
-        document.getElementById('surveyOpenBrowser').style.display = 'flex';
+        var url = window.location.href;
+        // Android — try to open in Chrome via intent
+        if (/Android/.test(navigator.userAgent)) {
+          window.location.href = 'intent://' + url.replace(/^https?:\/\//, '') +
+            '#Intent;scheme=https;package=com.android.chrome;end;';
+          setTimeout(function() {
+            document.getElementById('surveyOpenBrowser').style.display = 'flex';
+          }, 800);
+        } else {
+          // iOS — copy URL to clipboard then show instructions
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).catch(function(){});
+          }
+          document.getElementById('surveyOpenBrowser').style.display = 'flex';
+        }
         return;
       }
       surveyStep = 0;
