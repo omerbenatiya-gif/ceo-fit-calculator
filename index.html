@@ -1519,6 +1519,46 @@
     }
     .survey-thanks h2 { font-size: 2rem; color: #EAF6FF; margin: 0; }
     .survey-thanks p { color: #A0B8CC; font-size: 1.05rem; line-height: 1.6; margin: 0; }
+    .survey-intro {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1.5rem; padding: 1rem 0;
+    }
+    .survey-intro-photo {
+      width: 150px; height: 150px; border-radius: 50%; overflow: hidden;
+      border: 3px solid #3DF0FF;
+    }
+    .survey-intro-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
+    .survey-intro h2 { font-size: 1.9rem; color: #EAF6FF; margin: 0; }
+    .survey-intro-body { color: #A0B8CC; font-size: 1.05rem; line-height: 1.75; margin: 0; }
+    .survey-intro-anon { color: #6B8299; font-size: 0.9rem; margin: 0; }
+    .survey-cta {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1.35rem; padding: 1rem 0;
+    }
+    .survey-cta-photo {
+      width: 180px; height: 180px; border-radius: 50%; overflow: hidden;
+      border: 3px solid #8AFFD6;
+    }
+    .survey-cta-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
+    .survey-cta h2 { font-size: 1.7rem; color: #EAF6FF; margin: 0; }
+    .survey-cta p { color: #A0B8CC; font-size: 1rem; line-height: 1.65; margin: 0; }
+    .survey-cta-form { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+    .survey-input {
+      width: 100%; box-sizing: border-box;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(61,240,255,0.22);
+      border-radius: 8px; color: #EAF6FF;
+      font-size: 1rem; font-family: inherit;
+      padding: 0.85rem 1.1rem; outline: none;
+      transition: border-color 0.2s; direction: rtl;
+    }
+    .survey-input:focus { border-color: rgba(61,240,255,0.6); }
+    .survey-input::placeholder { color: #3A5570; }
+    .survey-skip {
+      background: none; border: none; color: #4A6280;
+      font-size: 0.85rem; cursor: pointer; font-family: inherit;
+      text-decoration: underline; padding: 0.25rem;
+    }
   </style>
 </head>
 <body>
@@ -1981,22 +2021,52 @@
   <!-- ═══ VIEW: SURVEY ══════════════════════════════════════════════════════ -->
   <div id="viewSurvey" style="display:none">
     <div class="survey-wrap">
-      <div id="surveyMain">
-        <div class="survey-progress-track">
-          <div class="survey-progress-fill" id="surveyProgressFill"></div>
+
+      <!-- דף פתיחה -->
+      <div class="survey-intro" id="surveyIntro">
+        <div class="survey-intro-photo">
+          <img src="omer-survey.jpg" alt="עומר">
         </div>
-        <div class="survey-progress-label" id="surveyProgressLabel">שאלה 1 מתוך 21</div>
+        <div>
+          <h2>היי אני עומר</h2>
+          <p class="survey-intro-body">מאמן אונליין בעלי עסקים ורוצה לדייק עוד את התכנית שלי עבורכם.<br>אשמח לשתי דק מילוי בשיא הכנות מצידכם</p>
+          <p class="survey-intro-anon">(השאלון הוא אנונימי לחלוטין)</p>
+        </div>
+        <button class="survey-btn-next" onclick="surveyStart()">בואו נתחיל</button>
+      </div>
+
+      <!-- שאלות -->
+      <div id="surveyMain" style="display:none">
         <div id="surveyQArea"></div>
         <div class="survey-nav">
           <button class="survey-btn-back" id="surveyBtnBack" onclick="surveyBack()">הקודם</button>
           <button class="survey-btn-next" id="surveyBtnNext" onclick="surveyNext()">הבא</button>
         </div>
       </div>
+
+      <!-- דף סגירה — CTA -->
+      <div class="survey-cta" id="surveyCTA" style="display:none">
+        <div class="survey-thanks-check">✓</div>
+        <h2>תודה על המילוי!</h2>
+        <div class="survey-cta-photo">
+          <img src="omer-survey.jpg" alt="עומר">
+        </div>
+        <p>אם תרצה לממש <strong style="color:#3DF0FF;">חודש ליווי חינם</strong><br>השאר פרטים ואחזור אליך:</p>
+        <div class="survey-cta-form">
+          <input class="survey-input" id="ctaName" type="text" placeholder="שם מלא" dir="rtl">
+          <input class="survey-input" id="ctaPhone" type="tel" placeholder="טלפון" dir="rtl">
+          <button class="survey-btn-next" onclick="submitCTA()">שלח לי פרטים</button>
+          <button class="survey-skip" onclick="skipCTA()">לא תודה</button>
+        </div>
+      </div>
+
+      <!-- תודה סופי -->
       <div class="survey-thanks" id="surveyThanks" style="display:none">
         <div class="survey-thanks-check">✓</div>
-        <h2>תודה!</h2>
-        <p>קיבלנו את תשובותיך.</p>
+        <h2>קיבלנו!</h2>
+        <p>נחזור אליך בקרוב.</p>
       </div>
+
     </div>
   </div>
 
@@ -2288,25 +2358,95 @@
     const surveyAnswers = {};
 
     function initSurvey() {
-      surveyStep = 0;
+      document.getElementById('surveyIntro').style.display = '';
+      document.getElementById('surveyMain').style.display = 'none';
+      document.getElementById('surveyCTA').style.display = 'none';
       document.getElementById('surveyThanks').style.display = 'none';
+    }
+
+    function surveyStart() {
+      surveyStep = 0;
+      document.getElementById('surveyIntro').style.display = 'none';
       document.getElementById('surveyMain').style.display = '';
       renderSurveyStep();
     }
 
     function renderSurveyStep() {
       const total = SURVEY_QUESTIONS.length;
-      const pct = Math.round((surveyStep / total) * 100);
-      document.getElementById('surveyProgressFill').style.width = pct + '%';
-      document.getElementById('surveyProgressLabel').textContent = 'שאלה ' + (surveyStep + 1) + ' מתוך ' + total;
-
       const area = document.getElementById('surveyQArea');
       const key = 'q' + (surveyStep + 1);
-      area.innerHTML =
-        '<div class="survey-q-num">שאלה ' + (surveyStep + 1) + '</div>' +
-        '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
-        '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
-        (surveyAnswers[key] || '') + '</textarea>';
+
+      // שאלה 2 (index 1) — sliders
+      if (surveyStep === 1) {
+        const saved = (surveyAnswers[key] || '').split('|');
+        const clients = parseInt(saved[0]) || 10;
+        const income  = parseInt(saved[1]) || 20000;
+        area.innerHTML =
+          '<div class="survey-q-num">שאלה 2</div>' +
+          '<div class="survey-q-text">כמה לקוחות יש לך כיום ומה סדר הגודל של ההכנסה החודשית?</div>' +
+          '<div style="margin-bottom:1.75rem;">' +
+            '<div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">' +
+              '<span style="color:#8AFFD6;font-size:0.85rem;font-weight:700;">לקוחות</span>' +
+              '<span style="color:#3DF0FF;font-weight:700;" id="clientsVal">' + clients + '</span>' +
+            '</div>' +
+            '<input type="range" id="clientsRange" min="1" max="100" step="1" value="' + clients + '" ' +
+              'style="width:100%;accent-color:#3DF0FF;" ' +
+              'oninput="document.getElementById(\'clientsVal\').textContent=this.value">' +
+            '<div style="display:flex;justify-content:space-between;margin-top:0.2rem;">' +
+              '<span style="color:#4A6280;font-size:0.75rem;">100</span>' +
+              '<span style="color:#4A6280;font-size:0.75rem;">1</span>' +
+            '</div>' +
+          '</div>' +
+          '<div>' +
+            '<div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">' +
+              '<span style="color:#8AFFD6;font-size:0.85rem;font-weight:700;">הכנסה חודשית</span>' +
+              '<span style="color:#3DF0FF;font-weight:700;" id="incomeVal">₪' + income.toLocaleString() + '</span>' +
+            '</div>' +
+            '<input type="range" id="incomeRange" min="0" max="250000" step="5000" value="' + income + '" ' +
+              'style="width:100%;accent-color:#3DF0FF;" ' +
+              'oninput="document.getElementById(\'incomeVal\').textContent=\'₪\'+parseInt(this.value).toLocaleString()">' +
+            '<div style="display:flex;justify-content:space-between;margin-top:0.2rem;">' +
+              '<span style="color:#4A6280;font-size:0.75rem;">250,000</span>' +
+              '<span style="color:#4A6280;font-size:0.75rem;">0</span>' +
+            '</div>' +
+          '</div>';
+      } else if (surveyStep === 2) {
+        const saved = (surveyAnswers[key] || '').split('|');
+        const hours = parseInt(saved[0]) || 8;
+        const why   = saved.slice(1).join('|');
+        area.innerHTML =
+          '<div class="survey-q-num">שאלה 3</div>' +
+          '<div class="survey-q-text" style="margin-bottom:1rem;">כמה שעות ביום בממוצע אתה משקיע בעסק?</div>' +
+          '<div style="margin-bottom:1.75rem;">' +
+            '<div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">' +
+              '<span style="color:#8AFFD6;font-size:0.85rem;font-weight:700;">שעות ביום</span>' +
+              '<span style="color:#3DF0FF;font-weight:700;" id="hoursVal">' + hours + '</span>' +
+            '</div>' +
+            '<input type="range" id="hoursRange" min="1" max="24" step="1" value="' + hours + '" ' +
+              'style="width:100%;accent-color:#3DF0FF;" ' +
+              'oninput="document.getElementById(\'hoursVal\').textContent=this.value">' +
+            '<div style="display:flex;justify-content:space-between;margin-top:0.2rem;">' +
+              '<span style="color:#4A6280;font-size:0.75rem;">24</span>' +
+              '<span style="color:#4A6280;font-size:0.75rem;">1</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="survey-q-text" style="font-size:1rem;margin-bottom:0.75rem;">ומה בדרך כלל הכי שואב לך את הזמן והאנרגיה?</div>' +
+          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="4">' + why + '</textarea>';
+        setTimeout(function() {
+          const ta = document.getElementById('surveyTA');
+          if (ta) ta.focus();
+        }, 80);
+      } else {
+        area.innerHTML =
+          '<div class="survey-q-num">שאלה ' + (surveyStep + 1) + '</div>' +
+          '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
+          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
+          (surveyAnswers[key] || '') + '</textarea>';
+        setTimeout(function() {
+          const ta = document.getElementById('surveyTA');
+          if (ta) ta.focus();
+        }, 80);
+      }
 
       area.style.animation = 'none';
       void area.offsetWidth;
@@ -2316,6 +2456,7 @@
       btnBack.style.visibility = surveyStep === 0 ? 'hidden' : 'visible';
 
       const btnNext = document.getElementById('surveyBtnNext');
+      btnNext.disabled = false;
       if (surveyStep === total - 1) {
         btnNext.textContent = 'שלח';
         btnNext.onclick = surveySubmit;
@@ -2323,17 +2464,21 @@
         btnNext.textContent = 'הבא';
         btnNext.onclick = surveyNext;
       }
-      btnNext.disabled = false;
-
-      setTimeout(function() {
-        const ta = document.getElementById('surveyTA');
-        if (ta) ta.focus();
-      }, 80);
     }
 
     function saveSurveyAnswer() {
-      const ta = document.getElementById('surveyTA');
-      if (ta) surveyAnswers['q' + (surveyStep + 1)] = ta.value;
+      if (surveyStep === 1) {
+        const c = document.getElementById('clientsRange');
+        const i = document.getElementById('incomeRange');
+        if (c && i) surveyAnswers['q2'] = c.value + '|' + i.value;
+      } else if (surveyStep === 2) {
+        const h  = document.getElementById('hoursRange');
+        const ta = document.getElementById('surveyTA');
+        if (h) surveyAnswers['q3'] = h.value + '|' + (ta ? ta.value : '');
+      } else {
+        const ta = document.getElementById('surveyTA');
+        if (ta) surveyAnswers['q' + (surveyStep + 1)] = ta.value;
+      }
     }
 
     function surveyNext() {
@@ -2359,8 +2504,25 @@
         body: JSON.stringify(payload)
       }).finally(function() {
         document.getElementById('surveyMain').style.display = 'none';
-        document.getElementById('surveyThanks').style.display = 'flex';
+        document.getElementById('surveyCTA').style.display = 'flex';
       });
+    }
+
+    function submitCTA() {
+      const name  = (document.getElementById('ctaName').value  || '').trim();
+      const phone = (document.getElementById('ctaPhone').value || '').trim();
+      if (!name && !phone) { skipCTA(); return; }
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ name, phone, email: '', goal: 'survey_cta', why: 'ביקש חודש ליווי חינם מהסקר' })
+      }).finally(skipCTA);
+    }
+
+    function skipCTA() {
+      document.getElementById('surveyCTA').style.display = 'none';
+      document.getElementById('surveyThanks').style.display = 'flex';
     }
 
     // Digits only; Israeli +972/972 → leading 0. Same rule both stages → dedup match.
