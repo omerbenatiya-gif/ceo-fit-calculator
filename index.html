@@ -2524,28 +2524,50 @@
     }
 
     function startVoice(taId, btnId) {
-      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) { alert('הדפדפן שלך לא תומך בהקלטה. נסה עם Chrome.'); return; }
       var btn = document.getElementById(btnId);
       var ta  = document.getElementById(taId);
-      var rec = new SR();
-      rec.lang = 'he-IL';
-      rec.continuous = false;
-      rec.interimResults = false;
-      rec.onstart = function() {
-        if (btn) { btn.innerHTML = '&#9210; מקליט...'; btn.classList.add('recording'); btn.disabled = true; }
-      };
-      rec.onresult = function(e) {
-        var t = e.results[0][0].transcript;
-        if (ta) ta.value = ta.value ? ta.value + ' ' + t : t;
-      };
-      rec.onerror = function() {
-        if (btn) { btn.innerHTML = '&#127908; הקלטה קולית'; btn.classList.remove('recording'); btn.disabled = false; }
-      };
-      rec.onend = function() {
-        if (btn) { btn.innerHTML = '&#127908; הקלטה קולית'; btn.classList.remove('recording'); btn.disabled = false; }
-      };
-      rec.start();
+
+      // toggle stop if already recording
+      if (btn && btn._rec) {
+        btn._rec.stop();
+        btn._rec = null;
+        return;
+      }
+
+      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        if (btn) { btn.innerHTML = '⚠ לא נתמך — נסה Chrome'; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3000); }
+        return;
+      }
+
+      try {
+        var rec = new SR();
+        rec.lang = 'he-IL';
+        rec.continuous = true;
+        rec.interimResults = false;
+
+        rec.onstart = function() {
+          if (btn) { btn.innerHTML = '🔴 מקליט... (לחץ לעצור)'; btn.classList.add('recording'); btn._rec = rec; }
+        };
+        rec.onresult = function(e) {
+          var t = '';
+          for (var i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) t += e.results[i][0].transcript + ' ';
+          }
+          if (ta && t.trim()) ta.value = ta.value ? ta.value + ' ' + t.trim() : t.trim();
+        };
+        rec.onerror = function(e) {
+          var msg = e.error === 'not-allowed' ? '⚠ אין הרשאת מיקרופון' : '⚠ שגיאה: ' + e.error;
+          if (btn) { btn.innerHTML = msg; btn.classList.remove('recording'); btn._rec = null; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3500); }
+        };
+        rec.onend = function() {
+          if (btn) { btn.innerHTML = '🎤 הקלטה קולית'; btn.classList.remove('recording'); btn._rec = null; }
+        };
+
+        rec.start();
+      } catch(err) {
+        if (btn) { btn.innerHTML = '⚠ ' + err.message; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3500); }
+      }
     }
 
     function surveyNext() {
