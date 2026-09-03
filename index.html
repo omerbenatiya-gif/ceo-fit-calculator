@@ -1449,6 +1449,13 @@
       line-height: 1.65;
       margin-bottom: 1.25rem;
     }
+    .survey-motivation {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #8AFFD6;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
     .survey-textarea {
       width: 100%;
       box-sizing: border-box;
@@ -2439,7 +2446,13 @@
           if (ta) ta.focus();
         }, 80);
       } else {
+        var remaining = total - surveyStep;
+        var motivHtml = '';
+        if (remaining === 3) motivHtml = '<div class="survey-motivation">רק עוד 3 שאלות!</div>';
+        else if (remaining === 2) motivHtml = '<div class="survey-motivation">רק עוד 2 שאלות!</div>';
+        else if (remaining === 1) motivHtml = '<div class="survey-motivation">רק עוד שאלה אחת!</div>';
         area.innerHTML =
+          motivHtml +
           '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
           (surveyAnswers[key] || '') + '</textarea>';
