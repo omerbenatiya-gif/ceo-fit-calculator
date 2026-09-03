@@ -2368,7 +2368,7 @@
     function renderSurveyStep() {
       const total = SURVEY_QUESTIONS.length;
       const area = document.getElementById('surveyQArea');
-      const key = 'q' + (surveyStep + 1);
+      const key = 'q' + (surveyStep >= 10 ? surveyStep + 2 : surveyStep + 1);
 
       // שאלה 2 (index 1) — sliders
       if (surveyStep === 1) {
@@ -2376,7 +2376,6 @@
         const clients = parseInt(saved[0]) || 10;
         const income  = parseInt(saved[1]) || 20000;
         area.innerHTML =
-          '<div class="survey-q-num">שאלה 2</div>' +
           '<div class="survey-q-text">כמה לקוחות יש לך כיום ומה סדר הגודל של ההכנסה החודשית?</div>' +
           '<div style="margin-bottom:1.75rem;">' +
             '<div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">' +
@@ -2409,7 +2408,6 @@
         const hours = parseInt(saved[0]) || 8;
         const why   = saved.slice(1).join('|');
         area.innerHTML =
-          '<div class="survey-q-num">שאלה 3</div>' +
           '<div class="survey-q-text" style="margin-bottom:1rem;">כמה שעות ביום בממוצע אתה משקיע בעסק?</div>' +
           '<div style="margin-bottom:1.75rem;">' +
             '<div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">' +
@@ -2432,7 +2430,6 @@
         }, 80);
       } else if (surveyStep === 9) {
         area.innerHTML =
-          '<div class="survey-q-num">שאלה 10 ו11</div>' +
           '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד באימונים?</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י..." rows="3" style="margin-bottom:1.25rem;">' + (surveyAnswers['q10'] || '') + '</textarea>' +
           '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד בתזונה?</div>' +
@@ -2443,7 +2440,6 @@
         }, 80);
       } else {
         area.innerHTML =
-          '<div class="survey-q-num">שאלה ' + (surveyStep + 1) + '</div>' +
           '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
           (surveyAnswers[key] || '') + '</textarea>';
@@ -2487,7 +2483,8 @@
         if (ta2) surveyAnswers['q11'] = ta2.value;
       } else {
         const ta = document.getElementById('surveyTA');
-        if (ta) surveyAnswers['q' + (surveyStep + 1)] = ta.value;
+        // steps >= 10 shift by 2 because step 9 saves two answers (q10+q11)
+        if (ta) surveyAnswers['q' + (surveyStep >= 10 ? surveyStep + 2 : surveyStep + 1)] = ta.value;
       }
     }
 
@@ -2522,11 +2519,11 @@
       const name  = (document.getElementById('ctaName').value  || '').trim();
       const phone = (document.getElementById('ctaPhone').value || '').trim();
       if (!name && !phone) { skipCTA(); return; }
-      fetch(APPS_SCRIPT_URL, {
+      fetch(SURVEY_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ name, phone, email: '', goal: 'survey_cta', why: 'ביקש חודש ליווי חינם מהסקר' })
+        body: JSON.stringify({ type: 'survey_cta', name: name, phone: phone })
       }).finally(skipCTA);
     }
 
