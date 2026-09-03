@@ -2341,9 +2341,8 @@
       'איך לחיות בגוף החלומות שלך ישפיע על החיים שלך ועל העסק שלך?',
       'מה לדעתך הקשר בין איך שאתה נראה ומרגיש פיזית לבין ההצלחה שלך בעסק?',
       'מה הדבר שהכי מקשה עליך להתמיד באימונים?',
-      'מה הדבר שהכי מקשה עליך להתמיד בתזונה?',
-      'כמה פעמים בשבוע אתה אוכל במסעדות / מזמין אוכל / יוצא לאכול עם אנשים? ועד כמה אתה מרגיש שזה מקשה עליך להתקדם?',
-      'איזה תהליכי כושר ותזונה כבר ניסית בעבר? מה עבד לך ומה גרם לך להפסיק?',
+      'כמה פעמים בשבוע אתה אוכל במסעדות / מזמין אוכל / יוצא לאכול עם אנשים?',
+      'אם ניסית בעבר תהליכי כושר ותזונה, מה כן ומה לא עבד לך שם?',
       'כמה כסף בערך השקעת בעבר בתהליכי כושר ותזונה שלא הצליחו לך? ומה לדעתך היה חסר בהם?',
       'מה מבחינתך חייב להיות בתהליך ליווי כדי שתצליח להתמיד לאורך זמן?',
       'מה בדרך כלל גורם לך לקבל החלטה להשקיע כסף בעצמך או בעסק שלך?',
@@ -2435,6 +2434,17 @@
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
         }, 80);
+      } else if (surveyStep === 9) {
+        area.innerHTML =
+          '<div class="survey-q-num">שאלה 10 ו11</div>' +
+          '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד באימונים?</div>' +
+          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י..." rows="3" style="margin-bottom:1.25rem;">' + (surveyAnswers['q10'] || '') + '</textarea>' +
+          '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד בתזונה?</div>' +
+          '<textarea class="survey-textarea" id="surveyTA2" placeholder="הקלד/י..." rows="3">' + (surveyAnswers['q11'] || '') + '</textarea>';
+        setTimeout(function() {
+          const ta = document.getElementById('surveyTA');
+          if (ta) ta.focus();
+        }, 80);
       } else {
         area.innerHTML =
           '<div class="survey-q-num">שאלה ' + (surveyStep + 1) + '</div>' +
@@ -2474,6 +2484,11 @@
         const h  = document.getElementById('hoursRange');
         const ta = document.getElementById('surveyTA');
         if (h) surveyAnswers['q3'] = h.value + '|' + (ta ? ta.value : '');
+      } else if (surveyStep === 9) {
+        const ta  = document.getElementById('surveyTA');
+        const ta2 = document.getElementById('surveyTA2');
+        if (ta)  surveyAnswers['q10'] = ta.value;
+        if (ta2) surveyAnswers['q11'] = ta2.value;
       } else {
         const ta = document.getElementById('surveyTA');
         if (ta) surveyAnswers['q' + (surveyStep + 1)] = ta.value;
