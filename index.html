@@ -1565,24 +1565,6 @@
       font-size: 0.85rem; cursor: pointer; font-family: inherit;
       text-decoration: underline; padding: 0.25rem;
     }
-    .survey-mic-btn {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      background: none;
-      border: 1px solid rgba(61,240,255,0.28);
-      color: #3DF0FF;
-      border-radius: 6px;
-      padding: 0.45rem 1rem;
-      font-size: 0.85rem;
-      font-family: inherit;
-      cursor: pointer;
-      margin-top: 0.6rem;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-      width: 100%;
-      justify-content: center;
-    }
-    .survey-mic-btn:hover { background: rgba(61,240,255,0.07); }
-    .survey-mic-btn.recording { border-color: #FF6B6B; color: #FF6B6B; }
-    .survey-mic-btn:disabled { opacity: 0.55; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -2056,20 +2038,7 @@
           <p class="survey-intro-body">מאמן אונליין בעלי עסקים ורוצה לדייק את התכנית שלי ברשתות.<br>אשמח לשתי דק מילוי בשיא הכנות מצידכם</p>
           <p class="survey-intro-anon">(השאלון הוא אנונימי לחלוטין)</p>
         </div>
-        <button class="survey-btn-next" id="surveyStartBtn" onclick="surveyStart()">בואו נתחיל</button>
-      </div>
-
-      <!-- אוברליי פתיחה בדפדפן (מוצג רק בתוך אינסטגרם) -->
-      <div id="surveyOpenBrowser" style="display:none;position:fixed;inset:0;background:rgba(7,24,40,0.97);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:1.5rem;">
-        <div style="font-size:3rem;">🌐</div>
-        <h2 style="color:#EAF6FF;margin:0;font-size:1.7rem;">צעד אחד קטן</h2>
-        <p style="color:#A0B8CC;line-height:1.75;margin:0;">הקישור הועתק!<br>פתח Safari או Chrome<br>והדבק שם</p>
-        <div style="background:rgba(61,240,255,0.09);border:1px solid rgba(61,240,255,0.3);border-radius:10px;padding:1.1rem 1.4rem;color:#8AFFD6;font-size:1rem;font-weight:700;line-height:1.9;">
-          או לחץ על <strong style="color:#3DF0FF;">⋮</strong> בפינה<br>← <strong style="color:#3DF0FF;">פתח בדפדפן</strong>
-        </div>
-        <button onclick="if(navigator.clipboard)navigator.clipboard.writeText(window.location.href);" style="background:linear-gradient(135deg,#3DF0FF,#8AFFD6);color:#071828;border:none;padding:0.8rem 2rem;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;">
-          העתק קישור שוב
-        </button>
+        <button class="survey-btn-next" onclick="surveyStart()">בואו נתחיל</button>
       </div>
 
       <!-- שאלות -->
@@ -2388,14 +2357,6 @@
 
     let surveyStep = 0;
     const surveyAnswers = {};
-    const IS_INAPP = /Instagram|FBAN|FBAV/.test(navigator.userAgent);
-    const HAS_SPEECH = !IS_INAPP && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-    function micBtn_(taId, btnId) {
-      return HAS_SPEECH
-        ? '<button class="survey-mic-btn" id="' + btnId + '" onclick="startVoice(\'' + taId + '\',\'' + btnId + '\')">🎤 הקלטה קולית</button>'
-        : '';
-    }
-
     function initSurvey() {
       document.getElementById('surveyIntro').style.display = '';
       document.getElementById('surveyMain').style.display = 'none';
@@ -2404,24 +2365,6 @@
     }
 
     function surveyStart() {
-      if (IS_INAPP) {
-        var url = window.location.href;
-        // Android — try to open in Chrome via intent
-        if (/Android/.test(navigator.userAgent)) {
-          window.location.href = 'intent://' + url.replace(/^https?:\/\//, '') +
-            '#Intent;scheme=https;package=com.android.chrome;end;';
-          setTimeout(function() {
-            document.getElementById('surveyOpenBrowser').style.display = 'flex';
-          }, 800);
-        } else {
-          // iOS — copy URL to clipboard then show instructions
-          if (navigator.clipboard) {
-            navigator.clipboard.writeText(url).catch(function(){});
-          }
-          document.getElementById('surveyOpenBrowser').style.display = 'flex';
-        }
-        return;
-      }
       surveyStep = 0;
       document.getElementById('surveyIntro').style.display = 'none';
       document.getElementById('surveyMain').style.display = '';
@@ -2486,8 +2429,7 @@
             '</div>' +
           '</div>' +
           '<div class="survey-q-text" style="font-size:1rem;margin-bottom:0.75rem;">ומה בדרך כלל הכי שואב לך את הזמן והאנרגיה?</div>' +
-          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="4">' + why + '</textarea>' +
-          micBtn_('surveyTA', 'micBtn');
+          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="4">' + why + '</textarea>';
         setTimeout(function() {
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
@@ -2495,11 +2437,9 @@
       } else if (surveyStep === 9) {
         area.innerHTML =
           '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד באימונים?</div>' +
-          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י..." rows="3" style="margin-bottom:0.5rem;">' + (surveyAnswers['q10'] || '') + '</textarea>' +
-          (HAS_SPEECH ? '<button class="survey-mic-btn" id="micBtn" onclick="startVoice(\'surveyTA\',\'micBtn\')" style="margin-bottom:1.25rem;">🎤 הקלטה קולית</button>' : '<div style="margin-bottom:1.25rem;"></div>') +
+          '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י..." rows="3" style="margin-bottom:1.25rem;">' + (surveyAnswers['q10'] || '') + '</textarea>' +
           '<div class="survey-q-text" style="margin-bottom:0.75rem;">מה הדבר שהכי מקשה עליך להתמיד בתזונה?</div>' +
-          '<textarea class="survey-textarea" id="surveyTA2" placeholder="הקלד/י..." rows="3" style="margin-bottom:0.5rem;">' + (surveyAnswers['q11'] || '') + '</textarea>' +
-          micBtn_('surveyTA2', 'micBtn2');
+          '<textarea class="survey-textarea" id="surveyTA2" placeholder="הקלד/י..." rows="3">' + (surveyAnswers['q11'] || '') + '</textarea>';
         setTimeout(function() {
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
@@ -2514,8 +2454,7 @@
           motivHtml +
           '<div class="survey-q-text">' + SURVEY_QUESTIONS[surveyStep] + '</div>' +
           '<textarea class="survey-textarea" id="surveyTA" placeholder="הקלד/י את תשובתך כאן..." rows="5">' +
-          (surveyAnswers[key] || '') + '</textarea>' +
-          micBtn_('surveyTA', 'micBtn');
+          (surveyAnswers[key] || '') + '</textarea>';
         setTimeout(function() {
           const ta = document.getElementById('surveyTA');
           if (ta) ta.focus();
@@ -2559,62 +2498,6 @@
         // steps >= 10 shift by 2 because step 9 saves two answers (q10+q11)
         if (ta) surveyAnswers['q' + (surveyStep >= 10 ? surveyStep + 2 : surveyStep + 1)] = ta.value;
       }
-    }
-
-    function startVoice(taId, btnId) {
-      var btn = document.getElementById(btnId);
-      var ta  = document.getElementById(taId);
-
-      // toggle stop if already recording
-      if (btn && btn._rec) {
-        btn._rec.stop();
-        btn._rec = null;
-        return;
-      }
-
-      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) {
-        if (btn) { btn.innerHTML = '⚠ לא נתמך — נסה Chrome'; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3000); }
-        return;
-      }
-
-      if (btn) btn.innerHTML = '⏳ מבקש הרשאה...';
-
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(function(stream) {
-          stream.getTracks().forEach(function(t) { t.stop(); });
-          try {
-            var rec = new SR();
-            rec.lang = 'he-IL';
-            rec.continuous = true;
-            rec.interimResults = false;
-
-            rec.onstart = function() {
-              if (btn) { btn.innerHTML = '🔴 מקליט... (לחץ לעצור)'; btn.classList.add('recording'); btn._rec = rec; }
-            };
-            rec.onresult = function(e) {
-              var t = '';
-              for (var i = e.resultIndex; i < e.results.length; i++) {
-                if (e.results[i].isFinal) t += e.results[i][0].transcript + ' ';
-              }
-              if (ta && t.trim()) ta.value = ta.value ? ta.value + ' ' + t.trim() : t.trim();
-            };
-            rec.onerror = function(e) {
-              var msg = e.error === 'not-allowed' ? '⚠ אין הרשאת מיקרופון' : '⚠ שגיאה: ' + e.error;
-              if (btn) { btn.innerHTML = msg; btn.classList.remove('recording'); btn._rec = null; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3500); }
-            };
-            rec.onend = function() {
-              if (btn) { btn.innerHTML = '🎤 הקלטה קולית'; btn.classList.remove('recording'); btn._rec = null; }
-            };
-
-            rec.start();
-          } catch(err) {
-            if (btn) { btn.innerHTML = '⚠ ' + err.message; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3500); }
-          }
-        })
-        .catch(function() {
-          if (btn) { btn.innerHTML = '⚠ אין הרשאת מיקרופון'; setTimeout(function(){ btn.innerHTML = '🎤 הקלטה קולית'; }, 3500); }
-        });
     }
 
     function surveyNext() {
